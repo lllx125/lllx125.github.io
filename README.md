@@ -8,6 +8,8 @@ Pages load `assets/css/style.css?v=…` and `assets/js/main.js?v=…`. GitHub Pa
 
 After portfolio edits, commit and push directly to `main` to deploy, then verify publication. Lixing requested this as the default workflow on 2026-11-02.
 
+Preserve the visibility of all source project repositories. Adding a public portfolio entry does not authorize making its source repository public.
+
 ## Pages
 
 | File | Content |

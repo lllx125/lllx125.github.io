@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mini XRP · Lixing Li</title>
+  <meta name="description" content="A smaller XRP with room to keep building. A 14.1 cm chassis carries the original electronics, motors, battery, and a centered drawing attachment, with snap-on rails for accessories.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css?v=20261102c">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">LL</span><span class="brand-name">Lixing Li</span></a>
+      <div class="nav-links">
+        <a href="../index.html"><i data-lucide="house"></i><span>Home</span></a>
+        <a href="../research.html"><i data-lucide="flask-conical"></i><span>Research</span></a>
+        <a href="../projects.html" aria-current="page"><i data-lucide="layers"></i><span>Projects</span></a>
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <i data-lucide="moon" class="moon"></i><i data-lucide="sun" class="sun"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a class="crumb" href="../projects.html"><i data-lucide="arrow-left"></i>All projects</a>
+
+    <header class="project-hero reveal">
+      <div><span class="eyebrow"><i data-lucide="bot"></i>Mechanical design &amp; robotics</span><h1>Mini XRP</h1>
+        <p class="lede">A smaller XRP with room to keep building. A 14.1 cm chassis carries the original electronics, motors, battery, and a centered drawing attachment, with snap-on rails for accessories.</p>
+        <div class="meta"><span><i data-lucide="calendar-days"></i>Spring 2025</span><span><i data-lucide="users"></i>Cornell Cup Robotics</span></div>
+        <div class="contact-row"><a class="pill primary" href="https://sketchfab.com/3d-models/mini-xrp-c5118a03bfd04252b970c8f1ea6f9dec" target="_blank" rel="noopener"><i data-lucide="box"></i>3D model</a></div>
+      </div><div class="photo"><img src="mini-xrp/cover.jpg" alt="Rendered Mini XRP with a compact red chassis, accessory rails, and its core electronics"></div>
+    </header>
+<section class="section"><div class="stats"><div class="card stat reveal"><div class="n">14.1 cm</div><div class="l">square chassis</div></div><div class="card stat reveal"><div class="n">~5 h</div><div class="l">basic PLA set on a Bambu A1</div></div><div class="card stat reveal"><div class="n">2</div><div class="l">drive motors</div></div></div></section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="book-open"></i></span><h2>Overview</h2></div>
+<div class="prose reveal"><p>Mini XRP is a compact redesign of the Experiential Robotics Platform, an educational robot for hands-on STEM learning. It reduces the standard 18.92 × 18.92 cm footprint to 14.1 × 14.1 cm while retaining the XRP board, two motors, battery, two caster balls, and pen-bot attachment.</p><p>I co-developed Mini XRP with Keegan Lewick in about a month, using CAD, 3D printing, and repeated fit tests to refine the mechanical system. We exhibited it at the FIRST Robotics Championship in Houston.</p></div>
+    </section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="component"></i></span><h2>Design</h2></div>
+<div class="split"><article class="card reveal"><h3><i data-lucide="layers"></i>A modular chassis</h3><p>The rail around the chassis lets accessories clamp into hexagonal indents. Separate motor mounts and a central electronics core attach with hex bolts and clips. Matching A, B, and C labels guide assembly.</p><p>The battery sits centrally, while the XRP board slides into triangular slots and is retained by flexures. Separate clips secure the battery pack and make it accessible for replacement.</p></article><article class="card reveal"><h3><i data-lucide="pencil-ruler"></i>A pen at the center</h3><p>The drawing attachment places its marker straight down through the center of the robot. Angled motor mounts route the wires away from that space, keeping the pen mechanism clear.</p><p>The design retains the XRP accessory system, and a separate LEGO-compatible version adds mounting interfaces for further customization.</p></article></div>
+    </section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="git-compare-arrows"></i></span><h2>Iterations</h2></div>
+<div class="split"><article class="card reveal"><h3><i data-lucide="box"></i>From one piece to separate mounts</h3><p>An early 12 × 12 cm chassis integrated the motor mounts, but the motors had to sit at different angles and the print required extensive supports. Separating the mounts made printing more practical and allowed a symmetrical layout.</p></article><article class="card reveal"><h3><i data-lucide="move"></i>Making room to turn and draw</h3><p>An octagonal iteration left too little clearance for the wheels and pen-bot. Shortening the corner edges created more room for wheel rotation while preserving space for the drawing attachment.</p></article></div>
+    </section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="printer"></i></span><h2>Printing and assembly</h2></div>
+<div class="prose reveal"><p>The basic parts are designed for PLA and a 0.4 mm nozzle, without support material. The documented basic set takes about five hours on a Bambu A1. Snap-fit components and removable clips support repeated assembly and disassembly.</p><p>User testing highlighted tight alignment pins and unclear small parts. Those comments pointed to larger fit tolerances and a short illustrated subassembly guide as useful refinements.</p></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 Lixing Li · Last updated 2026-11-02</span>
+      <div class="socials">
+        <a class="icon-btn" href="mailto:ll963@cornell.edu" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a class="icon-btn" href="https://github.com/lllx125" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a class="icon-btn" href="https://linkedin.com/in/lixing-li-54b46b2b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="../assets/js/main.js?v=20261102c"></script>
+</body>
+</html>

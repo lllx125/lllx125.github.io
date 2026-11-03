@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bicep Boost · Lixing Li</title>
+  <meta name="description" content="A wearable arm-assistance prototype with a geared elbow joint and a finger-mounted joystick. Built for Cornell’s 2025 Makeathon theme, “tech for well-being.”">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css?v=20261102c">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">LL</span><span class="brand-name">Lixing Li</span></a>
+      <div class="nav-links">
+        <a href="../index.html"><i data-lucide="house"></i><span>Home</span></a>
+        <a href="../research.html"><i data-lucide="flask-conical"></i><span>Research</span></a>
+        <a href="../projects.html" aria-current="page"><i data-lucide="layers"></i><span>Projects</span></a>
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <i data-lucide="moon" class="moon"></i><i data-lucide="sun" class="sun"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a class="crumb" href="../projects.html"><i data-lucide="arrow-left"></i>All projects</a>
+
+    <header class="project-hero reveal">
+      <div><span class="eyebrow"><i data-lucide="accessibility"></i>Wearable robotics</span><h1>Bicep Boost</h1>
+        <p class="lede">A wearable arm-assistance prototype with a geared elbow joint and a finger-mounted joystick. Built for Cornell’s 2025 Makeathon theme, “tech for well-being.”</p>
+        <div class="meta"><span><i data-lucide="calendar-days"></i>2025</span><span><i data-lucide="users"></i>Four-person Makeathon team</span></div>
+        <div class="contact-row"><a class="pill primary" href="https://docs.google.com/presentation/d/1MaPgmWpEhDBCG3F9H4_vUX68q1pTF5QDEJwIvhZeUug/edit" target="_blank" rel="noopener"><i data-lucide="presentation"></i>Slides</a><a class="pill" href="https://www.youtube.com/shorts/JIwUPgPMM2U" target="_blank" rel="noopener"><i data-lucide="circle-play"></i>Demo video</a></div>
+      </div><div class="photo"><img src="bicep-boost/cover.jpg" alt="CAD assembly of Bicep Boost showing the arm linkage and blue reduction gears"></div>
+    </header>
+<section class="section"><div class="stats"><div class="card stat reveal"><div class="n">1st</div><div class="l">place · Cornell Makeathon</div></div><div class="card stat reveal"><div class="n">8:1</div><div class="l">gear reduction</div></div><div class="card stat reveal"><div class="n">~$70</div><div class="l">estimated bill of materials</div></div></div></section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="book-open"></i></span><h2>Overview</h2></div>
+<div class="prose reveal"><p>Bicep Boost is an exoskeleton prototype intended to assist arm lifting and rehabilitation exercises. Our team—Christy Cheung, Zack Ginesin, Keegan Lewick, and me—built it for Cornell Makeathon 2025 and placed first among approximately 40 hardware and software teams.</p><p>The build combines an adjustable forearm mechanism, a custom geared joint, and a joystick worn on a finger. The project explores how a compact mechanical aid can let a user command assisted arm movement.</p></div>
+    </section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="cog"></i></span><h2>Mechanics</h2></div>
+<div class="split"><article class="card reveal"><h3><i data-lucide="settings"></i>A custom reduction gearbox</h3><p>The motor drives a custom 8:1 reduction gearbox with helical gears, designed to handle the torque needed at the elbow joint. The slide deck specifies a target output speed of 25 rpm.</p></article><article class="card reveal"><h3><i data-lucide="ruler"></i>An adjustable forearm</h3><p>The forearm mechanism has an adjustable length, built-in wire management, and a switch mount. Limit switches are included to constrain travel and reduce the risk of mechanical overrun.</p></article></div>
+    </section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="joystick"></i></span><h2>Controls</h2></div>
+<div class="split"><article class="card reveal"><h3><i data-lucide="hand"></i>A joystick on the finger</h3><p>A custom ring holds the joystick within reach of the user’s fingers. This keeps the input close to the wearer while the mechanism supplies the arm motion.</p></article><article class="card reveal"><h3><i data-lucide="circuit-board"></i>Input, motor drive, and travel limits</h3><p>The electrical diagram connects a joystick to an Arduino Nano, which commands a DC motor through an L298N driver. Two limit switches provide end-of-travel inputs.</p><p>The team demonstrated the working prototype at the Makeathon.</p></article></div>
+    </section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="image"></i></span><h2>Build details</h2></div>
+<div class="figures"><figure class="card figure reveal"><a href="bicep-boost/gearbox.jpg" target="_blank" rel="noopener"><img src="bicep-boost/gearbox.jpg" alt="CAD view of the Bicep Boost reduction gear train" loading="lazy" style="object-fit:contain;background:#f4f4f4"></a><figcaption>The custom reduction gear train at the arm joint.</figcaption></figure><figure class="card figure reveal"><a href="bicep-boost/joystick.jpg" target="_blank" rel="noopener"><img src="bicep-boost/joystick.jpg" alt="CAD model of the finger-mounted joystick ring" loading="lazy" style="object-fit:contain;background:#f4f4f4"></a><figcaption>The ring-mounted joystick interface.</figcaption></figure><figure class="card figure reveal"><a href="bicep-boost/circuit.jpg" target="_blank" rel="noopener"><img src="bicep-boost/circuit.jpg" alt="Wiring diagram connecting an Arduino Nano, joystick, L298N driver, motor, and two limit switches" loading="lazy" style="object-fit:contain;background:#f4f4f4"></a><figcaption>The electrical control diagram from our project presentation.</figcaption></figure></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 Lixing Li · Last updated 2026-11-02</span>
+      <div class="socials">
+        <a class="icon-btn" href="mailto:ll963@cornell.edu" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a class="icon-btn" href="https://github.com/lllx125" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a class="icon-btn" href="https://linkedin.com/in/lixing-li-54b46b2b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="../assets/js/main.js?v=20261102c"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>One Two Dash · Lixing Li</title>
+  <meta name="description" content="Jump. Jump. Dash. A one-button Unity platformer where every third press turns a lane change into an attack—until an obstacle or a dragon gets in the way.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css?v=20261102c">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">LL</span><span class="brand-name">Lixing Li</span></a>
+      <div class="nav-links">
+        <a href="../index.html"><i data-lucide="house"></i><span>Home</span></a>
+        <a href="../research.html"><i data-lucide="flask-conical"></i><span>Research</span></a>
+        <a href="../projects.html" aria-current="page"><i data-lucide="layers"></i><span>Projects</span></a>
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <i data-lucide="moon" class="moon"></i><i data-lucide="sun" class="sun"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a class="crumb" href="../projects.html"><i data-lucide="arrow-left"></i>All projects</a>
+
+    <header class="project-hero reveal">
+      <div><span class="eyebrow"><i data-lucide="gamepad-2"></i>Game development</span><h1>One Two Dash</h1>
+        <p class="lede">Jump. Jump. Dash. A one-button Unity platformer where every third press turns a lane change into an attack—until an obstacle or a dragon gets in the way.</p>
+        <div class="meta"><span><i data-lucide="calendar-days"></i>Mar 2025</span><span><i data-lucide="users"></i>BAL · three-person game-jam team</span></div>
+        <div class="contact-row"><a class="pill primary" href="https://github.com/lllx125/BALGamejam2025" target="_blank" rel="noopener"><i data-lucide="github"></i>Code</a><a class="pill" href="https://docs.google.com/presentation/d/14mQLcI89eG2mA6KbxD-oYdngrsIgATLyA7ollH-SFz8/edit" target="_blank" rel="noopener"><i data-lucide="presentation"></i>Slides</a><a class="pill" href="https://drive.google.com/file/d/1jiqNjyGxW-ZZjiGWiaqwlyGELUV4mISa/view" target="_blank" rel="noopener"><i data-lucide="download"></i>Windows build</a></div>
+      </div><div class="photo"><img src="one-two-dash/cover.jpg" alt="Original dragon boss artwork from One Two Dash"></div>
+    </header>
+<section class="section"><div class="stats"><div class="card stat reveal"><div class="n">24 h</div><div class="l">game jam</div></div><div class="card stat reveal"><div class="n">3</div><div class="l">team members</div></div><div class="card stat reveal"><div class="n">1</div><div class="l">button: Space</div></div></div></section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="book-open"></i></span><h2>Overview</h2></div>
+<div class="prose reveal"><p>One Two Dash is a 2D platformer built by our BAL team: Bobby Zhang, Andy Yang, and me. The knight moves through a scrolling world of goblins, crystals, and obstacles, with encounters against a fire-breathing dragon.</p><p>I led the three-person team during a 24-hour game jam and worked on the core mechanics, level design, and art in Unity. The team created the game’s hand-drawn imagery and original music and sound effects.</p></div>
+    </section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="keyboard"></i></span><h2>How to play</h2></div>
+<div class="controls"><div class="card control reveal"><span class="key">Space ×1</span><span class="what">Jump<small>Switch between the upper and lower paths</small></span></div><div class="card control reveal"><span class="key">Space ×2</span><span class="what">Jump again<small>Set up your next attack</small></span></div><div class="card control reveal"><span class="key">Space ×3</span><span class="what">Dash<small>Strike goblins along your path</small></span></div><div class="card control reveal"><span class="key">Crystals</span><span class="what">Collect points<small>Break them on contact</small></span></div><div class="card control reveal"><span class="key">Goblins</span><span class="what">Dash to defeat<small>Contact without a dash ends the run</small></span></div><div class="card control reveal"><span class="key">Obstacles</span><span class="what">Avoid in every state<small>Dashing does not pass through them</small></span></div></div>
+    </section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="code"></i></span><h2>Game systems</h2></div>
+<div class="split"><article class="card reveal"><h3><i data-lucide="repeat"></i>One input, three-beat rhythm</h3><p>A three-state input counter makes the first two presses jump and the third dash. Jumping switches the knight between the ceiling and floor; dashing moves the player forward and changes the scrolling speed, with rotation and audio marking the attack.</p></article><article class="card reveal"><h3><i data-lucide="flame"></i>A changing path and a dragon</h3><p>A timed generator places obstacles, crystals, and goblins on either path at randomized intervals. Boss encounters transition into a separate scene, where the dragon alternates its fire between the upper and lower routes.</p><p>A persistent game manager carries the score across scenes. The game awards points for crystals, defeated goblins, and a completed boss encounter.</p></article></div>
+    </section>
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="palette"></i></span><h2>Original art and music</h2></div>
+<div class="figures"><figure class="card figure reveal"><a href="one-two-dash/art-sketch.jpg" target="_blank" rel="noopener"><img src="one-two-dash/art-sketch.jpg" alt="A hand-drawn dragon sketch in Procreate" loading="lazy" style="object-fit:contain;background:#f4f4f4"></a><figcaption>The dragon’s original drawing process in Procreate, shown in our presentation.</figcaption></figure><figure class="card figure reveal"><a href="one-two-dash/music.jpg" target="_blank" rel="noopener"><img src="one-two-dash/music.jpg" alt="The game soundtrack arranged in GarageBand" loading="lazy" style="object-fit:contain;background:#f4f4f4"></a><figcaption>Original music arranged in GarageBand; the team also created dash and crystal sound effects.</figcaption></figure></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 Lixing Li · Last updated 2026-11-02</span>
+      <div class="socials">
+        <a class="icon-btn" href="mailto:ll963@cornell.edu" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a class="icon-btn" href="https://github.com/lllx125" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a class="icon-btn" href="https://linkedin.com/in/lixing-li-54b46b2b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="../assets/js/main.js?v=20261102c"></script>
+</body>
+</html>

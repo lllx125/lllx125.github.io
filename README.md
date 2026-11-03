@@ -4,6 +4,8 @@ Personal portfolio of Lixing Li, served by GitHub Pages at <https://lllx125.gith
 
 Plain static HTML/CSS/JS with no build step. Push to `main` and the site redeploys.
 
+After portfolio edits, commit and push directly to `main` to deploy, then verify publication. Lixing requested this as the default workflow on 2026-11-02.
+
 ## Pages
 
 | File | Content |

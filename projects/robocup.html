@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RoboCup · Lixing Li</title>
+  <meta name="description" content="RoboCup: a modular soccer-robot design with three drivetrain stations, a dribbler and roller, a solenoid kicker mount, and removable electronics and tracking mounts.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css?v=20261102d">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">LL</span><span class="brand-name">Lixing Li</span></a>
+      <div class="nav-links">
+        <a href="../index.html"><i data-lucide="house"></i><span>Home</span></a>
+        <a href="../research.html"><i data-lucide="flask-conical"></i><span>Research</span></a>
+        <a href="../projects.html" aria-current="page"><i data-lucide="layers"></i><span>Projects</span></a>
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <i data-lucide="moon" class="moon"></i><i data-lucide="sun" class="sun"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a class="crumb" href="../projects.html"><i data-lucide="arrow-left"></i>All projects</a>
+
+    <header class="project-hero reveal">
+      <div>
+        <span class="eyebrow"><i data-lucide="bot"></i>Soccer robotics</span>
+        <h1>RoboCup</h1>
+        <p class="lede">A soccer robot designed around replaceable modules. A shared chassis brings together the drivetrain, ball-handling hardware, kicking actuator mount, electronics, and a visual tracking marker.</p>
+        <div class="meta">
+          <span><i data-lucide="calendar-days"></i>Fall 2026</span>
+          <span><i data-lucide="users"></i>Cornell Cup Robotics</span>
+          <span><i data-lucide="box"></i>Mechanical design</span>
+        </div>
+        <div class="contact-row">
+          <a class="pill primary" href="robocup/assembly.jpg" target="_blank" rel="noopener"><i data-lucide="scan"></i>Assembly views</a>
+        </div>
+      </div>
+      <div class="photo"><img src="robocup/cover.jpg" alt="RoboCup CAD assembly with a purple marker plate, three wheels, green dribbler frame, and gold roller"></div>
+    </header>
+
+    <section class="section">
+      <div class="stats">
+        <div class="card stat reveal"><div class="n">3</div><div class="l">drivetrain stations</div></div>
+        <div class="card stat reveal"><div class="n">2 weeks</div><div class="l">accelerated build deadline</div></div>
+        <div class="card stat reveal"><div class="n">~9</div><div class="l">contributors across three subteams</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="book-open"></i></span><h2>Overview</h2></div>
+      <div class="prose reveal">
+        <p>Cornell Cup Robotics’ RoboCup project develops a soccer robot that can position itself, retain and direct a ball, and kick toward a goal. The Fall 2026 mechanical design combines three motor-mount stations with a front dribbler and roller, a solenoid holder, and removable mounts for the battery, controller, and AprilTag.</p>
+        <p>I led an accelerated soccer-robot build under a two-week deadline, coordinating about nine contributors across mechanical, electrical, and software subteams. I modularized mechanical interfaces and coordinated integration. The CAD views here show the Fall 2026 mechanical design.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="component"></i></span><h2>Modular by design</h2></div>
+      <div class="split">
+        <article class="card reveal">
+          <h3><i data-lucide="layers"></i>Change one part at a time</h3>
+          <p>The chassis is the common base. Motor mounts, the solenoid holder, electronics carrier, marker holder, dribbler frame, and roller are separate parts, so a local design change can be tested without reprinting the whole robot.</p>
+          <p>Snap bolts and hex clips provide removable connections. Separating the modules also lets each part be oriented independently for printing and inspected before assembly.</p>
+        </article>
+        <article class="card reveal">
+          <h3><i data-lucide="puzzle"></i>Interfaces drive the iteration</h3>
+          <p>The same modularity makes fit and alignment important. The design needs clearance around wheels, a consistent ball-contact region, an unobstructed actuator stroke, and access to connectors and removable hardware.</p>
+          <p>The CAD uses distinct colors to make component boundaries visible. These colors identify parts in the model; they do not specify fabrication materials.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="settings"></i></span><h2>Mechanisms</h2></div>
+      <div class="split">
+        <article class="card reveal">
+          <h3><i data-lucide="cog"></i>Drivetrain</h3>
+          <p>Three motor-mount stations locate the drive units around the chassis. Each separate mount supports an XRP motor and wheel assembly, making motor fit, wheel clearance, and retention accessible for individual checks.</p>
+        </article>
+        <article class="card reveal">
+          <h3><i data-lucide="circle-dot"></i>Ball handling and kicking</h3>
+          <p>The front frame supports a replaceable roller, intended to draw the ball toward the robot and retain it during positioning. A separate holder locates the solenoid for the kicking mechanism, allowing its fit and stroke clearance to be adjusted independently.</p>
+        </article>
+        <article class="card reveal">
+          <h3><i data-lucide="scan-line"></i>Electronics and tracking</h3>
+          <p>A removable carrier organizes the battery and XRP controller. The upper AprilTag holder provides a defined mounting surface for the tracking marker while keeping it separate from the main chassis.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="image"></i></span><h2>Component views</h2></div>
+      <div class="figures">
+        <figure class="card figure reveal">
+          <a href="robocup/chassis.jpg" target="_blank" rel="noopener"><img src="robocup/chassis.jpg" alt="Three CAD views of the RoboCup chassis" loading="lazy" style="aspect-ratio:4/5;object-fit:contain;background:white"></a>
+          <figcaption>The common chassis locates the drivetrain and attachment interfaces.</figcaption>
+        </figure>
+        <figure class="card figure reveal">
+          <a href="robocup/dribbler.jpg" target="_blank" rel="noopener"><img src="robocup/dribbler.jpg" alt="Three CAD views of the green dribbler frame" loading="lazy" style="aspect-ratio:4/5;object-fit:contain;background:white"></a>
+          <figcaption>The dribbler frame can be revised independently of the roller and chassis.</figcaption>
+        </figure>
+        <figure class="card figure reveal">
+          <a href="robocup/solenoid.jpg" target="_blank" rel="noopener"><img src="robocup/solenoid.jpg" alt="Three CAD views of the removable solenoid holder" loading="lazy" style="aspect-ratio:4/5;object-fit:contain;background:white"></a>
+          <figcaption>A separate solenoid holder provides the kicking actuator’s mounting interface.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="wrench"></i></span><h2>Next checks</h2></div>
+      <div class="prose reveal">
+        <p>The next step for the documented design is to trial-fit the chassis and one motor station, then check the actuator, electronics, marker, and ball-handling modules against their neighboring parts. Key checks include wheel clearance, removable-mount retention, roller rotation, ball contact, and access for servicing.</p>
+        <p>The Fall 2026 documentation records the CAD design and proposed manufacturing workflow. Print settings, final materials, and measured dribbling, kicking, and tracking results remain to be recorded.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 Lixing Li · Last updated 2026-11-02</span>
+      <div class="socials">
+        <a class="icon-btn" href="mailto:ll963@cornell.edu" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a class="icon-btn" href="https://github.com/lllx125" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a class="icon-btn" href="https://linkedin.com/in/lixing-li-54b46b2b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="../assets/js/main.js?v=20261102c"></script>
+</body>
+</html>

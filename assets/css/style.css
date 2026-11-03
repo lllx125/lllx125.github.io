@@ -430,10 +430,11 @@ details.coursework .course-list { display: flex; flex-wrap: wrap; gap: 6px; marg
 .control { display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
 .control .key {
   min-width: 44px; height: 34px; padding: 0 8px; border-radius: 9px; display: grid; place-items: center;
+  flex: 0 0 auto; white-space: nowrap;
   background: var(--accent-soft); color: var(--accent-ink); font-family: var(--font-mono); font-size: 13px; font-weight: 500;
 }
 .control .key [data-lucide] { width: 18px; height: 18px; }
-.control .what { font-size: 15px; }
+.control .what { min-width: 0; font-size: 15px; }
 .control .what small { display: block; color: var(--muted); font-size: 13px; }
 .figures { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
 .figure { margin: 0; padding: 0; overflow: hidden; }

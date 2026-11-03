@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Astrobee · Lixing Li</title>
+  <meta name="description" content="Astrobee: a Unity simulation and VR experience for a free-flying, six-degree-of-freedom robot, built with Cornell Cup Robotics.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css?v=20261102c">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">LL</span><span class="brand-name">Lixing Li</span></a>
+      <div class="nav-links">
+        <a href="../index.html"><i data-lucide="house"></i><span>Home</span></a>
+        <a href="../research.html"><i data-lucide="flask-conical"></i><span>Research</span></a>
+        <a href="../projects.html" aria-current="page"><i data-lucide="layers"></i><span>Projects</span></a>
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <i data-lucide="moon" class="moon"></i><i data-lucide="sun" class="sun"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a class="crumb" href="../projects.html"><i data-lucide="arrow-left"></i>All projects</a>
+
+    <header class="project-hero reveal">
+      <div>
+        <span class="eyebrow"><i data-lucide="orbit"></i>Robotics &amp; simulation</span>
+        <h1>Astrobee</h1>
+        <p class="lede">A free-flying robot you can pilot in Unity and VR. Twelve air vents let it move and turn in all six degrees of freedom, inspired by NASA’s Astrobee aboard the International Space Station.</p>
+        <div class="meta">
+          <span><i data-lucide="calendar-days"></i>Spring 2025</span>
+          <span><i data-lucide="users"></i>Cornell Cup Robotics</span>
+        </div>
+        <div class="contact-row">
+          <a class="pill primary" href="https://github.com/lllx125/Astrobee-Simulation" target="_blank" rel="noopener"><i data-lucide="github"></i>Simulation code</a>
+          <a class="pill" href="https://www.youtube.com/watch?v=FucF1Peg89w" target="_blank" rel="noopener"><i data-lucide="circle-play"></i>Introduction video</a>
+        </div>
+      </div>
+      <div class="photo"><img src="astrobee/cover.jpg" alt="The simulated Astrobee firing blue thruster plumes in Unity"></div>
+    </header>
+
+    <section class="section">
+      <div class="stats">
+        <div class="card stat reveal"><div class="n">6</div><div class="l">degrees of freedom</div></div>
+        <div class="card stat reveal"><div class="n">12</div><div class="l">controllable vents</div></div>
+        <div class="card stat reveal"><div class="n">2</div><div class="l">interfaces: keyboard &amp; VR</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="book-open"></i></span>
+        <h2>Overview</h2>
+      </div>
+      <div class="prose reveal">
+        <p>Astrobee XRP is Cornell Cup Robotics’ educational take on NASA’s free-flying robot. The team built a propulsion-based prototype around the Experiential Robotics Platform, with two impellers and twelve servo-operated vents. Opening different pairs of vents produces translation or rotation.</p>
+        <p>I developed the Unity simulation to explore that motion in zero gravity, modeling vent geometry, motor response, and forces on the robot. I also built a VR minigame for spatial visualization and STEM outreach, letting visitors fly the robot with handheld controllers.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="code"></i></span>
+        <h2>Simulation</h2>
+      </div>
+      <div class="split">
+        <article class="card reveal">
+          <h3><i data-lucide="wind"></i>From vent opening to motion</h3>
+          <p>Each vent has a position and thrust direction on the robot. The simulation converts its opening angle into an outlet area, accounts for impeller spin-up and the other open vents in the same plenum, then applies the resulting force at that vent’s position. Unity’s rigid-body physics turns those forces into movement and torque.</p>
+          <div class="flow">
+            <span class="node"><i data-lucide="keyboard"></i>Input</span><i data-lucide="arrow-right" class="arrow" aria-hidden="true"></i>
+            <span class="node"><i data-lucide="settings-2"></i>Vent opening</span><i data-lucide="arrow-right" class="arrow" aria-hidden="true"></i>
+            <span class="node"><i data-lucide="wind"></i>Thrust</span><i data-lucide="arrow-right" class="arrow" aria-hidden="true"></i>
+            <span class="node"><i data-lucide="move-3d"></i>Motion</span>
+          </div>
+        </article>
+        <article class="card reveal">
+          <h3><i data-lucide="git-compare-arrows"></i>Ideal and perturbed models</h3>
+          <p>An optional mode adds Gaussian perturbations to mass, center of mass, inertia, vent positions, and force vectors. A comparison scene puts an ideal model alongside the perturbed robot so differences in their paths are visible.</p>
+          <p>Blue exhaust plumes scale with thrust, and the motor sound changes with force output. These cues make it easier to see which vents are active and how their combined output affects flight.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="keyboard"></i></span>
+        <h2>Keyboard controls</h2>
+      </div>
+      <div class="controls">
+        <div class="card control reveal"><span class="key">A / D</span><span class="what">Translate along X<small>Positive / negative direction</small></span></div>
+        <div class="card control reveal"><span class="key">W / S</span><span class="what">Translate along Y<small>Negative / positive direction</small></span></div>
+        <div class="card control reveal"><span class="key">Q / E</span><span class="what">Translate along Z<small>Positive / negative direction</small></span></div>
+        <div class="card control reveal"><span class="key">I / K</span><span class="what">Rotate about X<small>J / L about Y · U / O about Z</small></span></div>
+        <div class="card control reveal"><span class="key">0–9 − =</span><span class="what">Individual vents<small>Hold to open, release to close</small></span></div>
+        <div class="card control reveal"><span class="key">Space</span><span class="what">Reset the robot<small>Enter switches scenes</small></span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="image"></i></span>
+        <h2>Inside Unity</h2>
+      </div>
+      <div class="figures">
+        <figure class="card figure reveal">
+          <a href="astrobee/thrusters.jpg" target="_blank" rel="noopener"><img src="astrobee/thrusters.jpg" alt="Astrobee in the Unity simulation with several blue exhaust plumes active" loading="lazy"></a>
+          <figcaption>Multiple vents firing together. Plume intensity reflects each vent’s thrust.</figcaption>
+        </figure>
+        <figure class="card figure reveal">
+          <a href="astrobee/comparison.jpg" target="_blank" rel="noopener"><img src="astrobee/comparison.jpg" alt="A simplified cube and the detailed Astrobee model following different paths in the comparison scene" loading="lazy"></a>
+          <figcaption>The comparison scene makes divergence between ideal and perturbed models visible.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="glasses"></i></span>
+        <h2>VR experience</h2>
+      </div>
+      <div class="split">
+        <article class="card reveal">
+          <h3><i data-lucide="gamepad-2"></i>Fly with handheld controllers</h3>
+          <p>The VR version uses Unity’s XR Interaction Toolkit. The left thumbstick controls two translation axes and the X/Y buttons control the third; the right thumbstick controls two rotation axes and A/B control the third. Those inputs open the same vent groups used by the desktop simulator.</p>
+        </article>
+        <article class="card reveal">
+          <h3><i data-lucide="rotate-ccw"></i>Experiment and start again</h3>
+          <p>Hold the left trigger to fill a progress bar and reset the robot. Hold the right trigger to spawn an object. Progress bars and audio give feedback while the trigger is held, supporting repeated experiments during outreach demonstrations.</p>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 Lixing Li · Last updated 2026-11-02</span>
+      <div class="socials">
+        <a class="icon-btn" href="mailto:ll963@cornell.edu" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a class="icon-btn" href="https://github.com/lllx125" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a class="icon-btn" href="https://linkedin.com/in/lixing-li-54b46b2b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="../assets/js/main.js?v=20261102c"></script>
+</body>
+</html>

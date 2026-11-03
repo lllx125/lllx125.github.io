@@ -1,0 +1,15 @@
+<!--
+  Project card template. Paste into the .project-grid in projects.html (newest or most important first).
+  Replace every {{...}}. Keep the intro to one or two sentences.
+  Photo: projects/<slug>/cover.jpg, shown cropped to 4:3 (strip EXIF/GPS before committing; see README).
+-->
+<a class="card project-card reveal" href="projects/{{slug}}.html">
+  <div class="photo"><img src="projects/{{slug}}/cover.jpg" alt="{{photo description}}" loading="lazy"></div>
+  <div class="body">
+    <div class="meta"><span><i data-lucide="calendar-days"></i>{{years, e.g. 2024 – 2025}}</span><span><i data-lucide="users"></i>{{team or context}}</span></div>
+    <h2>{{Title}}</h2>
+    <p>{{Short introduction.}}</p>
+    <div class="tags"><span class="tag">{{Tech}}</span><span class="tag">{{Tech}}</span></div>
+    <span class="more">Read more<i data-lucide="arrow-right"></i></span>
+  </div>
+</a>

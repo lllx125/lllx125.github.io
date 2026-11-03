@@ -1,0 +1,131 @@
+<!doctype html>
+<!--
+  Project detail page template.
+  1. Copy to projects/<slug>.html and put images in projects/<slug>/ (cover.jpg + figures).
+  2. Replace every {{...}}; delete any optional section you don't need (each is marked OPTIONAL).
+  3. Add the matching card to projects.html (templates/project-card.html), and link
+     projects/<slug>.html from every other page that mentions the project.
+  Paths below are relative to projects/, so shared assets use ../ and images use <slug>/.
+  Icons: https://lucide.dev/icons (pinned to lucide@0.460.0).
+-->
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex"><!-- remove this line in the copy -->
+  <title>{{Title}} · Lixing Li</title>
+  <meta name="description" content="{{One-sentence description.}}">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">LL</span><span class="brand-name">Lixing Li</span></a>
+      <div class="nav-links">
+        <a href="../index.html"><i data-lucide="house"></i><span>Home</span></a>
+        <a href="../research.html"><i data-lucide="flask-conical"></i><span>Research</span></a>
+        <a href="../projects.html" aria-current="page"><i data-lucide="layers"></i><span>Projects</span></a>
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <i data-lucide="moon" class="moon"></i><i data-lucide="sun" class="sun"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a class="crumb" href="../projects.html"><i data-lucide="arrow-left"></i>All projects</a>
+
+    <!-- Hero: title, lede, meta, links, square cover photo -->
+    <header class="project-hero reveal">
+      <div>
+        <span class="eyebrow"><i data-lucide="{{icon}}"></i>{{Category}}</span>
+        <h1>{{Title}}</h1>
+        <p class="lede">{{Two-sentence introduction.}}</p>
+        <div class="meta">
+          <span><i data-lucide="calendar-days"></i>{{Mon YYYY – Mon YYYY}}</span>
+          <span><i data-lucide="users"></i>{{Team or context}}</span>
+        </div>
+        <div class="contact-row">
+          <a class="pill primary" href="{{code url}}" target="_blank" rel="noopener"><i data-lucide="github"></i>Code</a>
+          <a class="pill" href="{{video or demo url}}" target="_blank" rel="noopener"><i data-lucide="circle-play"></i>{{Demo}}</a>
+        </div>
+      </div>
+      <div class="photo"><img src="{{slug}}/cover.jpg" alt="{{photo description}}"></div>
+    </header>
+
+    <!-- OPTIONAL: headline numbers (2-4 tiles) -->
+    <section class="section">
+      <div class="stats">
+        <div class="card stat reveal"><div class="n">{{N}}</div><div class="l">{{what it counts}}</div></div>
+        <div class="card stat reveal"><div class="n">{{N}}</div><div class="l">{{what it counts}}</div></div>
+      </div>
+    </section>
+
+    <!-- Overview: what it is and what I did -->
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="book-open"></i></span>
+        <h2>Overview</h2>
+      </div>
+      <div class="prose reveal">
+        <p>{{What the project is.}}</p>
+        <p>{{My role and contribution.}}</p>
+      </div>
+    </section>
+
+    <!-- OPTIONAL: text cards side by side; also suits versions, features, or design decisions.
+         Add <div class="flow"> with .node chips and arrow icons for a pipeline (see projects/baby-yoda.html). -->
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="code"></i></span>
+        <h2>{{How it works}}</h2>
+      </div>
+      <div class="split">
+        <article class="card reveal">
+          <h3><i data-lucide="{{icon}}"></i>{{Topic}}</h3>
+          <p>{{Explanation.}}</p>
+        </article>
+        <article class="card reveal">
+          <h3><i data-lucide="{{icon}}"></i>{{Topic}}</h3>
+          <p>{{Explanation.}}</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- OPTIONAL: photos and diagrams (shown cropped to 4:3; click opens full size) -->
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="image"></i></span>
+        <h2>Gallery</h2>
+      </div>
+      <div class="figures">
+        <figure class="card figure reveal">
+          <a href="{{slug}}/{{figure}}.jpg" target="_blank" rel="noopener"><img src="{{slug}}/{{figure}}.jpg" alt="{{description}}" loading="lazy"></a>
+          <figcaption>{{Caption.}}</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 Lixing Li · Last updated {{YYYY-MM-DD}}</span>
+      <div class="socials">
+        <a class="icon-btn" href="mailto:ll963@cornell.edu" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a class="icon-btn" href="https://github.com/lllx125" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a class="icon-btn" href="https://linkedin.com/in/lixing-li-54b46b2b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

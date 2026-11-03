@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Baby Yoda · Lixing Li</title>
+  <meta name="description" content="Baby Yoda: a robotic toy with six Dynamixel-driven joints, controlled by an Xbox controller through an ESP32 and an Arduino.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">LL</span><span class="brand-name">Lixing Li</span></a>
+      <div class="nav-links">
+        <a href="../index.html"><i data-lucide="house"></i><span>Home</span></a>
+        <a href="../research.html"><i data-lucide="flask-conical"></i><span>Research</span></a>
+        <a href="../projects.html" aria-current="page"><i data-lucide="layers"></i><span>Projects</span></a>
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <i data-lucide="moon" class="moon"></i><i data-lucide="sun" class="sun"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a class="crumb" href="../projects.html"><i data-lucide="arrow-left"></i>All projects</a>
+
+    <header class="project-hero reveal">
+      <div>
+        <span class="eyebrow"><i data-lucide="bot"></i>Robotics</span>
+        <h1>Baby Yoda</h1>
+        <p class="lede">A robotic Baby Yoda with six motorized joints that you drive face to face with an Xbox controller. Push the left joystick and the arm on your left moves.</p>
+        <div class="meta">
+          <span><i data-lucide="calendar-days"></i>Oct 2024 – Apr 2025</span>
+          <span><i data-lucide="users"></i>Cornell Cup Robotics</span>
+          <span><i data-lucide="tag"></i>v1.0.0 → v1.1.0</span>
+        </div>
+        <div class="contact-row">
+          <a class="pill primary" href="https://github.com/lllx125/BabyYoda" target="_blank" rel="noopener"><i data-lucide="github"></i>Code</a>
+          <a class="pill" href="https://youtu.be/v0qp3fYCByA" target="_blank" rel="noopener"><i data-lucide="circle-play"></i>Install &amp; test video</a>
+          <a class="pill" href="https://app.cirkitdesigner.com/project/733f7253-d2ce-4fde-950d-96555f7f8535" target="_blank" rel="noopener"><i data-lucide="circuit-board"></i>Circuit</a>
+        </div>
+      </div>
+      <div class="photo"><img src="baby-yoda/cover.jpg" alt="The Baby Yoda robot standing on a workshop floor"></div>
+    </header>
+
+    <section class="section">
+      <div class="stats">
+        <div class="card stat reveal"><div class="n">6</div><div class="l">Dynamixel motors: head, neck, shoulders, arms</div></div>
+        <div class="card stat reveal"><div class="n">10</div><div class="l">controller actions</div></div>
+        <div class="card stat reveal"><div class="n">2</div><div class="l">control versions, from laptop relay to standalone ESP32</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="book-open"></i></span>
+        <h2>Overview</h2>
+      </div>
+      <div class="prose reveal">
+        <p>Baby Yoda is a robotic toy built in Cornell Cup Robotics. Six ROBOTIS Dynamixel XC330 motors move its head (up and down), neck (left and right), both shoulders (forward and back), and both arms (in and out), all driven by an Arduino Uno with a Dynamixel Shield.</p>
+        <p>I wrote the control software for the Arduino, the laptop relay, and later the ESP32; wired the electronics; and documented the build in a README and an install-and-test video so others can operate, rebuild, and extend it.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="gamepad-2"></i></span>
+        <h2>Controls</h2>
+      </div>
+      <div class="controls">
+        <div class="card control reveal"><span class="key">L</span><span class="what">Left joystick<small>Arm on your left (its right arm)</small></span></div>
+        <div class="card control reveal"><span class="key">R</span><span class="what">Right joystick<small>Arm on your right</small></span></div>
+        <div class="card control reveal"><span class="key"><i data-lucide="move"></i></span><span class="what">D-pad<small>Head and neck</small></span></div>
+        <div class="card control reveal"><span class="key">X</span><span class="what">Demo<small>Plays a series of predefined motions</small></span></div>
+        <div class="card control reveal"><span class="key">Y</span><span class="what">Reset<small>Returns to the initial position</small></span></div>
+        <div class="card control reveal"><span class="key">B</span><span class="what">Wave<small>Waves the left hand three times</small></span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="git-commit-horizontal"></i></span>
+        <h2>Versions</h2>
+      </div>
+      <div class="split">
+        <article class="card reveal">
+          <div class="badges"><span class="badge">v1.0.0</span><span class="badge teal">2024-12-07</span></div>
+          <h3><i data-lucide="laptop"></i>Laptop relay</h3>
+          <p>The Xbox controller paired with a laptop. A Python program read the controller and forwarded commands over Bluetooth to an HC-05 module wired to the Arduino.</p>
+          <div class="flow">
+            <span class="node"><i data-lucide="gamepad-2"></i>Xbox</span><i data-lucide="arrow-right" class="arrow"></i>
+            <span class="node"><i data-lucide="laptop"></i>Laptop (Python)</span><i data-lucide="arrow-right" class="arrow"></i>
+            <span class="node"><i data-lucide="bluetooth"></i>HC-05</span><i data-lucide="arrow-right" class="arrow"></i>
+            <span class="node"><i data-lucide="cpu"></i>Arduino</span><i data-lucide="arrow-right" class="arrow"></i>
+            <span class="node"><i data-lucide="cog"></i>Dynamixel</span>
+          </div>
+        </article>
+        <article class="card reveal">
+          <div class="badges"><span class="badge">v1.1.0</span><span class="badge teal">2025-03-15</span></div>
+          <h3><i data-lucide="microchip"></i>Standalone ESP32</h3>
+          <p>The controller pairs directly with an ESP32 using Bluepad32, so the robot no longer needs a laptop. The ESP32 sends commands to the Arduino over serial at 9600 baud, through a resistor voltage divider that bridges 3.3&nbsp;V and 5&nbsp;V logic.</p>
+          <div class="flow">
+            <span class="node"><i data-lucide="gamepad-2"></i>Xbox</span><i data-lucide="arrow-right" class="arrow"></i>
+            <span class="node new"><i data-lucide="microchip"></i>ESP32</span><i data-lucide="arrow-right" class="arrow"></i>
+            <span class="node"><i data-lucide="cpu"></i>Arduino</span><i data-lucide="arrow-right" class="arrow"></i>
+            <span class="node"><i data-lucide="cog"></i>Dynamixel</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="code"></i></span>
+        <h2>Software</h2>
+      </div>
+      <div class="split">
+        <article class="card reveal">
+          <h3><i data-lucide="shield-check"></i>Motion that can't jam</h3>
+          <p>The controller sends only two kinds of signal: start when a button is pressed and stop when it is released. On start, the Arduino spins the motor at a set speed, computes from the joint's current angle how long it can run before reaching that joint's limit, and schedules a stop for that moment. The motor halts on whichever comes first, the release or the limit.</p>
+          <p>Rather than reading angles back from the motors, the Arduino estimates each joint's angle from its speed and run time, in a coordinate system whose zero is the calibrated initial pose. <code>Y</code> or the Arduino's reset button returns to that pose.</p>
+        </article>
+        <article class="card reveal">
+          <h3><i data-lucide="microchip"></i>Controller input on the ESP32</h3>
+          <p>The ESP32 reads the gamepad, normalizes the joystick positions, and quantizes them into discrete states. It writes an instruction to the Arduino only when a state changes, which keeps the serial link quiet while a stick is held still.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal">
+        <span class="section-icon"><i data-lucide="cable"></i></span>
+        <h2>Hardware</h2>
+      </div>
+      <div class="figures">
+        <figure class="card figure reveal">
+          <a href="baby-yoda/circuit-diagram.jpg" target="_blank" rel="noopener"><img src="baby-yoda/circuit-diagram.jpg" alt="Circuit diagram: battery, switch, Dynamixel Shield, six motors, and ESP32 with voltage-divider resistors" loading="lazy"></a>
+          <figcaption>Circuit diagram for v1.1.0, made in Cirkit Designer.</figcaption>
+        </figure>
+        <figure class="card figure reveal">
+          <a href="baby-yoda/circuit-photo.jpg" target="_blank" rel="noopener"><img src="baby-yoda/circuit-photo.jpg" alt="Photo of the Arduino with Dynamixel Shield, ESP32, and battery wired inside the robot's base" loading="lazy"></a>
+          <figcaption>The wired circuit: Arduino with Dynamixel Shield, ESP32, and battery.</figcaption>
+        </figure>
+      </div>
+      <div class="split" style="margin-top:16px">
+        <article class="card reveal">
+          <h3><i data-lucide="battery-charging"></i>Power</h3>
+          <p>Two separate supplies must both be on: a 12&nbsp;V rechargeable battery, behind a switch, powers the Dynamixel Shield and motors, while the Arduino runs from a 9&nbsp;V battery or USB. The ESP32 draws its power from the Arduino.</p>
+          <p>The motors are daisy-chained in pairs (head and neck, left arm and shoulder, right arm and shoulder) into the shield's three ports, each addressed by its own ID.</p>
+        </article>
+        <article class="card reveal">
+          <h3><i data-lucide="list-ordered"></i>Parts</h3>
+          <div class="tags" style="margin-top:12px">
+            <span class="tag">Arduino Uno</span><span class="tag">ROBOTIS Dynamixel Shield</span><span class="tag">6 × Dynamixel XC330</span>
+            <span class="tag">ESP32</span><span class="tag">12 V rechargeable battery</span><span class="tag">Switch</span>
+            <span class="tag">1 kΩ resistors</span><span class="tag">Xbox One controller</span><span class="tag">Baby Yoda model</span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 Lixing Li · Last updated 2026-11-02</span>
+      <div class="socials">
+        <a class="icon-btn" href="mailto:ll963@cornell.edu" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a class="icon-btn" href="https://github.com/lllx125" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a class="icon-btn" href="https://linkedin.com/in/lixing-li-54b46b2b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

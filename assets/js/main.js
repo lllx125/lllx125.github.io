@@ -54,6 +54,14 @@
     items.forEach(function (el) { el.classList.add("in"); });
   }
 
+  // Projects: newest first, by data-date (YYYY-MM of most recent activity)
+  var projectGrid = document.querySelector(".project-grid");
+  if (projectGrid) {
+    Array.prototype.slice.call(projectGrid.querySelectorAll(".project-card"))
+      .sort(function (a, b) { return (b.dataset.date || "").localeCompare(a.dataset.date || ""); })
+      .forEach(function (card) { projectGrid.appendChild(card); });
+  }
+
   // Research: flip timeline order
   var timeline = document.querySelector(".timeline");
   var orderBtn = document.querySelector(".order-toggle");

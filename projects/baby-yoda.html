@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/css/style.css?v=20261102b">
+  <link rel="stylesheet" href="../assets/css/style.css?v=20261102c">
   <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 </head>
 <body>
@@ -40,7 +40,7 @@
         <div class="meta">
           <span><i data-lucide="calendar-days"></i>Oct 2024 – Apr 2025</span>
           <span><i data-lucide="users"></i>Cornell Cup Robotics</span>
-          <span><i data-lucide="tag"></i>v1.0.0 → v1.1.0</span>
+          <span><i data-lucide="tag"></i>v1.1.0 (latest)</span>
         </div>
         <div class="contact-row">
           <a class="pill primary" href="https://github.com/lllx125/BabyYoda" target="_blank" rel="noopener"><i data-lucide="github"></i>Code</a>
@@ -92,6 +92,17 @@
       </div>
       <div class="split">
         <article class="card reveal">
+          <div class="badges"><span class="badge">v1.1.0</span><span class="badge teal">2025-03-15</span></div>
+          <h3><i data-lucide="microchip"></i>Standalone ESP32</h3>
+          <p>The controller pairs directly with an ESP32 using Bluepad32, so the robot no longer needs a laptop. The ESP32 sends commands to the Arduino over serial at 9600 baud, through a resistor voltage divider that bridges 3.3&nbsp;V and 5&nbsp;V logic.</p>
+          <div class="flow">
+            <span class="node"><i data-lucide="gamepad-2"></i>Xbox</span><i data-lucide="arrow-right" class="arrow"></i>
+            <span class="node new"><i data-lucide="microchip"></i>ESP32</span><i data-lucide="arrow-right" class="arrow"></i>
+            <span class="node"><i data-lucide="cpu"></i>Arduino</span><i data-lucide="arrow-right" class="arrow"></i>
+            <span class="node"><i data-lucide="cog"></i>Dynamixel</span>
+          </div>
+        </article>
+        <article class="card reveal">
           <div class="badges"><span class="badge">v1.0.0</span><span class="badge teal">2024-12-07</span></div>
           <h3><i data-lucide="laptop"></i>Laptop relay</h3>
           <p>The Xbox controller paired with a laptop. A Python program read the controller and forwarded commands over Bluetooth to an HC-05 module wired to the Arduino.</p>
@@ -99,17 +110,6 @@
             <span class="node"><i data-lucide="gamepad-2"></i>Xbox</span><i data-lucide="arrow-right" class="arrow"></i>
             <span class="node"><i data-lucide="laptop"></i>Laptop (Python)</span><i data-lucide="arrow-right" class="arrow"></i>
             <span class="node"><i data-lucide="bluetooth"></i>HC-05</span><i data-lucide="arrow-right" class="arrow"></i>
-            <span class="node"><i data-lucide="cpu"></i>Arduino</span><i data-lucide="arrow-right" class="arrow"></i>
-            <span class="node"><i data-lucide="cog"></i>Dynamixel</span>
-          </div>
-        </article>
-        <article class="card reveal">
-          <div class="badges"><span class="badge">v1.1.0</span><span class="badge teal">2025-03-15</span></div>
-          <h3><i data-lucide="microchip"></i>Standalone ESP32</h3>
-          <p>The controller pairs directly with an ESP32 using Bluepad32, so the robot no longer needs a laptop. The ESP32 sends commands to the Arduino over serial at 9600 baud, through a resistor voltage divider that bridges 3.3&nbsp;V and 5&nbsp;V logic.</p>
-          <div class="flow">
-            <span class="node"><i data-lucide="gamepad-2"></i>Xbox</span><i data-lucide="arrow-right" class="arrow"></i>
-            <span class="node new"><i data-lucide="microchip"></i>ESP32</span><i data-lucide="arrow-right" class="arrow"></i>
             <span class="node"><i data-lucide="cpu"></i>Arduino</span><i data-lucide="arrow-right" class="arrow"></i>
             <span class="node"><i data-lucide="cog"></i>Dynamixel</span>
           </div>
@@ -180,6 +180,6 @@
   </footer>
 
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
-  <script src="../assets/js/main.js?v=20261102b"></script>
+  <script src="../assets/js/main.js?v=20261102c"></script>
 </body>
 </html>

@@ -28,7 +28,7 @@ Add a square image at `assets/img/profile.jpg` (at least 400×400). It automatic
 
 1. Copy `templates/project-page.html` to `projects/<slug>.html`, fill in every `{{...}}`, remove the `noindex` line, and delete the optional sections you don't need. `projects/baby-yoda.html` is a full example, including stat tiles, a controls grid, and pipeline diagrams.
 2. Put images in `projects/<slug>/`: a square `cover.jpg` (shown 1:1 on the detail page and cropped to 16:10 on the card) plus any figures. Resize to at most 1600 px wide and strip metadata first, because phone photos carry GPS location in their EXIF data.
-3. Paste `templates/project-card.html` into the `.project-grid` in `projects.html`.
+3. Paste `templates/project-card.html` into the `.project-grid` in `projects.html` and set its `data-date` to the project's most recent activity (`YYYY-MM`). Cards are shown newest first by that date, wherever they sit in the HTML.
 4. Link `projects/<slug>.html` from every place that mentions the project (for example the experience bullets and link pills in `index.html`).
 
 ## Paper slides

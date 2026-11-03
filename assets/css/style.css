@@ -344,10 +344,25 @@ details.coursework .course-list { display: flex; flex-wrap: wrap; gap: 6px; marg
   display: none; align-items: center; justify-content: center; padding: 24px;
 }
 .lightbox.open { display: flex; }
-.lightbox img { max-width: min(1280px, 100%); max-height: 85vh; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+.lightbox img { max-width: min(1280px, calc(100% - 112px)); max-height: 85vh; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
 .lightbox .close { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.2); }
-.lightbox .lb-actions { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+.lightbox .lb-actions { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; white-space: nowrap; }
 .lightbox .lb-actions .btn { background: rgba(255,255,255,.12); color: #fff; border-color: rgba(255,255,255,.2); }
+.lightbox .lb-count { align-self: center; padding: 0 6px; color: #fff; font-family: var(--font-mono); font-size: 13px; }
+.lightbox .lb-nav {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 1;
+  background: rgba(255,255,255,.12); color: #fff; border-color: rgba(255,255,255,.2);
+}
+.lightbox .lb-nav.prev { left: 16px; }
+.lightbox .lb-nav.next { right: 16px; }
+.lightbox .lb-nav:disabled { opacity: .3; cursor: default; }
+@media (max-width: 600px) {
+  .lightbox { padding: 12px; }
+  .lightbox img { max-width: 100%; }
+  .lightbox .lb-nav { top: auto; bottom: 18px; transform: none; }
+  .lightbox .lb-nav.prev { left: 12px; }
+  .lightbox .lb-nav.next { right: 12px; }
+}
 
 /* ---------- Coming soon ---------- */
 .empty-state { text-align: center; padding: 56px 24px; }

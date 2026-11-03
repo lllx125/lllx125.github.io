@@ -1,69 +1,337 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Obfuscated Natural Number Game</title><link rel="stylesheet" href="slide.css">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Obfuscated Natural Number Game</title>
+<link rel="stylesheet" href="slide.css">
 <style>
-  .slide-head h1 { font-size: 34px; }
-  .panel ul { gap: 9px; }
-  .panel li { font-size: 15.5px; line-height: 1.42; }
-  .panel li b { font-weight: 600; }
-  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
-  .obf { width: 100%; display: grid; gap: 10px; align-content: start; }
-  .rows { display: grid; gap: 5px; }
-  .row { display: grid; grid-template-columns: 52px 1fr; align-items: center; gap: 8px;
-         font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 13px; }
-  .row .lam { font-size: 11.5px; color: var(--muted); text-align: right; white-space: nowrap; }
-  .row code { font-family: inherit; background: var(--bg); border: 1px solid var(--line);
-              border-radius: 6px; padding: 4px 8px; white-space: nowrap; overflow: hidden; }
-  .row .id { color: var(--accent); font-weight: 600; }
-  .row .x { color: var(--warm); font-weight: 600; }
-  .sub .nt { text-transform: none; letter-spacing: 0; }
+  .slide-head h1 { font-size: 36px; }
+  .panel ul li::marker { color: var(--accent); }
+  .panel li b, .panel p b { font-weight: 600; }
+  .mono, code, pre, .chip, .row { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-ligatures: none; }
+  .roomy .panel li { font-size: 17px; line-height: 1.45; }
+  .roomy .panel ul { gap: 10px; }
+  .muted { color: var(--muted); }
   .nw { white-space: nowrap; }
-  .sub { font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-  .pipe { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; font-size: 12px; }
-  .pipe span.s { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 3px 9px; font-weight: 600; }
-  .pipe span.s.lean { background: var(--warm-soft); color: var(--warm); }
-  .pipe span.a { color: var(--muted); font-size: 11px; }
-  .stat .num { font-size: 32px; }
-  .stat .num small { font-size: 17px; color: var(--muted); font-weight: 500; }
-  .stat .label { font-size: 14px; }
-  .stat .p { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
-  .panel .figure { place-items: start stretch; }
-</style></head>
-<body><div class="slide">
- <header class="slide-head">
-  <div class="venue">AAAI Spring Symposium Series · 2026</div>
-  <h1>Evaluating the Architectural Reasoning Capabilities of LLM Provers via the Obfuscated Natural Number Game</h1>
-  <div class="authors">Lixing Li (sole author) · St Anne’s College, Oxford</div>
- </header>
- <div class="slide-body">
-  <section class="panel"><h2><span class="dot">1</span>Problem</h2>
-   <ul>
-    <li>LLM provers do well on MiniF2F and PutnamBench, but is that <b>genuine logical reasoning</b> or <b>semantic pattern matching</b> against pre-training data?</li>
-    <li><b>Architectural Reasoning</b>: proving theorems using only local axioms and definitions in an alien math domain, with no meaningful names, no Mathlib, and no high-level tactics.</li>
-    <li>Discovering new mathematics needs this ability, because unexplored domains have no familiar names or libraries.</li>
-   </ul>
-  </section>
-  <section class="panel"><h2><span class="dot">2</span>Method</h2>
-   <div class="figure"><div class="obf">
-    <div class="sub">Same Lean 4 theorem (<span class="nt mono">add_comm</span>) as noise <span class="nt">λ</span> rises</div>
-    <div class="rows">
-     <div class="row"><span class="lam">λ = 0</span><code><span class="id">add_comm</span> (a b : <span class="id">MyNat</span>) : <span class="id">add</span> a b = <span class="id">add</span> b a</code></div>
-     <div class="row"><span class="lam">λ = 0.2</span><code><span class="x">add_KmFm</span> (a b : <span class="x">Mmyat</span>) : <span class="id">add</span> a b = <span class="id">add</span> b a</code></div>
-     <div class="row"><span class="lam">λ = 0.4</span><code><span class="x">add_Φom7</span> (a b : <span class="x">MΘNae</span>) : <span class="id">add</span> a b = <span class="id">add</span> b a</code></div>
-     <div class="row"><span class="lam">λ = 0.6</span><code><span class="x">jad_Qηℂm</span> (a b : <span class="x">οΕyab</span>) : <span class="x">Εξ</span> a b = <span class="x">Εξ</span> b a</code></div>
-     <div class="row"><span class="lam">λ = 0.8</span><code><span class="x">μ4dA_c2o</span> (a b : <span class="x">dBNaΤ</span>) : <span class="x">Υdd</span> a b = <span class="x">Υdd</span> b a</code></div>
-     <div class="row"><span class="lam">λ = 1.0</span><code><span class="x">KΩΦzαυωT</span> (a b : <span class="x">Η0Ja</span>) : <span class="x">ΚxΝ</span> a b = <span class="x">ΚxΝ</span> b a</code></div>
+
+  /* Title page extras */
+  .meta { margin-top: 18px; font-size: 16px; color: var(--muted); line-height: 1.5; }
+  .meta .mono { font-size: 14.5px; }
+
+  /* Callout at the bottom of a panel */
+  .panel .q {
+    margin-top: auto; padding: 10px 14px; border-radius: 10px;
+    background: var(--accent-soft); font-size: 15.5px; line-height: 1.4;
+  }
+  .panel .q.warm { background: var(--warm-soft); }
+
+  /* Formula chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-family: "JetBrains Mono", monospace; font-size: 15px; padding: 5px 11px;
+          border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+  .chip.warm { background: var(--warm-soft); color: var(--warm); }
+
+  /* Noise ladder */
+  .sub { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .sub .nt { text-transform: none; letter-spacing: 0; }
+  .rows { display: grid; gap: 6px; }
+  .row { display: grid; grid-template-columns: 66px 1fr; align-items: center; gap: 8px;
+         font-family: "JetBrains Mono", monospace; font-size: 15px; }
+  .row .lam { font-size: 14px; color: var(--muted); text-align: right; white-space: nowrap; }
+  .row code { background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+              padding: 4px 8px; white-space: nowrap; overflow: hidden; }
+  .id { color: var(--accent); font-weight: 600; }
+  .x { color: var(--warm); font-weight: 600; }
+
+  /* Before / after Lean blocks */
+  .lean { display: grid; gap: 6px; }
+  .lean .tag { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; font-weight: 600; }
+  .lean .tag span:last-child { font-weight: 500; color: var(--muted); font-size: 14px; }
+  .lean pre { font-size: 15px; line-height: 1.45; background: var(--bg); border: 1px solid var(--line);
+              border-radius: 8px; padding: 9px 12px; white-space: pre; overflow: hidden; }
+  .lean pre .k { color: var(--muted); }
+
+  /* Pipeline */
+  .steps { list-style: none; padding: 0 !important; display: grid; gap: 8px !important; counter-reset: s; }
+  .steps li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: start; font-size: 15.5px !important; line-height: 1.4; }
+  .steps li::before { counter-increment: s; content: counter(s); width: 26px; height: 26px; border-radius: 7px;
+                      background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 14px;
+                      display: grid; place-items: center; }
+  .steps li.lean4::before { background: var(--warm-soft); color: var(--warm); }
+
+  /* Model groups */
+  .grp { display: grid; gap: 3px; }
+  .grp .gl { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill { font-size: 15px; padding: 4px 10px; border-radius: 8px; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .pill.gen { background: var(--warm-soft); color: var(--warm); }
+  .pill.off { background: var(--bg); color: var(--muted); border: 1px dashed var(--line); font-weight: 500; text-decoration: line-through; }
+
+  /* Stat grid */
+  .stats4 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+  .stats4 .stat { border-bottom: 1px dashed var(--line); padding: 6px 0 8px; }
+  .stat .num small { font-size: 18px; color: var(--muted); font-weight: 500; }
+  .stat .label { font-size: 15px; }
+
+  /* Figure page */
+  .figpanel { gap: 12px; }
+  .figpanel .figure img { width: 100%; height: auto; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 15.5px; }
+  .legend .sw { display: inline-block; width: 22px; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 7px; }
+
+  /* Table page */
+  table.data { font-size: 19px; }
+  table.data td, table.data th { padding: 12px 12px; }
+  table.data td.sig { color: var(--warm); font-weight: 600; }
+  table.data td .kind { display: block; font-size: 13.5px; color: var(--muted); font-weight: 500; }
+  table.data tr.grp-row td { padding-top: 6px; padding-bottom: 6px; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--bg); }
+  .note { font-size: 14px; color: var(--muted); }
+  .finding .num { font-size: 32px; }
+  .finding .label { font-size: 16.5px; line-height: 1.42; }
+  .finding { padding: 8px 0 10px; }
+</style>
+</head>
+<body>
+
+<!-- 1. Title -->
+<section class="slide title-slide">
+  <header class="slide-head">
+    <div class="venue">AAAI Spring Symposium Series (SSS 2026)</div>
+    <h1>Evaluating the Architectural Reasoning Capabilities of LLM Provers via the Obfuscated Natural Number Game</h1>
+    <div class="authors">Lixing Li · St Anne’s College, Oxford</div>
+    <div class="tldr"><b>TL;DR</b> Rename every identifier in the Lean 4 Natural Number Game and the logic stays the same, but the semantic cues are gone. Every model tested slows down significantly; reasoning models keep their accuracy, while general models (GPT-4o, Claude-Sonnet-4.5) lose it.</div>
+    <div class="meta">Proceedings of the AAAI Symposium Series 8(1), 588–591 · Code <span class="mono">github.com/lllx125/Obfuscated-NNG</span></div>
+  </header>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">1 / 7</span><span class="link">doi.org/10.1609/aaaiss.v8i1.42591</span></footer>
+</section>
+
+<!-- 2. Motivation -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Motivation</div>
+    <h1>Are LLM provers reasoning, or retrieving?</h1>
+  </header>
+  <div class="slide-body">
+    <div class="panel">
+      <h2><span class="dot">1</span>The question</h2>
+      <ul>
+        <li>LLM provers such as DeepSeek-Prover-V2 do well on <b>MiniF2F</b> and <b>PutnamBench</b>.</li>
+        <li>But modern benchmarks mostly reward <b>library retrieval</b>: finding the right high-level lemma.</li>
+        <li>In code generation, semantics-preserving perturbations such as identifier renaming measurably degrade performance on LiveCodeBench.</li>
+      </ul>
+      <p class="q">How large is this semantic-reasoning gap in <b>formal deductive logic</b>?</p>
     </div>
-    <div class="sub" style="margin-top:4px">Pipeline</div>
-    <div class="pipe">
-     <span class="s">Parse NNG</span><span class="a">→</span><span class="s">Obfuscate</span><span class="a">→</span><span class="s">Query</span><span class="a">→</span><span class="s">LLM proof</span><span class="a">→</span><span class="s lean">Lean 4 compiler</span><span class="a">→</span><span class="s">Analyze</span>
+    <div class="panel">
+      <h2><span class="dot">2</span>Architectural Reasoning</h2>
+      <p>Synthesizing formal proofs using <b>only local definitions, axioms, theorems and limited tactics</b> within a closed theory. It is what AI needs to discover theorems in unexplored, “alien” domains. Three exclusions:</p>
+      <ul>
+        <li><b>No semantic knowledge.</b> Names like <code>add</code> or <code>succ</code> cannot be used to infer properties.</li>
+        <li><b>No external libraries</b> such as Mathlib.</li>
+        <li><b>No high-level tactics</b> (e.g. <code>linarith</code>, <code>simp</code>); only fundamentals like <code>rw</code> and <code>induction</code>.</li>
+      </ul>
+      <p class="q">Goal: quantify the <b>performance tax</b> of removing semantic identifiers by benchmarking LLMs on the O-NNG and the NNG.</p>
     </div>
-   </div></div>
-   <p class="caption">68 Natural Number Game problems with every definition, operator, axiom and theorem name perturbed character by character (P = λ<sup>2.5</sup>). 6 noise levels, 5 models, 5 runs per theorem per level.</p>
-  </section>
-  <section class="panel"><h2><span class="dot">3</span>Key results</h2>
-   <div class="stat"><div class="num">5 <small>/ 5</small></div><div class="label">models were significantly <b>slower</b> on obfuscated tasks: a universal latency tax<span class="p">ANOVA on average time, p ≤ 0.0004</span></div></div>
-   <div class="stat"><div class="num">3 <small>/ 5</small></div><div class="label">reasoning models (DeepSeek-R1, GPT-5, DeepSeek-Prover-V2) kept their accuracy<span class="p">no significant drop, p = 0.086 to 0.31</span></div></div>
-   <div class="stat"><div class="num">2 <small>/ 5</small></div><div class="label">general models (GPT-4o, <span class="nw">Claude-Sonnet-4.5</span>) lost accuracy once names were obfuscated<span class="p">significant drop, p = 0.024 and 0.0001</span></div></div>
-  </section>
- </div>
- <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="link">doi.org/10.1609/aaaiss.v8i1.42591 · github.com/lllx125/Obfuscated-NNG</span></footer>
-</div></body></html>
+    <div class="panel">
+      <h2><span class="dot">3</span>Why the Natural Number Game (NNG)</h2>
+      <ul>
+        <li><b>Closed theory:</b> every theorem is derived from the ground up using Peano axioms, with no Mathlib.</li>
+        <li><b>Fits in context:</b> definitions and earlier theorems are concise, so the model sees all previous knowledge.</li>
+        <li><b>Restricted tactics:</b> designed to be solved with fundamental tactics, not automation such as <code>ring</code>.</li>
+      </ul>
+      <p class="q">Obfuscating its names gives a <b>zero-knowledge, closed environment</b>.</p>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">2 / 7</span><span class="link">doi.org/10.1609/aaaiss.v8i1.42591</span></footer>
+</section>
+
+<!-- 3. Benchmark construction -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Benchmark construction</div>
+    <h1>Same logic, alien names: the Obfuscated NNG</h1>
+  </header>
+  <div class="slide-body two">
+    <div class="panel">
+      <h2><span class="dot">1</span>Obfuscation algorithm</h2>
+      <div class="chips">
+        <span class="chip">P = λ<sup>2.5</sup></span>
+        <span class="chip">substitute: P</span>
+        <span class="chip">insert: 0.4P</span>
+        <span class="chip">delete: 0.3P</span>
+      </div>
+      <ul>
+        <li>Noise level λ ∈ [0, 1] sets the per-character perturbation probability P; the exponent samples low noise more densely.</li>
+        <li>nlpaug <code>RandomCharAug</code> perturbs <b>every definition, operator, axiom and theorem</b> name, using ASCII and Lean-allowed Unicode; names stay non-empty.</li>
+      </ul>
+      <div class="sub">Theorem <span class="nt mono">add_comm</span> at each noise level <span class="nt">(examples from the public repo)</span></div>
+      <div class="rows">
+        <div class="row"><span class="lam">λ = 0</span><code><span class="id">add_comm</span> (a b : <span class="id">MyNat</span>) : <span class="id">add</span> a b = <span class="id">add</span> b a</code></div>
+        <div class="row"><span class="lam">λ = 0.2</span><code><span class="x">add_KmFm</span> (a b : <span class="x">Mmyat</span>) : <span class="id">add</span> a b = <span class="id">add</span> b a</code></div>
+        <div class="row"><span class="lam">λ = 0.4</span><code><span class="x">add_Φom7</span> (a b : <span class="x">MΘNae</span>) : <span class="id">add</span> a b = <span class="id">add</span> b a</code></div>
+        <div class="row"><span class="lam">λ = 0.6</span><code><span class="x">jad_Qηℂm</span> (a b : <span class="x">οΕyab</span>) : <span class="x">Εξ</span> a b = <span class="x">Εξ</span> b a</code></div>
+        <div class="row"><span class="lam">λ = 0.8</span><code><span class="x">μ4dA_c2o</span> (a b : <span class="x">dBNaΤ</span>) : <span class="x">Υdd</span> a b = <span class="x">Υdd</span> b a</code></div>
+        <div class="row"><span class="lam">λ = 1.0</span><code><span class="x">KΩΦzαυωT</span> (a b : <span class="x">Η0Ja</span>) : <span class="x">ΚxΝ</span> a b = <span class="x">ΚxΝ</span> b a</code></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">2</span>Before and after: a full Lean 4 proof</h2>
+      <div class="lean">
+        <div class="tag"><span>λ = 0 · original NNG</span><span>from the public repo</span></div>
+<pre><span class="k">theorem</span> <span class="id">add_comm</span> (a b : <span class="id">MyNat</span>) :
+    <span class="id">add</span> a b = <span class="id">add</span> b a := <span class="k">by</span>
+  <span class="k">induction</span> b <span class="k">with</span>
+  | <span class="id">zero</span> =&gt; <span class="k">rw</span> [<span class="id">add_zero</span>, <span class="id">zero_add</span>]
+  | <span class="id">succ</span> d ih =&gt; <span class="k">rw</span> [<span class="id">add_succ</span>, ih, <span class="id">succ_add</span>]</pre>
+      </div>
+      <div class="lean">
+        <div class="tag"><span>λ = 1.0 · fully randomized</span><span>from the public repo</span></div>
+<pre><span class="k">theorem</span> <span class="x">KΩΦzαυωT</span> (a b : <span class="x">Η0Ja</span>) :
+    <span class="x">ΚxΝ</span> a b = <span class="x">ΚxΝ</span> b a := <span class="k">by</span>
+  <span class="k">induction</span> b <span class="k">with</span>
+  | <span class="x">GnΑ0</span> =&gt; <span class="k">rw</span> [<span class="x">Ε6ΖΜF_Zζ</span>, <span class="x">ωΙξaινη7</span>]
+  | <span class="x">Θ7Κr</span> d ih =&gt; <span class="k">rw</span> [<span class="x">Qγx1dtΨo</span>, ih, <span class="x">gXqΧΔℝvO</span>]</pre>
+      </div>
+      <p class="q">Proof structure is untouched; only the names change. The model must rely on the logical structure alone.</p>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">3 / 7</span><span class="link">doi.org/10.1609/aaaiss.v8i1.42591</span></footer>
+</section>
+
+<!-- 4. Evaluation setup -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Evaluation setup</div>
+    <h1>Five models, 68 problems, six noise levels, checked by Lean</h1>
+  </header>
+  <div class="slide-body">
+    <div class="panel">
+      <h2><span class="dot">1</span>Six-stage pipeline</h2>
+      <ol class="steps">
+        <li><span><b>Parsing</b>: extract the NNG in strict dependency order.</span></li>
+        <li><span><b>Obfuscation</b>: one dataset per noise level λ.</span></li>
+        <li><span><b>Query generation</b>: “alien” definitions, target theorem, previous theorems, available tactics.</span></li>
+        <li><span><b>Benchmarking</b>: query the LLMs for Lean 4 proofs.</span></li>
+        <li class="lean4"><span><b>Verification</b>: Lean 4 compiler (<span class="mono nw">v4.27.0</span>) checks syntax and logic.</span></li>
+        <li><span><b>Analysis</b>: success rates, timing, proof plan length.</span></li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">2</span>Dataset and models</h2>
+      <div class="stats4">
+        <div class="stat"><div class="num">68</div><div class="label">formal problems from the NNG</div></div>
+        <div class="stat"><div class="num">8</div><div class="label">modules</div></div>
+      </div>
+      <p class="muted" style="font-size:15px">Addition, Implication, Algorithm, Multiplication, Power, Advanced Addition, Less-Than-or-Equal, Advanced Multiplication</p>
+      <div class="grp"><span class="gl">Reasoning models</span><div class="pills"><span class="pill">DeepSeek-R1</span><span class="pill">GPT-5</span></div></div>
+      <div class="grp"><span class="gl">Math-specific, also reasoning</span><div class="pills"><span class="pill">DeepSeek-Prover-V2</span></div></div>
+      <div class="grp"><span class="gl">General-purpose models</span><div class="pills"><span class="pill gen">GPT-4o</span><span class="pill gen">Claude-Sonnet-4.5</span></div></div>
+      <div class="grp"><span class="gl">Excluded (API-only evaluation)</span><div class="pills"><span class="pill off">Goedel-Prover-v2</span></div></div>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">3</span>Protocol and metrics</h2>
+      <ul>
+        <li>Models return JSON: a natural-language <b>“Draft”</b> proof plan and a <b>“Code”</b> Lean 4 block passed straight to the compiler.</li>
+        <li><b>6</b> noise levels: λ ∈ {0, 0.2, 0.4, 0.6, 0.8, 1.0}; λ = 0 is the original NNG.</li>
+        <li>Each model queried <b>five times per theorem</b> at every noise level.</li>
+        <li><b>Correct Rate (%)</b>: correct problems out of 68.</li>
+        <li><b>Average Time (s)</b>: from sending the query to receiving the response.</li>
+        <li>Significance: <b>one-way ANOVA</b> across noise levels.</li>
+      </ul>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">4 / 7</span><span class="link">doi.org/10.1609/aaaiss.v8i1.42591</span></footer>
+</section>
+
+<!-- 5. Results: Figure 1 -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Results</div>
+    <h1>Accuracy and solving time as the noise level λ rises</h1>
+  </header>
+  <div class="slide-body one">
+    <div class="panel figpanel">
+      <div class="legend">
+        <span><span class="sw" style="background:#1f77b4"></span><b>Top row</b>: Correct Rate (%)</span>
+        <span><span class="sw" style="background:#e5a00d"></span><b>Bottom row</b>: Average Time (s)</span>
+        <span class="muted">λ = 0 is the original NNG; λ = 1.0 is fully randomized identifiers</span>
+      </div>
+      <div class="figure"><img src="figures/aaai26-obfuscated-nng/figure1_performance.png" alt="Figure 1 from the paper: correct rate and average time for GPT-4o, Claude-Sonnet-4.5, DeepSeek-R1, GPT-5 and DeepSeek-Prover-V2 at noise levels 0 to 1.0"></div>
+      <p class="caption" style="font-size:14px">Figure 1 of the paper. Error bars represent standard deviation over 5 independent runs.</p>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">5 / 7</span><span class="link">doi.org/10.1609/aaaiss.v8i1.42591</span></footer>
+</section>
+
+<!-- 6. Results: significance -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Results · significance</div>
+    <h1>A universal latency tax, and a split in robustness</h1>
+  </header>
+  <div class="slide-body wide-left">
+    <div class="panel">
+      <h2><span class="dot">1</span>One-way ANOVA p-values (Table 1)</h2>
+      <table class="data">
+        <thead><tr><th>Model</th><th class="num">Correct Rate</th><th class="num">Average Time</th></tr></thead>
+        <tbody>
+          <tr class="grp-row"><td colspan="3">General-purpose</td></tr>
+          <tr><td>GPT-4o</td><td class="num sig">0.0242*</td><td class="num sig">0.0004*</td></tr>
+          <tr><td>Claude-Sonnet-4.5</td><td class="num sig">0.0001*</td><td class="num sig">0.0000*</td></tr>
+          <tr class="grp-row"><td colspan="3">Reasoning</td></tr>
+          <tr><td>DeepSeek-R1</td><td class="num">0.1573</td><td class="num sig">0.0000*</td></tr>
+          <tr><td>GPT-5</td><td class="num">0.0863</td><td class="num sig">0.0001*</td></tr>
+          <tr><td>DeepSeek-Prover-V2</td><td class="num">0.3077</td><td class="num sig">0.0000*</td></tr>
+        </tbody>
+      </table>
+      <p class="note">* Indicates statistical significance (p &lt; 0.05). Rows regrouped by model type; values as printed in Table 1.</p>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">2</span>What it shows</h2>
+      <div class="stat finding"><div class="num">5 <small>/ 5</small></div><div class="label"><b>models significantly slower</b> on the O-NNG than the NNG. Removing names appears to force a more intensive search or reconstruction of the logical context.</div></div>
+      <div class="stat finding"><div class="num">3 <small>/ 5</small></div><div class="label"><b>reasoning models kept their accuracy</b>: no significant drop for DeepSeek-R1, GPT-5 or DeepSeek-Prover-V2.</div></div>
+      <div class="stat finding"><div class="num">2 <small>/ 5</small></div><div class="label"><b>general models lost accuracy</b> for λ &gt; 0, suggesting reliance on semantic pattern matching.</div></div>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">6 / 7</span><span class="link">doi.org/10.1609/aaaiss.v8i1.42591</span></footer>
+</section>
+
+<!-- 7. Takeaways and limitations -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Discussion</div>
+    <h1>Takeaways, limitations and next steps</h1>
+  </header>
+  <div class="slide-body roomy">
+    <div class="panel">
+      <h2><span class="dot">1</span>Takeaways</h2>
+      <ul>
+        <li>O-NNG gives a <b>quantitative metric</b> for the semantic-reasoning gap: a template for zero-knowledge test environments.</li>
+        <li>The divergence supports prioritizing <b>reasoning-focused architectures</b> for AI4Math.</li>
+        <li>Architectural Reasoning is <b>not computationally free</b>: the latency tax suggests an intensive internal search.</li>
+      </ul>
+      <p class="q">Relevant to knowledge-grounded semantic agents working with incomplete or obscured semantics.</p>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">2</span>Limitations</h2>
+      <ul>
+        <li>Renaming keeps the <b>structure of Peano arithmetic</b>, so a model could in principle map it back to known math. In the experiment, no LLM attempted to map terms back or referenced Peano theory.</li>
+        <li>A stricter test needs <b>entirely novel axiomatic domains</b>.</li>
+        <li>Five frontier models and 68 natural-number problems; results may not transfer to mid-sized open models or to algebra or topology.</li>
+      </ul>
+      <p class="q warm">The paper frames this study as a <b>preliminary exploration</b>.</p>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">3</span>Next steps</h2>
+      <ul>
+        <li>A possible <b>“Reasoning Uncanny Valley”</b>: partial noise occasionally hurts more than total obfuscation, as residual cues distract.</li>
+        <li>Test whether more noise consistently reduces hallucination from familiar names.</li>
+        <li>Evaluate <b>interactively</b> with real-time Lean error feedback, to see whether self-correction reduces the latency tax.</li>
+      </ul>
+      <p class="q">Longer term: synthesize entirely novel, non-standard axiomatic domains.</p>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">7 / 7</span><span class="link">doi.org/10.1609/aaaiss.v8i1.42591</span></footer>
+</section>
+
+</body>
+</html>

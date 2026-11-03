@@ -1,35 +1,108 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>NGN Differentiable Count</title><link rel="stylesheet" href="slide.css">
 <style>
-  .panel p.lead { font-size: 15.5px; line-height: 1.45; }
-  .panel ul li { font-size: 15.5px; line-height: 1.42; }
-  .panel ul li b { color: var(--accent); font-weight: 600; }
-  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; }
-  .tags span { font-size: 12px; font-weight: 500; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 3px 9px; }
-  .stat .num { font-size: 31px; }
-  .stat .num small { font-family: "Inter", sans-serif; font-size: 14px; font-weight: 500; color: var(--muted); margin-left: 4px; }
-  .stat .label { font-size: 13.5px; }
+  .panel p, .panel li { font-size: 16px; line-height: 1.45; }
+  .panel ul li b, .panel p b { color: var(--accent); font-weight: 600; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tags span { font-size: 13px; font-weight: 500; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 4px 10px; }
+  .title-slide .tags { margin-top: 22px; }
+  .title-slide .tags span { font-size: 15px; padding: 5px 12px; }
+  .stat .num { font-size: 30px; }
+  .stat .num small { font-family: "Inter", sans-serif; font-size: 15px; font-weight: 500; color: var(--muted); margin-left: 4px; }
+  .stat .label { font-size: 15px; }
   .stat { padding: 8px 0; }
+  .caption { font-size: 15px !important; line-height: 1.4; }
+  .schem { font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: 0.05em; color: var(--warm); background: var(--warm-soft); border-radius: 6px; padding: 2px 8px; align-self: flex-start; }
+  .eq { font-family: "JetBrains Mono", monospace; font-size: 15.5px; background: var(--accent-soft); border-radius: 8px; padding: 7px 10px; color: var(--ink); }
+  .eq i { font-family: "Inter", sans-serif; }
+  .mono { font-family: "JetBrains Mono", monospace; font-size: 14px; }
+  .muted { color: var(--muted); }
+  .note { font-size: 15px; color: var(--muted); line-height: 1.4; }
+  .rows { display: grid; gap: 20px; min-height: 0; }
+  table.data.tight th, table.data.tight td { padding: 5px 8px; }
+  table.data td.grp { font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--accent); font-weight: 700; background: none; padding-top: 9px; }
+  table.data td.y { color: var(--accent); font-weight: 600; }
+  table.data td.n { color: var(--warm); }
+  .panel .figure { position: relative; }
+  .panel .figure img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; object-fit: contain; }
+  .p2 .panel p, .p2 .panel li, .p2 .kv .v { font-size: 16px; line-height: 1.4; }
+  .p2 .contrib p { font-size: 15.5px; }
+  .p8 .panel li { font-size: 18px; line-height: 1.45; }
+  .p8 .panel ul { gap: 12px; }
+  table.data td.nw { white-space: nowrap; }
+  .contrib { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .contrib p { font-size: 16.5px; }
+  .contrib b.n { font-family: "Fraunces", Georgia, serif; color: var(--warm); font-size: 22px; margin-right: 6px; }
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .kv { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; align-items: baseline; }
+  .kv .k { font-family: "JetBrains Mono", monospace; font-size: 14px; color: var(--accent); white-space: nowrap; }
+  .kv .v { font-size: 16px; line-height: 1.4; }
   svg text { font-family: "Inter", system-ui, sans-serif; }
   svg .mono { font-family: "JetBrains Mono", monospace; }
 </style></head>
-<body><div class="slide">
- <header class="slide-head"><div class="venue">Preprint · arXiv · 2026</div><h1>NGN: Learning Neural Network Size as a Differentiable Count</h1><div class="authors">Lixing Li (sole author)</div></header>
+<body>
+
+<!-- 1. Title -->
+<section class="slide title-slide">
+ <header class="slide-head">
+  <div class="venue">Preprint · arXiv 2609.27291 · 2026</div>
+  <h1>NGN: Learning Neural Network Size as a Differentiable Count</h1>
+  <div class="authors">Lixing Li · Cornell University</div>
+  <div class="tldr">The Neurogenesis Network (NGN) turns a structural size, such as a width, head count, depth, or LoRA rank, into <b>one learnable boundary</b> over an ordered sequence of components, trained jointly with the weights. The boundary can grow from a compact start, and components beyond it are simply discarded at deployment.</div>
+  <div class="tags"><span>MLP</span><span>CNN</span><span>GNN</span><span>Transformer</span><span>Mamba</span><span>LoRA</span><span>Adapters</span><span>Depth</span><span>Structured pruning</span></div>
+ </header>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">1 / 8</span><span class="link">arxiv.org/abs/2609.27291</span></footer>
+</section>
+
+<!-- 2. Problem -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Motivation</div><h1>Model size is usually chosen before training starts</h1></header>
+ <div class="rows p2" style="grid-template-rows: 1fr auto;">
  <div class="slide-body">
-  <section class="panel"><h2><span class="dot">1</span>Problem</h2>
+  <div class="panel"><h2><span class="dot">1</span>The problem</h2>
    <ul>
-    <li>Widths, depths, and other structural sizes are usually <b>fixed before training</b>; choosing them takes expertise or repeated training across candidate sizes.</li>
-    <li>Useful capacity depends on the data and objective, so size could instead be <b>optimized alongside the weights</b>.</li>
-    <li>NGN learns <b>how many</b> ordered components a model needs as one differentiable boundary per component group.</li>
+    <li>Widths, depths, and other sizes are <b>fixed before the weights are learned</b>.</li>
+    <li>Picking them takes expertise or <b>repeated training</b> across candidate sizes.</li>
+    <li>Useful capacity depends on the data and the objective, so size could instead be <b>optimized alongside the weights</b>.</li>
    </ul>
-   <div class="tags"><span>MLP</span><span>CNN</span><span>GNN</span><span>Transformer</span><span>Mamba</span><span>LoRA</span><span>Adapters</span><span>Depth</span><span>Structured pruning</span></div>
-  </section>
-  <section class="panel"><h2><span class="dot">2</span>Method</h2>
+  </div>
+  <div class="panel"><h2><span class="dot">2</span>How prior work picks size</h2>
+   <div class="kv">
+    <span class="k">Pruning</span><span class="v">Scores and removes parts of an already trained model (SparseGPT, Wanda).</span>
+    <span class="k">Sparsify</span><span class="v">Learns which parts of a fixed, overcomplete model survive, with one gate per part (L<sub>0</sub>, SoRA).</span>
+    <span class="k">Flexible</span><span class="v">Supports many deployment sizes, or varies compute per input (DyLoRA, ACT).</span>
+    <span class="k">Grow</span><span class="v">Changes active capacity during training (UDN over depth, AWNN over width).</span>
+   </div>
+  </div>
+  <div class="panel"><h2><span class="dot">3</span>NGN's idea</h2>
+   <ul>
+    <li>Learn <b>how many</b> ordered components to use, as one count per component group.</li>
+    <li>One shared boundary, not many independent survival gates.</li>
+    <li>The formulation sets <b>no maximum budget</b>: new components can be added as the boundary advances.</li>
+       </ul>
+  </div>
+ </div>
+ <div class="panel"><h2>Contributions</h2>
+  <div class="contrib">
+   <p><b class="n">1</b>A parameterization that represents size as a differentiable count over ordered components, learned jointly with the weights.</p>
+   <p><b class="n">2</b>Controlled analyses of when the learned count is stable and deployable, and how it compares with fixed sizes and other capacity learners.</p>
+   <p><b class="n">3</b>The same mechanism across model families, tasks, and structural axes, including different allocations per layer.</p>
+  </div>
+ </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">2 / 8</span><span class="link">arxiv.org/abs/2609.27291</span></footer>
+</section>
+
+<!-- 3. Method -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Method · Section 3</div><h1>One boundary <i>t</i> gates an ordered prefix of components</h1></header>
+ <div class="slide-body wide-left">
+  <div class="panel">
+   <span class="schem">SCHEMATIC · ILLUSTRATIVE SIZES, NOT DATA</span>
    <div class="figure">
-    <svg viewBox="0 0 410 330" width="410" height="330" role="img" aria-label="Soft count gate over ordered components during training, then hard truncation at deployment">
+    <svg viewBox="0 0 410 330" width="640" height="515" role="img" aria-label="Soft count gate over ordered components during training, then hard truncation at deployment">
      <text x="0" y="13" font-size="11" font-weight="700" letter-spacing="0.06em" fill="var(--muted)">TRAINING · SOFT COUNT GATE</text>
      <text x="410" y="13" font-size="12" text-anchor="end" fill="var(--ink)" class="mono">y = Σ wₖ gₖ(t) fₖ(x)</text>
      <text x="410" y="30" font-size="11" text-anchor="end" fill="var(--muted)" class="mono">gₖ(t) = σ(β(t − k + δ))</text>
-     <!-- candidate slots and gated fill -->
      <g stroke="var(--line)" stroke-width="1" fill="var(--surface)">
       <rect x="22" y="42" width="30" height="88" rx="3"/><rect x="60" y="42" width="30" height="88" rx="3"/><rect x="98" y="42" width="30" height="88" rx="3"/><rect x="136" y="42" width="30" height="88" rx="3"/><rect x="174" y="42" width="30" height="88" rx="3"/><rect x="212" y="42" width="30" height="88" rx="3"/><rect x="250" y="42" width="30" height="88" rx="3"/><rect x="288" y="42" width="30" height="88" rx="3"/><rect x="326" y="42" width="30" height="88" rx="3"/><rect x="364" y="42" width="30" height="88" rx="3"/>
      </g>
@@ -44,7 +117,6 @@
      <g font-size="11" fill="var(--muted)" text-anchor="middle" class="mono">
       <text x="37" y="146">f₀</text><text x="75" y="146">f₁</text><text x="113" y="146">f₂</text><text x="151" y="146">f₃</text><text x="189" y="146">f₄</text><text x="227" y="146">f₅</text><text x="265" y="146">f₆</text><text x="303" y="146">f₇</text><text x="341" y="146">f₈</text><text x="379" y="146">f₉</text>
      </g>
-     <!-- transition -->
      <g>
       <line x1="205" y1="158" x2="205" y2="196" stroke="var(--muted)" stroke-width="1.4"/>
       <path d="M199,190 L205,198 L211,190" fill="none" stroke="var(--muted)" stroke-width="1.4"/>
@@ -74,13 +146,153 @@
      <text x="322" y="328" font-size="11.5" fill="var(--muted)" text-anchor="middle">discarded</text>
     </svg>
    </div>
-   <p class="caption">One learnable boundary t gates an ordered prefix of components fₖ (scaled by wₖ = 2⁻ᵏ). The capacity price λt pushes t inward; task gradients at the frontier recruit new components.</p>
-  </section>
-  <section class="panel"><h2><span class="dot">3</span>Key results</h2>
-   <div class="stat"><div class="num">49 / 50</div><div class="label">seed–dimension cases where the learned VAE bottleneck count matches a nonlinear manifold’s true intrinsic dimension (98%)</div></div>
-   <div class="stat"><div class="num">0.00<small>pt change</small></div><div class="label">accuracy change from hard truncation on all four 10-seed MNIST, CIFAR-10, and Cora rows (medians; MNIST MLP <span style="white-space:nowrap">96.93 → 96.93</span>)</div></div>
-   <div class="stat"><div class="num">78.6<small>vs 75.2 / 45.1</small></div><div class="label">WikiSQL-easy score of truncated NGN LoRA on Llama-3-8B-Instruct at learned rank 19, vs SoRA / AdaLoRA at the same rank</div></div>
-  </section>
+  </div>
+  <div class="panel"><h2>How the boundary moves</h2>
+   <div class="eq">J = L<sub>task</sub> + λ<i>t</i> + α sin²(π<i>t</i>)</div>
+   <ul>
+    <li><b>Capacity price</b> λ<i>t</i> pushes the boundary inward.</li>
+    <li><b>Task gradient</b> is concentrated at the frontier, so a useful next component <b>recruits</b> it outward.</li>
+    <li><b>Snapping</b> α sin²(π<i>t</i>) has minima at integers; λ is annealed to zero so they stay exact.</li>
+    <li><b>Sharpening</b> β (e.g. 4 → 12): soft early so gradients reach the frontier, sharp late so the hard prefix matches.</li>
+    <li>Weights w<sub>k</sub> = 2<sup>−k</sup> order the candidates; f<sub>k</sub> are zero-initialized.</li>
+   </ul>
+   <p class="note">Needs nested capacity: each added f<sub>K</sub> must strictly enlarge what the prefix can fit.</p>
+  </div>
  </div>
- <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="link">arxiv.org/abs/2609.27291</span></footer>
-</div></body></html>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">3 / 8</span><span class="link">arxiv.org/abs/2609.27291</span></footer>
+</section>
+
+<!-- 4. Controlled 1D analysis -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Controlled analysis · Section 4</div><h1>On a 1D regression task, the count settles and truncates cleanly</h1></header>
+ <div class="slide-body" style="grid-template-columns: 2.15fr 1fr;">
+  <div class="rows" style="grid-template-rows: 1fr 1fr;">
+   <div class="panel">
+    <div class="figure"><img src="figures/preprint26-ngn/data1_standard.png" alt="Baseline 1D run: loss, MSE and learned t versus epoch; output magnitude per block"></div>
+    <p class="caption">Fig. 1: baseline run. <i>t</i> grows fast, overshoots, then settles; blocks past the boundary stay near zero.</p>
+   </div>
+   <div class="panel">
+    <div class="figure"><img src="figures/preprint26-ngn/data2_lambda_sweep.png" alt="Lambda sweep over 500 models: learned t forms integer plateaus as lambda increases"></div>
+    <p class="caption">Fig. 2: λ from 10<sup>−6</sup> to 10<sup>−2</sup>, 500 models. Higher price gives a smaller count, in integer plateaus.</p>
+   </div>
+  </div>
+  <div class="panel">
+   <div class="stat"><div class="num">7.00</div><div class="label">final boundary <i>t</i> in the baseline run (Fig. 1)</div></div>
+   <div class="stat"><div class="num">6.27e-06 <small>vs</small> 6.28e-06</div><div class="label">soft MSE vs truncated MSE: discarding the tail barely changes the fit</div></div>
+   <h2 style="margin-top:6px">Schedule ablation (Table 1)</h2>
+   <table class="data tight">
+    <tr><th>setting</th><th class="num">soft MSE</th><th class="num">trunc.</th></tr>
+    <tr class="hl"><td>baseline</td><td class="num">1.31e-05</td><td class="num">1.31e-05</td></tr>
+    <tr><td>α = 0</td><td class="num">5.43e-05</td><td class="num">4.83e-04</td></tr>
+    <tr><td>β = 4 const</td><td class="num">1.50e-05</td><td class="num">6.01e-04</td></tr>
+   </table>
+   <p class="note">Medians over 10 seeds. Removing snapping or sharpening opens a soft-to-truncated gap.</p>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">4 / 8</span><span class="link">arxiv.org/abs/2609.27291</span></footer>
+</section>
+
+<!-- 5. Comparisons -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Controlled analysis · Section 4.2</div><h1>Versus fixed sizes and other ways of learning capacity</h1></header>
+ <div class="slide-body two">
+  <div class="panel"><h2>Grown vs fixed at the same count</h2>
+   <div class="figure"><img src="figures/preprint26-ngn/data3_grow_vs_fixed.png" alt="Task MSE versus count for grown NGN models and fixed-size prefixes trained from scratch"></div>
+   <p>Over 50 seeds, both trace nearly the same error–count curve, and fixed models are <b>typically slightly better</b> at a matched count. The benefit is <b>automatic size selection</b>, not a better model at that size.</p>
+  </div>
+  <div class="panel"><h2>Versus other capacity learners</h2>
+   <div class="figure"><img src="figures/preprint26-ngn/data7_capacity_comparison.png" alt="Deployed MSE versus retained count for AWNN, STE, L0 hard concrete and NGN, one point per seed"></div>
+   <ul>
+    <li><b>L<sub>0</sub></b> (hard concrete) generally sits at higher error.</li>
+    <li><b>AWNN</b> picks a more stable count across seeds but fits worse.</li>
+    <li><b>STE</b> (hard forward gate) gets stuck at small counts more often.</li>
+   </ul>
+   <p class="note">Fig. 4: 50 seeds, one point per seed.</p>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">5 / 8</span><span class="link">arxiv.org/abs/2609.27291</span></footer>
+</section>
+
+<!-- 6. Across architectures -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Generalization · Section 5</div><h1>The same boundary works across model families</h1></header>
+ <div class="rows" style="grid-template-rows: auto 1fr;">
+  <div class="panel" style="padding:14px 20px;">
+   <table class="data tight">
+    <tr><th>task</th><th>what f<sub>k</sub> is</th><th>learned <i>t</i></th><th class="num">soft</th><th class="num">trunc.</th><th class="num">fixed</th><th>prunes back?</th></tr>
+    <tr><td>MNIST</td><td>tanh MLP features</td><td class="mono">[8.00]</td><td class="num">96.93</td><td class="num">96.93</td><td class="num">96.81</td><td class="y">yes</td></tr>
+    <tr><td>MNIST</td><td>conv branches</td><td class="mono">[4.00]</td><td class="num">99.18</td><td class="num">99.18</td><td class="num">99.13</td><td>partial</td></tr>
+    <tr><td>CIFAR-10</td><td>conv branches</td><td class="mono">[7.02]</td><td class="num">71.77</td><td class="num">71.77</td><td class="num">72.03</td><td>partial</td></tr>
+    <tr><td>Cora</td><td>2-hop GCN branches</td><td class="mono">[1.00]</td><td class="num">79.05</td><td class="num">79.05</td><td class="num">79.45</td><td>partial</td></tr>
+    <tr><td>TinyStories</td><td>attention heads (2 layers)</td><td class="mono">[2.11, 3.03]</td><td class="num">1.3055</td><td class="num">1.3234</td><td class="num">1.3011</td><td class="n">no</td></tr>
+    <tr><td>TinyStories</td><td>Mamba state dim. N (2 layers)</td><td class="mono">[1.00, 2.00]</td><td class="num">1.3551</td><td class="num">1.3597</td><td class="num">1.3445</td><td>partial</td></tr>
+   </table>
+  </div>
+  <div class="slide-body two" style="gap:20px;">
+   <div class="panel"><h2>Reading Table 3</h2>
+    <p>Accuracy % (higher is better) for the first four rows, medians of 10 seeds; TinyStories bits/char (lower is better), single seed. <b>Truncation usually costs little</b>, and matched fixed retraining performs similarly. Pruning back from high capacity is <b>not reliable</b>, so the claim covers growth and truncation only. FFN and joint head+FFN rows are omitted here.</p>
+   </div>
+   <div class="panel"><h2>Learning depth (Table 4)</h2>
+    <p>A <b>recursive</b> chain with one global boundary learns depth 8 (<i>t</i> = 7.02); soft / truncated / fixed MSE 2.49e-05 / 3.56e-05 / 1.54e-05.</p>
+    <p>Per-layer boundaries over ten residual layers learn a clean depth of six only with both proposed schedules (λ decreasing and <i>r</i> increasing across layers).</p>
+   </div>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">6 / 8</span><span class="link">arxiv.org/abs/2609.27291</span></footer>
+</section>
+
+<!-- 7. LLM PEFT -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Generalization · Section 5.3</div><h1>Learning LoRA rank and adapter width on Llama-3-8B-Instruct</h1></header>
+ <div class="slide-body wide-left">
+  <div class="panel">
+   <h2>LoRA rank (Table 5)</h2>
+   <table class="data tight">
+    <tr><th>task</th><th class="num">base</th><th>NGN rank (e/m/l)</th><th class="num">NGN soft / trunc.</th><th class="num">fixed</th><th class="num">SoRA</th><th class="num">AdaLoRA</th></tr>
+    <tr class="hl"><td class="nw">WikiSQL-easy</td><td class="num">3.5</td><td>19 (2/9/8)</td><td class="num">78.2 / 78.6</td><td class="num">77.7</td><td class="num">75.2</td><td class="num">45.1</td></tr>
+    <tr><td class="nw">WikiSQL-hard</td><td class="num">2.0</td><td>21 (4/11/6)</td><td class="num">70.8 / 70.4</td><td class="num">68.7</td><td class="num">67.4</td><td class="num">45.4</td></tr>
+    <tr><td>Spider</td><td class="num">1.1</td><td>17 (5/7/5)</td><td class="num">12.6 / 12.4</td><td class="num">12.3</td><td class="num">13.9</td><td class="num">10.3</td></tr>
+    <tr><td>GSM8K</td><td class="num">45.2</td><td>18 (7/8/3)</td><td class="num">53.6 / 55.2</td><td class="num">50.8</td><td class="num">35.6</td><td class="num">56.8</td></tr>
+    <tr><td>SQuAD</td><td class="num">65.2</td><td>13 (2/7/4)</td><td class="num">67.2 / 67.3</td><td class="num">67.1</td><td class="num">67.1</td><td class="num">66.9</td></tr>
+   </table>
+   <p class="note">Single seed per configuration. e/m/l splits the learned rank across early / middle / late thirds of the layers. SoRA and AdaLoRA target NGN's learned rank; SoRA ends at a lower rank on Spider and GSM8K.</p>
+   <p>The same mechanism also learns <b>adapter width</b> (nonlinear bottlenecks): for example, width 4 on WikiSQL-easy, soft / truncated 83.2 / 80.5 vs fixed 82.4.</p>
+  </div>
+  <div class="panel"><h2>Highlights</h2>
+   <div class="stat"><div class="num">78.6 <small>vs 75.2 / 45.1</small></div><div class="label">WikiSQL-easy, truncated NGN LoRA at learned rank 19, vs SoRA / AdaLoRA at the same rank</div></div>
+   <div class="stat"><div class="label">NGN scores higher than <b>SoRA on all three</b> exact rank matches, and higher than <b>AdaLoRA on four of five</b> tasks.</div></div>
+   <div class="stat"><div class="label">Learned ranks differ by layer; for both WikiSQL variants they concentrate in the <b>middle third</b>.</div></div>
+   <div class="stat"><div class="label">Both baselines need a finite maximum rank, and AdaLoRA also a target rank. NGN learns one ordered boundary per layer instead.</div></div>
+   <div class="stat"><div class="num">62.5 <small>vs 17.0 / 69.5</small></div><div class="label">Direct FFN pruning at 14.1% kept (appendix Table 15): NGN vs random drop / Wanda exact match. Far above random; Wanda is slightly ahead.</div></div>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">7 / 8</span><span class="link">arxiv.org/abs/2609.27291</span></footer>
+</section>
+
+<!-- 8. Limitations & takeaways -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Section 6 · Conclusion</div><h1>Limitations and takeaways</h1></header>
+ <div class="slide-body two p8">
+  <div class="panel"><h2>Limitations</h2>
+   <ul>
+    <li><b>Ordered candidates only.</b> Components must form a nested sequence; the boundary cannot skip a harmful early one to reach a useful later one.</li>
+    <li><b>Finite growth range.</b> Because w<sub>k</sub> = 0.5<sup>k</sup> decays exponentially, high-index components are hard to recruit.</li>
+    <li><b>Optimization cost.</b> It takes more steps than a fixed model; with the same step budget it is often similar or slightly worse.</li>
+    <li><b>Still needs tuning.</b> λ sets the size–performance trade-off; too little snapping pressure from α weakens hard truncation.</li>
+    <li><b>Pruning back is not reliable.</b> Starting from high capacity does not consistently return to the grown size outside the controlled task.</li>
+   </ul>
+  </div>
+  <div class="panel"><h2>Takeaways</h2>
+   <ul>
+    <li>Structural capacity can be <b>optimized directly as a count</b>: one boundary, a capacity price, an integer snap, and gate sharpening.</li>
+    <li>The same parameterization covers feature functions, conv and graph branches, attention heads, Mamba state, residual depth, LoRA, and adapters.</li>
+    <li>Deploying only the learned prefix <b>usually changes performance little</b>, and the chosen sizes perform similarly to fixed models trained at that size.</li>
+    <li>The benefit is <b>automatic size selection</b>. The learned size depends on the task objective and the chosen price.</li>
+    <li>Count learning is most useful when capacity is <b>naturally ordered</b>.</li>
+   </ul>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">8 / 8</span><span class="link">arxiv.org/abs/2609.27291</span></footer>
+</section>
+
+</body></html>

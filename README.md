@@ -9,7 +9,7 @@ Plain static HTML/CSS/JS with no build step. Push to `main` and the site redeplo
 | File | Content |
 |---|---|
 | `index.html` | Home: bio, research highlights, and CV sections (education, experience, mentorship, honors, skills) |
-| `research.html` | Papers in time order, each with links and a one-slide summary |
+| `research.html` | Papers in time order, each with links and a slide deck |
 | `projects.html` | Placeholder ("coming soon") |
 
 Content is derived from the master CV (`Planning/cv and resume/master/cv_master.tex`). When the CV changes, update the matching sections here.
@@ -20,13 +20,13 @@ Add a square image at `assets/img/profile.jpg` (at least 400×400). It automatic
 
 ## Paper slides
 
-Each paper has a 1280×720 HTML slide in `slides/`. All slides share `slides/slide.css`. After editing a slide, re-render its PNG preview and PDF:
+Each paper has a slide deck in `slides/<slug>.html`: one `<section class="slide">` (1280×720) per page, directly inside `<body>`. All decks share `slides/slide.css`; figures live in `slides/figures/<slug>/`. After editing a deck, re-render its PDF and per-page PNGs (`<slug>-1.png`, `<slug>-2.png`, ...):
 
 ```bash
 slides/render.sh <slug>
 ```
 
-`render.sh` uses Playwright's headless Chromium (`~/.cache/ms-playwright/chromium_headless_shell-*`). Set `CHROME=/path/to/chrome` to use a different browser.
+`render.sh` uses Playwright's headless Chromium (`~/.cache/ms-playwright/chromium_headless_shell-*`). Set `CHROME=/path/to/chrome` to use a different browser. If the page count changes, update `data-pages` on that paper's `.slide-thumb` button in `research.html`.
 
 ## Local preview
 

@@ -2,47 +2,147 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>ReconSpan Summary</title>
+<title>ReconSpan Slides</title>
 <link rel="stylesheet" href="slide.css">
 <style>
-  .slide-head h1 { font-size: 34px; }
+  .slide-head h1 { font-size: 36px; }
   .panel ul li::marker { color: var(--accent); }
+  .panel .caption { font-size: 15px; line-height: 1.4; }
   .panel .q {
-    margin-top: auto;
-    padding: 10px 12px;
+    padding: 11px 14px;
     border-radius: 10px;
     background: var(--accent-soft);
-    font-size: 15px;
-    line-height: 1.4;
+    font-size: 16px;
+    line-height: 1.42;
   }
+  .panel .q b { color: var(--accent); }
+  .panel .note { font-size: 15px; line-height: 1.4; color: var(--muted); }
+  .panel .push { margin-top: auto; }
   .stat .num small { font-size: 18px; color: var(--muted); font-weight: 500; }
-  .stat .label { font-size: 14px; }
+  .stat .label { font-size: 15px; }
   .stat .label .sub { color: var(--muted); }
+  table.data th { font-size: 14px; }
+  table.data td.grp { font-weight: 600; color: var(--accent); }
+  table.data tr.sep td { border-top: 2px solid var(--line); }
+  table.data td .star { color: var(--warm); font-weight: 700; }
   svg text { font-family: "Inter", system-ui, sans-serif; }
+  .mono { font-family: "JetBrains Mono", monospace; font-size: 0.92em; }
+  .figure img { mix-blend-mode: multiply; }
+  .tag {
+    display: inline-block; font-family: "JetBrains Mono", monospace; font-size: 12.5px;
+    letter-spacing: 0.04em; text-transform: uppercase; color: var(--warm);
+    background: var(--warm-soft); padding: 2px 8px; border-radius: 6px;
+  }
+
+  /* Title page */
+  .title-slide .tldr b { color: var(--accent); }
+  .title-slide .facts { display: flex; gap: 14px; margin-top: 22px; max-width: 980px; }
+  .title-slide .facts div {
+    flex: 1; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 16px; font-size: 15.5px; line-height: 1.4;
+  }
+  .title-slide .facts b {
+    display: block; font-family: "Fraunces", Georgia, serif; font-size: 26px; color: var(--warm); font-weight: 600;
+  }
+
+  /* Method page */
+  .method-body { grid-template-columns: 1fr 1.3fr 0.95fr; }
+  .method-body .panel li { font-size: 15.5px; line-height: 1.4; }
+  .method-body ol { padding-left: 20px; display: grid; gap: 6px; }
+  .method-body ol li { font-size: 15.5px; line-height: 1.4; }
+  .method-body .figure { flex: 0 0 auto; }
+
+  /* Boundary example page */
+  .panel .fig-boundary { flex: 0 0 auto; }
+  .panel .fig-boundary img { max-height: 228px; }
+  .passage {
+    font-size: 16px; line-height: 1.5; background: var(--bg); border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 14px;
+  }
+  .passage .cut { color: #c2410c; font-weight: 700; padding: 0 2px; }
+
+  /* Downstream table */
+  .ds table.data { font-size: 15px; }
+  .ds table.data td, .ds table.data th { padding: 5px 8px; }
+
+  .cols3 .panel li { font-size: 17.5px; line-height: 1.45; }
+  .cols3 .panel ul { gap: 12px; }
+  .rt table.data td, .rt table.data th { padding: 6px 10px; }
 </style>
 </head>
 <body>
-<div class="slide">
+
+<!-- ============================ 1. Title ============================ -->
+<section class="slide title-slide">
   <header class="slide-head">
     <div class="venue">NeurIPS 2026 · LP4FM Workshop · Poster</div>
     <h1>ReconSpan: Reconstruction-Guided Adaptive Latent Tokenization</h1>
-    <div class="authors">Lixing Li · Cornell University · sole author</div>
+    <div class="authors">Lixing Li · Cornell University</div>
+    <p class="tldr"><b>TL;DR</b> ReconSpan cuts text into chunks that a backward decoder can reconstruct from a single contextual prefix code, and keeps one such code as the latent token for each chunk. At matched per-document latent-token counts, these boundaries preserve more source tokens in native reconstruction than equal-spacing, surprisal, or random boundaries.</p>
+    <div class="facts">
+      <div><b>6.50 – 12.28</b>mean base tokens per latent token from one trained autoencoder, set by the stopping rule</div>
+      <div><b>.907</b>of tokens lie in perfectly reconstructed chunks at matched chunk count (equal spacing .816)</div>
+      <div><b>74.3 vs 10.0</b>Llama-3-8B reader on latents: AG News topic accuracy vs LAMBADA exact word (%)</div>
+    </div>
   </header>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">1 / 8</span><span class="link">arxiv.org/abs/2608.12756</span></footer>
+</section>
 
-  <div class="slide-body">
-    <section class="panel">
+<!-- ============================ 2. Problem ============================ -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Motivation</div>
+    <h1>Where should a tokenizer spend its positions?</h1>
+  </header>
+  <div class="slide-body two">
+    <div class="panel">
       <h2><span class="dot">1</span>Problem</h2>
       <ul>
-        <li>Subword tokenizers fix units before the model runs, from corpus frequency: granularity ignores the input.</li>
-        <li>Adaptive latent tokenization gives each input-dependent span one continuous latent token, so the chunking rule decides where representation and compute go.</li>
+        <li>Subword tokenizers fix their units <b>before</b> the model runs, largely from corpus-level frequency statistics, so granularity is not conditioned on the actual input.</li>
+        <li>Byte- and character-level inputs avoid a fixed vocabulary but produce substantially longer sequences.</li>
+        <li><b>Adaptive latent tokenization</b> groups neighboring units into input-dependent spans and represents each span with one continuous latent token.</li>
+        <li>The chunking rule is therefore central: boundaries decide where new latent positions, and so representation and computation, are allocated.</li>
       </ul>
-      <p class="q"><b>Idea:</b> place each boundary where a decoder can no longer reconstruct the span from a single code.</p>
-    </section>
+      <p class="q push"><b>Idea.</b> Place each boundary where a decoder can no longer reconstruct the span from a single code: difficult spans get shorter chunks, easier spans get longer ones.</p>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">2</span>Allocation rules in related work</h2>
+      <table class="data">
+        <thead><tr><th>Boundary signal</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td>Fixed position</td><td>MEGABYTE; Extensible Tokenization</td></tr>
+          <tr><td>Forward predictive entropy</td><td>Byte Latent Transformer; Dynamic Token Pooling</td></tr>
+          <tr><td>Semantic similarity</td><td>SemToken</td></tr>
+          <tr><td>Learned boundary scores</td><td>Dynamic Token Pooling; H-Net; Charformer; FLEXITOKENS</td></tr>
+          <tr class="hl"><td>Backward reconstruction fidelity</td><td>ReconSpan (this work)</td></tr>
+        </tbody>
+      </table>
+      <p class="note push">The contribution is the allocation criterion and a characterization of the resulting latent tokens, not continuous tokens or adaptive segmentation by themselves. ReconSpan runs over an existing subword sequence: it is a second-stage latent tokenizer, not a byte-to-text replacement.</p>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">2 / 8</span><span class="link">arxiv.org/abs/2608.12756</span></footer>
+</section>
 
-    <section class="panel">
-      <h2><span class="dot">2</span>Method</h2>
+<!-- ============================ 3. Method ============================ -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Method</div>
+    <h1>Chunk where one code stops reconstructing</h1>
+  </header>
+  <div class="slide-body method-body">
+    <div class="panel">
+      <h2><span class="dot">1</span>Chunking algorithm</h2>
+      <ol>
+        <li>One causal encoder pass gives a prefix code <i>c<sub>t</sub></i> = <i>E</i>(<i>x</i><sub>1:<i>t</i></sub>) at every position.</li>
+        <li>From the last position, teacher-force the backward decoder <i>D</i> from <i>c<sub>t</sub></i> against <i>x<sub>t</sub></i>, <i>x</i><sub><i>t</i>−1</sub>, … until the stopping rule fires.</li>
+        <li>Accept the reconstructed suffix as a chunk and keep <i>c<sub>t</sub></i> as its latent token; resume at the first unreconstructed position (a one-token chunk if it fails at once).</li>
+        <li>Return the kept boundary codes in chronological order.</li>
+      </ol>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">2</span>Pipeline <span class="tag">schematic</span></h2>
       <div class="figure">
-        <svg viewBox="0 0 420 318" width="420" height="318" role="img" aria-label="ReconSpan chunking schematic">
+        <svg viewBox="0 0 420 318" width="420" height="318" role="img" aria-label="Schematic of ReconSpan chunking with illustrative chunk sizes">
           <defs>
             <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
               <path d="M0,0 L10,5 L0,10 z" fill="#b45309"/>
@@ -51,20 +151,15 @@
               <path d="M0,0 L10,5 L0,10 z" fill="#5b6470"/>
             </marker>
           </defs>
-
-          <!-- base tokens -->
           <text x="18" y="12" font-size="11.5" font-weight="600" fill="#5b6470">Base subword tokens x₁ … xₙ</text>
           <g font-size="10.5" fill="#1b1f24" text-anchor="middle">
-            <!-- chunk A: tokens 1-5 -->
             <rect x="18"  y="20" width="26" height="24" rx="5" fill="#e3f1ef" stroke="#0f766e"/>
             <rect x="50"  y="20" width="26" height="24" rx="5" fill="#e3f1ef" stroke="#0f766e"/>
             <rect x="82"  y="20" width="26" height="24" rx="5" fill="#e3f1ef" stroke="#0f766e"/>
             <rect x="114" y="20" width="26" height="24" rx="5" fill="#e3f1ef" stroke="#0f766e"/>
             <rect x="146" y="20" width="26" height="24" rx="5" fill="#e3f1ef" stroke="#0f766e"/>
-            <!-- chunk B: tokens 6-7 -->
             <rect x="178" y="20" width="26" height="24" rx="5" fill="#fbeedd" stroke="#b45309"/>
             <rect x="210" y="20" width="26" height="24" rx="5" fill="#fbeedd" stroke="#b45309"/>
-            <!-- chunk C: tokens 8-12 -->
             <rect x="242" y="20" width="26" height="24" rx="5" fill="#e3f1ef" stroke="#0f766e"/>
             <rect x="274" y="20" width="26" height="24" rx="5" fill="#e3f1ef" stroke="#0f766e"/>
             <rect x="306" y="20" width="26" height="24" rx="5" fill="#e3f1ef" stroke="#0f766e"/>
@@ -75,19 +170,14 @@
             <text x="223" y="36">x₇</text><text x="255" y="36">x₈</text><text x="287" y="36">x₉</text>
             <text x="319" y="36">x₁₀</text><text x="351" y="36">x₁₁</text><text x="383" y="36">x₁₂</text>
           </g>
-
-          <!-- chunk boundaries -->
           <g stroke="#c2410c" stroke-width="1.3" stroke-dasharray="4 3">
             <line x1="175" y1="16" x2="175" y2="48"/><line x1="239" y1="16" x2="239" y2="48"/>
             <line x1="175" y1="106" x2="175" y2="160"/><line x1="239" y1="106" x2="239" y2="160"/>
           </g>
-          <!-- encoder bar -->
           <line x1="207" y1="47" x2="207" y2="60" stroke="#5b6470" stroke-width="1.4" marker-end="url(#ad)"/>
           <rect x="18" y="62" width="378" height="28" rx="7" fill="#ffffff" stroke="#1b1f24" stroke-width="1.2"/>
           <text x="207" y="80" font-size="11.5" text-anchor="middle" fill="#1b1f24"><tspan font-weight="700">Causal encoder E</tspan> · one pass → prefix code cₜ = E(x₁ … xₜ)</text>
           <line x1="207" y1="90" x2="207" y2="103" stroke="#5b6470" stroke-width="1.4" marker-end="url(#ad)"/>
-
-          <!-- prefix codes -->
           <g stroke-width="1.4">
             <circle cx="31"  cy="114" r="7" fill="#fff" stroke="#9aa3ad"/>
             <circle cx="63"  cy="114" r="7" fill="#fff" stroke="#9aa3ad"/>
@@ -102,26 +192,19 @@
             <circle cx="351" cy="114" r="7" fill="#fff" stroke="#9aa3ad"/>
             <circle cx="383" cy="114" r="7" fill="#0f766e" stroke="#0f766e"/>
           </g>
-
-          <!-- backward decoding reach for each chunk (right to left) -->
           <g stroke="#b45309" stroke-width="1.8" fill="none">
             <path d="M383,126 L383,140 L252,140" marker-end="url(#ah)"/>
             <path d="M223,126 L223,140 L188,140" marker-end="url(#ah)"/>
             <path d="M159,126 L159,140 L28,140"  marker-end="url(#ah)"/>
           </g>
-          <g font-size="12" font-weight="700" text-anchor="middle">
-            <text x="351" y="156" fill="#0f766e">✓</text><text x="319" y="156" fill="#0f766e">✓</text>
-            <text x="287" y="156" fill="#0f766e">✓</text><text x="255" y="156" fill="#0f766e">✓</text>
-            <text x="223" y="156" fill="#0f766e">✓</text>
-            <text x="191" y="156" fill="#0f766e">✓</text>
-            <text x="159" y="156" fill="#0f766e">✓</text>
-            <text x="127" y="156" fill="#0f766e">✓</text><text x="95" y="156" fill="#0f766e">✓</text>
-            <text x="63"  y="156" fill="#0f766e">✓</text><text x="31" y="156" fill="#0f766e">✓</text>
+          <g font-size="12" font-weight="700" text-anchor="middle" fill="#0f766e">
+            <text x="351" y="156">✓</text><text x="319" y="156">✓</text><text x="287" y="156">✓</text>
+            <text x="255" y="156">✓</text><text x="223" y="156">✓</text><text x="191" y="156">✓</text>
+            <text x="159" y="156">✓</text><text x="127" y="156">✓</text><text x="95" y="156">✓</text>
+            <text x="63"  y="156">✓</text><text x="31" y="156">✓</text>
           </g>
           <text x="207" y="176" font-size="11.5" text-anchor="middle" fill="#1b1f24"><tspan font-weight="700" fill="#b45309">Backward decoder D</tspan> (teacher-forced) reconstructs</text>
           <text x="207" y="191" font-size="11.5" text-anchor="middle" fill="#1b1f24">xₜ, xₜ₋₁, … until the stopping rule fires → boundary</text>
-
-          <!-- kept latent tokens -->
           <line x1="207" y1="199" x2="207" y2="212" stroke="#5b6470" stroke-width="1.4" marker-end="url(#ad)"/>
           <text x="18" y="230" font-size="11.5" font-weight="600" fill="#5b6470">Kept latent tokens (one per chunk)</text>
           <g font-size="12.5" font-weight="600" text-anchor="middle" fill="#fff">
@@ -133,27 +216,213 @@
           <text x="207" y="311" font-size="11.5" text-anchor="middle" fill="#5b6470">same trained model, no retraining</text>
         </svg>
       </div>
-      <p class="caption">Schematic (illustrative chunk sizes). Encoder: Pythia-410M; decoder: Mamba2-130M. Trained only on reconstruction; difficult spans get shorter chunks.</p>
-    </section>
-
-    <section class="panel">
-      <h2><span class="dot">3</span>Key results</h2>
-      <div class="stat">
-        <div class="num">6.5–12.2</div>
-        <div class="label">mean base tokens per latent token from <b>one</b> trained autoencoder, set by the stopping rule</div>
-      </div>
-      <div class="stat">
-        <div class="num">90.7%</div>
-        <div class="label">of tokens in perfectly reconstructed chunks at matched latent count <span class="sub">(equal spacing 81.6%, surprisal 61.7%, random 61.8%)</span></div>
-      </div>
-      <div class="stat">
-        <div class="num">74.3% <small>vs</small> 10.0%</div>
-        <div class="label">Llama-3-8B reading latents: AG News topic <span class="sub">(raw text 72.6%)</span> vs LAMBADA exact word <span class="sub">(round trip 72.5%)</span></div>
-      </div>
-    </section>
+      <p class="caption">Illustrative chunk sizes, not a paper figure. Two stopping families: <b>Failure(<i>m</i>)</b> stops at the <i>m</i>th wrong token; <b>Logit-gap(<i>τ</i>)</b> stops when the summed gap between the top logit and the true token's logit exceeds <i>τ</i>.</p>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">3</span>Model &amp; training</h2>
+      <ul>
+        <li><b>Encoder:</b> Pythia-410M Transformer; its final 1024-dimensional hidden state is the code.</li>
+        <li><b>Decoder:</b> Mamba2-130M backward model; the code is up-projected to its per-layer initial SSM states.</li>
+        <li><b>Objective:</b> reconstruction only, decoding a window (usually a suffix) in reverse; no length target.</li>
+        <li><b>Data:</b> FineWeb; 7B-token decoder pretrain with frozen encoder, then 3B tokens of joint training.</li>
+      </ul>
+      <p class="q push"><b>Why backward?</b> Decoding newest-first, the first failure directly measures how far back one code reaches.</p>
+    </div>
   </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">3 / 8</span><span class="link">arxiv.org/abs/2608.12756</span></footer>
+</section>
 
-  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="link">arxiv.org/abs/2608.12756</span></footer>
-</div>
+<!-- ============================ 4. Reach in one document ============================ -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Method in action</div>
+    <h1>Reconstruction reach sets the boundaries</h1>
+  </header>
+  <div class="slide-body wide-left">
+    <div class="panel">
+      <h2><span class="dot">1</span>One 63-token passage under Failure(1)</h2>
+      <div class="figure fig-boundary"><img src="figures/neurips26-reconspan/boundary_example_short.png" alt="Per-position backward decode reach for a 63-token passage, with red dashed lines at the eight interior chunk boundaries"></div>
+      <p class="passage">Water boils at 100 degrees Celsius, and Genghis Khan founded the Mongol<span class="cut">|</span>Empire in 1206. The clarinet has a single-reed<span class="cut">|</span>mouthpiece, while photos<span class="cut">|</span>ynthesis<span class="cut">|</span>converts sunlight into glucose<span class="cut">|</span>. Napoleon was exiled to Elba in 1814<span class="cut">|</span>, but the liver performs<span class="cut">|</span>over 500<span class="cut">|</span>metabolic functions.</p>
+      <p class="caption">Paper appendix figure: decode reach from every prefix code; red lines mark the 8 interior boundaries. Within-word splits show the example does not imply linguistic alignment.</p>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">2</span>How far can one code reach?</h2>
+      <p class="note">Mean longest exactly reconstructed suffix (tokens) from one 1024-dim code of an <i>ℓ</i>-token window, 500 held-out Wikipedia windows.</p>
+      <table class="data">
+        <thead><tr><th class="num"><i>ℓ</i></th><th class="num">ReconSpan</th><th class="num">SONAR</th></tr></thead>
+        <tbody>
+          <tr><td class="num">8</td><td class="num">6.47</td><td class="num">5.00</td></tr>
+          <tr><td class="num">16</td><td class="num">10.86</td><td class="num">7.94</td></tr>
+          <tr><td class="num">32</td><td class="num">9.94</td><td class="num">7.24</td></tr>
+          <tr><td class="num">64</td><td class="num">8.15</td><td class="num">1.16</td></tr>
+          <tr><td class="num">128</td><td class="num">8.26</td><td class="num">0.05</td></tr>
+          <tr><td class="num">256</td><td class="num">7.42</td><td class="num">0.03</td></tr>
+        </tbody>
+      </table>
+      <p class="q push">Short-range reach stays stable as the window grows, while SONAR's suffix collapses beyond <i>ℓ</i>&nbsp;=&nbsp;32. That stable reach is what chunking relies on.</p>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">4 / 8</span><span class="link">arxiv.org/abs/2608.12756</span></footer>
+</section>
+
+<!-- ============================ 5. Granularity dial ============================ -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Result 1 · Adaptive span allocation</div>
+    <h1>One trained model, a dial for granularity</h1>
+  </header>
+  <div class="slide-body wide-left">
+    <div class="panel">
+      <h2><span class="dot">1</span>Chunk-length distributions</h2>
+      <div class="figure"><img src="figures/neurips26-reconspan/chunk_length_distributions.png" alt="Histograms of chunk lengths for Failure(1), Failure(2), Logit-gap(1) and Logit-gap(3); dashed lines at means 6.5, 12.3, 8.3 and 12.2"></div>
+      <p class="caption">Four stopping rules applied post hoc to the same model on the same 500 Wikipedia documents; dashed lines mark the mean. The small pile-up at 32 comes from the <i>W</i> = 32 decode window (&lt;1% of chunks).</p>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">2</span>Mean chunk length</h2>
+      <table class="data">
+        <thead><tr><th>Stopping rule</th><th class="num">Base tokens</th></tr></thead>
+        <tbody>
+          <tr><td><i>Failure(1)</i></td><td class="num">6.50</td></tr>
+          <tr><td><i>Logit-gap(1)</i></td><td class="num">8.31</td></tr>
+          <tr><td><i>Logit-gap(3)</i></td><td class="num">12.17</td></tr>
+          <tr><td><i>Failure(2)</i></td><td class="num">12.28</td></tr>
+        </tbody>
+      </table>
+      <div class="stat">
+        <div class="num">9.56</div>
+        <div class="label">mean <i>Failure(1)</i> chunk length over 2 million FineWeb documents: realized averages vary with the input</div>
+      </div>
+      <div class="stat">
+        <div class="num">28.1% <small>of chunks</small></div>
+        <div class="label">are single tokens under <i>Failure(1)</i>, carrying only 4.3% of the text <span class="sub">(4.1% of chunks under <i>Failure(2)</i>)</span></div>
+      </div>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">5 / 8</span><span class="link">arxiv.org/abs/2608.12756</span></footer>
+</section>
+
+<!-- ============================ 6. Matched-budget reconstruction ============================ -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Result 2 · Native reconstruction under selected boundaries</div>
+    <h1>Same budget, better boundaries</h1>
+  </header>
+  <div class="slide-body wide-left">
+    <div class="panel rt">
+      <h2><span class="dot">1</span>Native round trip on 500 Wikipedia documents</h2>
+      <table class="data">
+        <thead><tr><th>Policy / rule</th><th class="num">Mean len.</th><th class="num">Exact chunk</th><th class="num">Exact token</th><th class="num">Suffix</th><th class="num">PPL ↓</th></tr></thead>
+        <tbody>
+          <tr><td colspan="6" class="grp">Same per-document chunk count as Failure(1)</td></tr>
+          <tr class="hl"><td>ReconSpan, <i>Failure(1)</i></td><td class="num">6.50</td><td class="num">.797</td><td class="num">.907</td><td class="num">.944</td><td class="num">15.95</td></tr>
+          <tr><td>equal spacing</td><td class="num">6.50</td><td class="num">.809</td><td class="num">.816</td><td class="num">.895</td><td class="num">15.75</td></tr>
+          <tr><td>surprisal</td><td class="num">6.50</td><td class="num">.802</td><td class="num">.617</td><td class="num">.773</td><td class="num">19.50</td></tr>
+          <tr><td>random (matched)</td><td class="num">6.50</td><td class="num">.794</td><td class="num">.618</td><td class="num">.767</td><td class="num">20.03</td></tr>
+          <tr><td colspan="6" class="grp">Looser ReconSpan rules (same model)</td></tr>
+          <tr><td><i>Logit-gap(1)</i></td><td class="num">8.31</td><td class="num">.730</td><td class="num">.809</td><td class="num">.890</td><td class="num">16.84</td></tr>
+          <tr><td><i>Logit-gap(3)</i></td><td class="num">12.17</td><td class="num">.553</td><td class="num">.541</td><td class="num">.715</td><td class="num">20.37</td></tr>
+          <tr><td><i>Failure(2)</i></td><td class="num">12.28</td><td class="num">.526</td><td class="num">.536</td><td class="num">.740</td><td class="num">18.43</td></tr>
+        </tbody>
+      </table>
+      <p class="caption push">Each chunk is re-encoded in isolation and decoded. Exact token: share of tokens in perfectly reconstructed chunks. Suffix: share in each chunk's correct newest-first run. PPL: Qwen2.5-1.5B, separate WikiText run.</p>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">2</span>Reading the table</h2>
+      <div class="stat">
+        <div class="num">.907 <small>vs</small> .816</div>
+        <div class="label">exact-token agreement, ReconSpan vs equal spacing <span class="sub">(surprisal .617, random .618)</span></div>
+      </div>
+      <p class="note"><b style="color:var(--ink)">Scope.</b> Equal spacing is slightly higher on unweighted exact chunk (.809 vs .797) and slightly lower in PPL (15.75 vs 15.95). The win is on <b style="color:var(--ink)">token-weighted</b> native reconstruction, not uniform dominance.</p>
+      <p class="q push">Where boundaries fall, not only how many there are, decides how much text survives. Across rule families, mean chunk length largely predicts quality.</p>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">6 / 8</span><span class="link">arxiv.org/abs/2608.12756</span></footer>
+</section>
+
+<!-- ============================ 7. Reading the latents ============================ -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Result 3 · Reading the latent tokens</div>
+    <h1>Readers recover topic, not exact detail</h1>
+  </header>
+  <div class="slide-body wide-left">
+    <div class="panel ds">
+      <h2><span class="dot">1</span>Downstream readout from latent tokens (%)</h2>
+      <table class="data">
+        <thead><tr><th>Task</th><th>Reader</th><th class="num">Readout</th><th class="num">Control</th><th class="num">Text</th><th class="num">Roundtrip</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="3">AG News<br><span class="note">topic, 4-way</span></td><td>Pythia-410M</td><td class="num">52.5<span class="star">*</span></td><td class="num">26.4</td><td class="num">53.0</td><td class="num">52.8</td></tr>
+          <tr class="hl"><td>Llama-3-8B</td><td class="num">74.3<span class="star">*</span></td><td class="num">24.5</td><td class="num">72.6</td><td class="num">73.0</td></tr>
+          <tr><td>Llama-3-8B + task FT</td><td class="num">82.7<span class="star">*</span></td><td class="num">24.2</td><td class="num">72.6</td><td class="num">73.0</td></tr>
+          <tr class="sep"><td rowspan="3">LAMBADA<br><span class="note">exact last word</span></td><td>Pythia-410M</td><td class="num">5.1<span class="star">*</span></td><td class="num">1.8</td><td class="num">51.0</td><td class="num">50.2</td></tr>
+          <tr class="hl"><td>Llama-3-8B</td><td class="num">10.0<span class="star">*</span></td><td class="num">5.5</td><td class="num">75.8</td><td class="num">72.5</td></tr>
+          <tr><td>Llama-3-8B + task FT</td><td class="num">20.1<span class="star">*</span></td><td class="num">6.2</td><td class="num">75.8</td><td class="num">72.5</td></tr>
+          <tr class="sep"><td rowspan="3">HotpotQA<br><span class="note">answer EM</span></td><td>Pythia-410M</td><td class="num">0.0</td><td class="num">1.0</td><td class="num">7.0</td><td class="num">6.0</td></tr>
+          <tr><td>Llama-3-8B</td><td class="num">17.0</td><td class="num">18.0</td><td class="num">36.0</td><td class="num">33.0</td></tr>
+          <tr><td>Llama-3-8B + task FT</td><td class="num">30.0</td><td class="num">23.0</td><td class="num">36.0</td><td class="num">33.0</td></tr>
+        </tbody>
+      </table>
+      <p class="caption push">Failure(1) codes. Control: another example's codes. Text: raw context to the base model. Roundtrip: autoencoder-reconstructed text. <span class="star" style="color:var(--warm);font-weight:700">*</span> above control at 95% confidence.</p>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">2</span>What the readers show</h2>
+      <ul>
+        <li>The Llama reader reaches raw-text-level topic accuracy on AG News, but LAMBADA stays far below the round-trip reference.</li>
+        <li>Generic readout on HotpotQA does not beat the shuffled control. Task fine-tuning helps all three tasks.</li>
+        <li>Readers trained only on Failure(1) codes hold up at Failure(2): AG News 74.6 at mean length 12.9.</li>
+      </ul>
+      <table class="data">
+        <thead><tr><th>Continuation source</th><th class="num">PPL ↓</th></tr></thead>
+        <tbody>
+          <tr><td>Human continuation</td><td class="num">11.95</td></tr>
+          <tr class="hl"><td>Llama-3-8B reader</td><td class="num">11.78</td></tr>
+          <tr><td>Pythia-410M reader</td><td class="num">13.94</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Fluent, but fluency is not faithfulness: samples keep topic and register while exact content is hard to access.</p>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">7 / 8</span><span class="link">arxiv.org/abs/2608.12756</span></footer>
+</section>
+
+<!-- ============================ 8. Limitations & takeaways ============================ -->
+<section class="slide">
+  <header class="slide-head">
+    <div class="kicker">Discussion</div>
+    <h1>Takeaways, limitations, and next steps</h1>
+  </header>
+  <div class="slide-body cols3" style="grid-template-columns: 1fr 1.15fr 1fr;">
+    <div class="panel">
+      <h2><span class="dot">1</span>Takeaways</h2>
+      <ul>
+        <li>Backward reconstruction fidelity is a viable allocation criterion for adaptive latent tokenization.</li>
+        <li>The stopping rule is a post-training granularity dial on one model, with no retraining.</li>
+        <li>At matched per-document budgets, ReconSpan boundaries lead on token-weighted native reconstruction.</li>
+        <li>The native route retains information that current readers do not fully access.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">2</span>Limitations</h2>
+      <ul>
+        <li><b>Reader access:</b> direct-code readers stay weak on exact content and retrieval.</li>
+        <li><b>Short chunks:</b> 28.1% of <i>Failure(1)</i> chunks cover one token.</li>
+        <li><b>Backward decoder:</b> none is readily available, so it is trained from scratch.</li>
+        <li><b>Selection cost:</b> about 12 hours to build the 2M-document reader corpus; fewer latent positions do not by themselves mean lower end-to-end compute.</li>
+        <li><b>Scope:</b> runs over subword tokens; no direct comparison with BLT or H-Net.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <h2><span class="dot">3</span>Next steps</h2>
+      <ul>
+        <li>Stronger readers or objectives aimed at exact retrieval.</li>
+        <li>A semantic-clustering objective to organize code geometry.</li>
+        <li>Test whether boundaries align with syntax, discourse, or information density.</li>
+        <li>Evaluate as context compression: prefill latency, KV-cache memory, amortized selection cost.</li>
+      </ul>
+    </div>
+  </div>
+  <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">8 / 8</span><span class="link">arxiv.org/abs/2608.12756</span></footer>
+</section>
+
 </body>
 </html>

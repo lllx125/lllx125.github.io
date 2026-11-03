@@ -71,30 +71,61 @@
     });
   }
 
-  // Research: slide lightbox
+  // Research: slide-deck lightbox (one PNG per page: <deck>-1.png ... <deck>-N.png)
   var lightbox = document.querySelector(".lightbox");
   if (lightbox) {
     var lbImg = lightbox.querySelector("img");
     var lbPdf = lightbox.querySelector(".lb-pdf");
+    var lbCount = lightbox.querySelector(".lb-count");
+    var prevBtn = lightbox.querySelector(".lb-nav.prev");
+    var nextBtn = lightbox.querySelector(".lb-nav.next");
+    var deck = null, pages = 1, page = 1, title = "";
+    var src = function (n) { return deck + "-" + n + ".png"; };
+    var show = function (n) {
+      page = Math.min(Math.max(n, 1), pages);
+      lbImg.src = src(page);
+      lbImg.alt = title + ", slide " + page + " of " + pages;
+      lbCount.textContent = page + " / " + pages;
+      prevBtn.disabled = page === 1;
+      nextBtn.disabled = page === pages;
+      if (page < pages) new Image().src = src(page + 1);
+    };
     var close = function () {
       lightbox.classList.remove("open");
       document.body.style.overflow = "";
     };
     document.querySelectorAll(".slide-thumb").forEach(function (btn) {
+      var n = btn.querySelector(".zoom .n");
+      if (n) n.textContent = btn.dataset.pages + " slides";
       btn.addEventListener("click", function () {
-        lbImg.src = btn.dataset.full;
-        lbImg.alt = btn.querySelector("img").alt;
+        deck = btn.dataset.deck;
+        pages = parseInt(btn.dataset.pages, 10) || 1;
+        title = btn.querySelector("img").alt;
         lbPdf.href = btn.dataset.pdf;
+        show(1);
         lightbox.classList.add("open");
         document.body.style.overflow = "hidden";
         lightbox.querySelector(".close").focus();
       });
     });
+    prevBtn.addEventListener("click", function () { show(page - 1); });
+    nextBtn.addEventListener("click", function () { show(page + 1); });
     lightbox.addEventListener("click", function (e) {
       if (e.target === lightbox || e.target.closest(".close")) close();
     });
     document.addEventListener("keydown", function (e) {
+      if (!lightbox.classList.contains("open")) return;
       if (e.key === "Escape") close();
+      else if (e.key === "ArrowRight") show(page + 1);
+      else if (e.key === "ArrowLeft") show(page - 1);
+    });
+    var touchX = null;
+    lightbox.addEventListener("touchstart", function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+    lightbox.addEventListener("touchend", function (e) {
+      if (touchX === null) return;
+      var dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 40) show(page + (dx < 0 ? 1 : -1));
+      touchX = null;
     });
   }
 })();

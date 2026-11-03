@@ -1,11 +1,14 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>AtomicAndPhysicalConstants.jl</title><link rel="stylesheet" href="slide.css">
 <style>
-  .slide-head h1 { font-size: 34px; }
-  .slide-head h1 .pkg { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 31px; color: var(--accent); letter-spacing: -0.02em; }
+  .slide-head h1 .pkg { font-family: "JetBrains Mono", monospace; font-weight: 500; color: var(--accent); letter-spacing: -0.02em; }
+  .slide.title-slide .slide-head h1 { font-size: 44px; }
+  .slide.title-slide .slide-head h1 .pkg { font-size: 41px; }
+  .affil { margin-top: 14px; display: grid; gap: 4px; font-size: 17px; color: var(--muted); }
+  .affil b { color: var(--ink); font-weight: 600; }
+  .fund { margin-top: 14px; font-size: 15px; color: var(--muted); max-width: 980px; }
   .panel ul { gap: 9px; }
-  .panel li { font-size: 15.5px; }
-  .panel li b { font-weight: 600; }
-  .panel code, .stat code { font-family: "JetBrains Mono", monospace; font-size: 0.86em; color: var(--accent); }
+  .panel li b, .panel p b { font-weight: 600; }
+  .panel code, .tldr code, .stat code, td code, .step code, .note code { font-family: "JetBrains Mono", monospace; font-size: 0.88em; color: var(--accent); }
   .code {
     width: 100%;
     background: #f6f5f1;
@@ -13,75 +16,275 @@
     border-radius: 10px;
     padding: 12px 14px;
     font-family: "JetBrains Mono", monospace;
-    font-size: 12.5px;
-    line-height: 1.55;
-    overflow: hidden;
+    font-size: 15px;
+    line-height: 1.5;
     white-space: pre;
+    overflow: hidden;
     color: var(--ink);
   }
+  .code .p { color: var(--muted); }
   .code .k { color: var(--accent); font-weight: 500; }
   .code .m { color: var(--warm); }
   .code .c { color: #8a929c; }
-  .code .o { color: var(--muted); }
-  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 6px; width: 100%; }
-  .flow .step { background: var(--accent-soft); border-radius: 9px; padding: 8px 9px; font-size: 12.5px; line-height: 1.3; }
-  .flow .step b { display: block; font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
-  .flow .step.run { background: var(--warm-soft); }
-  .flow .step.run b { color: var(--warm); }
-  .flow .arr { align-self: center; color: var(--muted); font-size: 15px; }
-  .panel .figure { min-width: 0; width: 100%; }
-  .flow > * { min-width: 0; }
-  .method-stack { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-  .stat .num { font-size: 32px; }
-  .stat .num small { font-size: 17px; font-weight: 500; color: var(--muted); margin-left: 4px; }
-  .stat .label { font-size: 14px; }
+  .sub { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .note { font-size: 15px; line-height: 1.45; color: var(--muted); }
+  .note b { color: var(--ink); font-weight: 600; }
+  .flowv { display: grid; gap: 6px; }
+  .flowv .step { background: var(--accent-soft); border-radius: 10px; padding: 10px 12px; font-size: 15px; line-height: 1.38; }
+  .flowv .step b { display: block; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+  .flowv .step.run { background: var(--warm-soft); }
+  .flowv .step.run b { color: var(--warm); }
+  .flowv .arr { text-align: center; color: var(--muted); font-size: 15px; line-height: 1; }
+  .src { padding: 8px 0 10px; border-bottom: 1px dashed var(--line); }
+  .src:last-of-type { border-bottom: 0; }
+  .src .name { font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 22px; color: var(--warm); }
+  .src .what { font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-left: 6px; }
+  .src p { margin-top: 3px; }
+  table.data td { font-size: 15.5px; line-height: 1.38; vertical-align: top; }
+  table.data td:first-child { white-space: nowrap; }
+  .eq { display: flex; align-items: center; gap: 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 14px; }
+  .eq .f { font-family: "Fraunces", Georgia, serif; font-size: 22px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+  .eq .f i { font-style: italic; }
+  .frac { display: inline-grid; text-align: center; font-size: 19px; line-height: 1.15; }
+  .frac > span:first-child { border-bottom: 1.5px solid var(--ink); padding: 0 4px 1px; }
+  .eq .d { font-size: 15px; line-height: 1.35; color: var(--ink); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips span { font-family: "JetBrains Mono", monospace; font-size: 14px; background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 3px 10px; }
+  .stat .num { font-size: 34px; }
+  .stat .num small { font-size: 18px; font-weight: 500; color: var(--muted); margin-left: 4px; }
+  .stat .label { font-size: 15px; }
+  .quote { border-left: 4px solid var(--warm); background: var(--warm-soft); border-radius: 8px; padding: 10px 14px; font-size: 16px; line-height: 1.45; }
+  .quote .ref { display: block; margin-top: 6px; font-size: 13px; color: var(--muted); }
+  .big { font-family: "Fraunces", Georgia, serif; font-weight: 600; font-size: 64px; color: var(--warm); line-height: 1; }
+  .big-label { font-size: 16px; line-height: 1.4; }
+  .links { display: grid; gap: 8px; }
+  .links div { font-size: 15.5px; }
+  .links span { display: block; font-size: 12.5px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .links code { font-family: "JetBrains Mono", monospace; font-size: 15px; color: var(--accent); }
 </style>
 </head>
-<body><div class="slide">
+<body>
+
+<section class="slide title-slide">
  <header class="slide-head">
-  <div class="venue">NAPAC 2025 · JACoW Proceedings · Sacramento, CA</div>
+  <div class="venue">NAPAC 2025 · Sacramento, CA · JACoW pp. 65–67 · Poster MOP010</div>
   <h1><span class="pkg">AtomicAndPhysicalConstants.jl</span>: A Fast Julia Package to Access Particle Properties and Fundamental Constants</h1>
-  <div class="authors"><b style="color:var(--ink);font-weight:600">L. Li</b>, D. Sagan, D. Abell, A. Coxe</div>
+  <div class="affil">
+   <div><b>L. Li</b>, <b>D. Sagan</b> · CLASSE, Cornell University, Ithaca, NY, USA</div>
+   <div><b>D. Abell</b> · University of Maryland, College Park, College Park, MD, USA</div>
+   <div><b>A. Coxe</b> · Virginia Commonwealth University, Richmond, VA, USA</div>
+  </div>
+  <div class="tldr"><b>TL;DR</b> A Julia package for the SciBmad project that provides physical constants, subatomic particle properties, and atomic isotope data from CODATA, NIST, and PDG. One <code>@APCdef</code> macro call fixes units and numeric types up front, so exported functions are type-stable and core calls run in under 1 microsecond.</div>
+  <div class="fund">Work supported by Brookhaven Science Associates, LLC under Contract Nos. DE-SC0012704 and DE-SC0018008 with the U.S. Department of Energy.</div>
+ </header>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">1 / 7</span><span class="link">doi.org/10.18429/JACoW-NAPAC2025-MOP010</span></footer>
+</section>
+
+<section class="slide">
+ <header class="slide-head">
+  <div class="kicker">Motivation</div>
+  <h1>Beam simulation needs constants that are fast, stable, and traceable</h1>
  </header>
  <div class="slide-body">
-  <section class="panel">
-   <h2><span class="dot">1</span>Problem</h2>
+  <div class="panel">
+   <h2><span class="dot">1</span>Context</h2>
    <ul>
-    <li><b>SciBmad</b>, a new Julia environment for charged-particle beam simulation, needs fast, stable access to physical constants.</li>
-    <li>Data are spread across <b>CODATA, NIST, and PDG</b>, and simulations need different unit systems and numeric types.</li>
-    <li>Converting units at run time adds work and makes functions <b>type-unstable</b>, so the compiler cannot optimize them.</li>
+    <li><b>Bmad</b>, developed at Cornell’s Laboratory for Elementary Particle Physics, has long been a key framework for simulating charged-particle dynamics.</li>
+    <li><b>SciBmad</b> is a new Julia-based simulation environment that uses Julia’s performance, parallelism support, and native multiple dispatch.</li>
+    <li>Within SciBmad, this package fills the need for <b>fast and stable access to physical constants</b>.</li>
    </ul>
-  </section>
-  <section class="panel">
-   <h2><span class="dot">2</span>Method</h2>
-   <div class="figure">
-    <div class="method-stack">
-<div class="code"><span class="k">using</span> AtomicAndPhysicalConstants
-<span class="c"># configure once: units + numeric type</span>
-<span class="k">@APCdef</span> unitsystem = ACCELERATOR unittype = Float
-
-APC.C_LIGHT              <span class="c"># m/s</span>
-<span class="o">→</span> <span class="m">2.99792458e8</span>
-e = Species(<span class="m">"electron"</span>)  <span class="c"># or "H+"</span>
-massof(e)                <span class="c"># eV/c²</span>
-<span class="o">→</span> <span class="m">510998.95069</span></div>
-     <div class="flow">
-      <div class="step"><b>Configure</b>Choose units and numeric type once</div>
-      <div class="arr">→</div>
-      <div class="step"><b>Generate</b>Macro writes fixed-type constants and getters</div>
-      <div class="arr">→</div>
-      <div class="step run"><b>Run</b>No conversion; types known at compile time</div>
-     </div>
-    </div>
-   </div>
-   <p class="caption">One <code>@APCdef</code> call generates the code; <code>Species</code> wraps mass, charge, spin, and moment for particles and isotopes.</p>
-  </section>
-  <section class="panel">
-   <h2><span class="dot">3</span>Key results</h2>
-   <div class="stat"><div class="num">&lt; 1 µs</div><div class="label">Core function run time, including <code>@APCdef</code> and <code>Species()</code>; all exported functions verified type-stable with JET.jl</div></div>
-   <div class="stat"><div class="num">16 <small>+</small> 14</div><div class="label">Common constants and subatomic particles, plus all NIST isotope data; sourced from CODATA, NIST, and PDG</div></div>
-   <div class="stat"><div class="num">3 <small>×</small> 3</div><div class="label">Unit systems × numeric types (Float64, Unitful, DynamicQuantities), chosen in a single macro call</div></div>
-  </section>
+  </div>
+  <div class="panel">
+   <h2><span class="dot">2</span>The performance trap</h2>
+   <ul>
+    <li>Simulations want different <b>unit systems</b> and <b>numeric types</b>, but custom units and types usually lead to type instability and slow run time.</li>
+    <li>The typical approach is a getter that <b>converts units and type at run time</b>. This adds computation and makes the function <b>type-unstable</b>.</li>
+    <li>If the return type is not decided at compile time, the compiler cannot optimize the program, which costs more memory and time.</li>
+   </ul>
+  </div>
+  <div class="panel">
+   <h2><span class="dot">3</span>Existing packages</h2>
+   <ul>
+    <li><b>PhysicalConstants.jl</b>, one of the most widely used Julia packages, provides reliable static constants with uncertainty support.</li>
+    <li>AtomicAndPhysicalConstants.jl adds a <b>direct interface</b> for constants and an option to <b>customize units and variable types</b>.</li>
+    <li>Its <b><code>Species</code></b> type wraps particle attributes such as mass and charge for simpler access.</li>
+   </ul>
+  </div>
  </div>
- <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="link">doi.org/10.18429/JACoW-NAPAC2025-MOP010 · github.com/bmad-sim/AtomicAndPhysicalConstants.jl</span></footer>
-</div></body></html>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">2 / 7</span><span class="link">doi.org/10.18429/JACoW-NAPAC2025-MOP010</span></footer>
+</section>
+
+<section class="slide">
+ <header class="slide-head">
+  <div class="kicker">Design</div>
+  <h1>Aggregated data, configured once by a macro</h1>
+ </header>
+ <div class="slide-body">
+  <div class="panel">
+   <h2><span class="dot">1</span>Data sources</h2>
+   <div class="src"><span class="name">CODATA</span><span class="what">constants</span>
+    <p class="note">Loads the most recent release by default (currently CODATA 2022); earlier releases such as CODATA 2018 stay available through versioned submodules.</p></div>
+   <div class="src"><span class="name">NIST</span><span class="what">isotopes</span>
+    <p class="note">NIST keeps no history of its isotope datasets, so isotope data reflect the most recent release.</p></div>
+   <div class="src"><span class="name">PDG</span><span class="what">pions</span>
+    <p class="note">π<sup>0</sup> and π<sup>±</sup> properties are downloaded directly from the PDG API.</p></div>
+  </div>
+  <div class="panel">
+   <h2><span class="dot">2</span><code style="color:inherit;font-size:1em;text-transform:none">@APCdef</code> keywords</h2>
+   <table class="data">
+    <tr><th>Keyword</th><th>Choices</th></tr>
+    <tr><td><code>unitsystem</code></td><td><code>ACCELERATOR</code>, <code>MKS</code> (SI), <code>CGS</code>, or a custom five-tuple of Unitful units</td></tr>
+    <tr><td><code>unittype</code></td><td><code>Float64</code>, <code>Unitful.Quantity</code>, or <code>DynamicQuantity.Quantity</code></td></tr>
+    <tr><td><code>name</code></td><td>Name of the named tuple holding the constants (default <code>APC</code>)</td></tr>
+    <tr><td><code>tupleflag</code></td><td><code>false</code> defines constants as global variables in the current namespace</td></tr>
+   </table>
+   <p class="note">Invoked once during package initialization; a second invocation raises an error. It sets units and types for all constants and for <code>Species</code> mass and charge.</p>
+  </div>
+  <div class="panel">
+   <h2><span class="dot">3</span>Generate, don’t convert</h2>
+   <div class="flowv">
+    <div class="step"><b>Configure</b>Choose units and numeric type in a single macro call</div>
+    <div class="arr">↓</div>
+    <div class="step"><b>Generate</b>Constants and getters such as <code>massof()</code>, <code>chargeof()</code> are written into the namespace with a fixed unit and type</div>
+    <div class="arr">↓</div>
+    <div class="step run"><b>Run</b>No unit conversion; return types are known at compile time</div>
+   </div>
+   <p class="note">Trade-off: the macro call itself is slower, but the program is fast at run time.</p>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">3 / 7</span><span class="link">doi.org/10.18429/JACoW-NAPAC2025-MOP010</span></footer>
+</section>
+
+<section class="slide">
+ <header class="slide-head">
+  <div class="kicker">Species</div>
+  <h1>One type for particles and atomic isotopes</h1>
+ </header>
+ <div class="slide-body two">
+  <div class="panel">
+   <h2><span class="dot">1</span>Constructing a <code style="color:inherit;font-size:1em;text-transform:none">Species</code></h2>
+   <ul>
+    <li><code>Species(::String)</code> takes an <b>OpenPMD</b>-standard particle name. Fields: <code>name</code>, <code>mass</code>, <code>charge</code>, <code>spin</code>, <code>moment</code>, <code>iso</code>.</li>
+    <li><b>Subatomic particles:</b> exact, case-sensitive names; antiparticles use the “anti-” prefix. 14 subatomic particles are supported.</li>
+    <li><b>Atoms:</b> an atomic symbol, an optional isotope mass number (prefix <code>13C</code> or superscript <code>¹³C</code>), and an optional charge (<code>+</code>, <code>++</code>, <code>+n</code>, or negatives).</li>
+    <li>No isotope given: mass is the abundance-weighted mean (per NIST). No charge given: neutral.</li>
+    <li><b>Null species:</b> a placeholder for a field that must exist but is not yet assigned.</li>
+   </ul>
+   <div class="chips"><span>ATOM</span><span>HADRON</span><span>LEPTON</span><span>PHOTON</span><span>NULL</span></div>
+  </div>
+  <div class="panel">
+   <h2><span class="dot">2</span>Properties and derived quantities</h2>
+   <p>Getters return mass <i>m</i>, charge <i>q</i>, atomic number <i>Z</i>, and spin <i>S</i> in the units and types chosen by <code>@APCdef</code>. Derived quantities:</p>
+   <div class="eq"><span class="f"><i>g</i> = <span class="frac"><span>2<i>mμ</i></span><span><i>Sq</i></span></span></span><span class="d"><b>Gyromagnetic ratio</b>; <i>μ</i> is the magnetic moment</span></div>
+   <div class="eq"><span class="f"><i>g<sub>a</sub></i> = <span class="frac"><span><i>g</i> − 2</span><span>2</span></span></span><span class="d"><b>Gyromagnetic anomaly</b>, for leptonic species</span></div>
+   <div class="eq"><span class="f"><i>g<sub>n</sub></i> = <span class="frac"><span><i>gZm<sub>p</sub></i></span><span><i>m</i></span></span></span><span class="d"><b>Nucleon-normalized g-factor</b>, for baryonic species; <i>m<sub>p</sub></i> is the proton mass</span></div>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">4 / 7</span><span class="link">doi.org/10.18429/JACoW-NAPAC2025-MOP010</span></footer>
+</section>
+
+<section class="slide">
+ <header class="slide-head">
+  <div class="kicker">Usage</div>
+  <h1>From configuration to particle data in a few lines</h1>
+ </header>
+ <div class="slide-body wide-left">
+  <div class="panel">
+   <h2><span class="dot">1</span>Constants</h2>
+   <div class="sub">Session A · defaults (ACCELERATOR units, Float64)</div>
+<div class="code"><span class="p">julia&gt;</span> <span class="k">using</span> AtomicAndPhysicalConstants
+<span class="p">julia&gt;</span> <span class="k">@APCdef</span>
+<span class="p">julia&gt;</span> APC.C_LIGHT        <span class="c"># m/s</span>
+<span class="m">2.99792458e8</span>
+<span class="p">julia&gt;</span> APC.E_CHARGE       <span class="c"># elementary charge</span>
+<span class="m">1.0</span>
+<span class="p">julia&gt;</span> e = Species(<span class="m">"electron"</span>)
+<span class="p">julia&gt;</span> massof(e)          <span class="c"># eV/c²</span>
+<span class="m">510998.95069</span></div>
+   <div class="sub">Session B · Unitful, MKS, constants as globals</div>
+<div class="code"><span class="p">julia&gt;</span> <span class="k">@APCdef</span> unittype = Unitful unitsystem = MKS tupleflag = false
+<span class="p">julia&gt;</span> E_CHARGE
+<span class="m">1.602176634e-19 C</span></div>
+  </div>
+  <div class="panel">
+   <h2><span class="dot">2</span>Species strings</h2>
+<div class="code">Species(<span class="m">"anti-proton"</span>)
+Species(<span class="m">"13C+"</span>)    <span class="c"># C-13, +1</span>
+Species(<span class="m">"¹⁵N³⁻"</span>)   <span class="c"># N-15, −3</span>
+Species(<span class="m">"Al+3"</span>)    <span class="c"># mean Al, +3</span>
+Species(<span class="m">"Null"</span>)    <span class="c"># placeholder</span></div>
+   <p class="note"><b>Two separate sessions:</b> <code>@APCdef</code> is called once per session, so each configuration starts fresh.</p>
+   <p class="note">Examples and outputs are taken from the package documentation for the <code>@APCdef</code> releases (v0.7.2 README; units and species pages, v0.7.2–v0.8.2). Comments are added.</p>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">5 / 7</span><span class="link">doi.org/10.18429/JACoW-NAPAC2025-MOP010</span></footer>
+</section>
+
+<section class="slide">
+ <header class="slide-head">
+  <div class="kicker">Quality control and performance</div>
+  <h1>Tested in CI, benchmarked for type stability</h1>
+ </header>
+ <div class="slide-body">
+  <div class="panel">
+   <h2><span class="dot">1</span>Testing</h2>
+   <ul>
+    <li>An extensive, modular test suite validates <code>@APCdef</code> configurations and <code>Species</code> constructor parsing rules.</li>
+    <li>All tests run on <b>GitHub Actions</b> as a continuous integration (CI) workflow.</li>
+   </ul>
+  </div>
+  <div class="panel">
+   <h2><span class="dot">2</span>Benchmarking</h2>
+   <p>Goal: ensure <b>type stability</b> (a variable’s type is decided at compile time) and improve speed.</p>
+   <ul>
+    <li><b>BenchmarkTools.jl</b> measured memory allocations and execution time of <code>@APCdef</code>, species construction, and getters such as <code>massof()</code> and <code>chargeof()</code>.</li>
+    <li><b>JET.jl</b> detected and eliminated dynamic dispatches and type instabilities.</li>
+   </ul>
+  </div>
+  <div class="panel">
+   <h2><span class="dot">3</span>Results</h2>
+   <div class="big">&lt; 1 µs</div>
+   <div class="big-label">Core function run time, including <code>@APCdef</code> and <code>Species()</code></div>
+   <div class="quote">“All exported functions are verified as type-stable using JET.jl, and benchmarks confirm minimal allocations during constant access.”<span class="ref">Quality Control, p. 67</span></div>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">6 / 7</span><span class="link">doi.org/10.18429/JACoW-NAPAC2025-MOP010</span></footer>
+</section>
+
+<section class="slide">
+ <header class="slide-head">
+  <div class="kicker">Summary</div>
+  <h1>A type-stable, unit-aware foundation for SciBmad</h1>
+ </header>
+ <div class="slide-body">
+  <div class="panel">
+   <h2><span class="dot">1</span>Takeaways</h2>
+   <ul>
+    <li>A <b>type-stable, unit-aware</b> interface to physical constants.</li>
+    <li>Authoritative datasets with pinnable historical versions give <b>numerical traceability</b>.</li>
+    <li>One macro configures unit systems and variable types, integrating <b>Unitful.jl</b> and <b>DynamicQuantities.jl</b>.</li>
+    <li><code>Species</code> simplifies work with subatomic particles and isotopes.</li>
+   </ul>
+  </div>
+  <div class="panel">
+   <h2><span class="dot">2</span>At a glance</h2>
+   <div class="stat"><div class="num">16 <small>+</small> 14</div><div class="label">Common constants and subatomic particles, plus all NIST isotope data</div></div>
+   <div class="stat"><div class="num">3 <small>×</small> 3</div><div class="label">Unit systems (MKS, CGS, ACCELERATOR) × numeric types (Float64, Unitful, DynamicQuantities)</div></div>
+   <div class="stat"><div class="num">&lt; 1 µs</div><div class="label">Core function run time, including <code>@APCdef</code> and <code>Species()</code></div></div>
+  </div>
+  <div class="panel">
+   <h2><span class="dot">3</span>Future work</h2>
+   <ul>
+    <li><b>Expanded data coverage:</b> more physics constants.</li>
+    <li><b>Performance tuning:</b> faster <code>@APCdef</code> and <code>Species</code> initialization.</li>
+    <li><b>Community-driven evolution:</b> updates from GitHub issues, plus new CODATA, NIST, and PDG releases.</li>
+   </ul>
+   <div class="links" style="margin-top:auto">
+    <div><span>Code</span><code>github.com/bmad-sim/<br>AtomicAndPhysicalConstants.jl</code></div>
+   </div>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">7 / 7</span><span class="link">doi.org/10.18429/JACoW-NAPAC2025-MOP010</span></footer>
+</section>
+
+</body></html>

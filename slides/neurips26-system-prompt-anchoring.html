@@ -1,44 +1,289 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><title>System-Prompt Anchoring</title><link rel="stylesheet" href="slide.css">
 <style>
-  .slide-body { grid-template-columns: 1fr 1.45fr 1fr; }
-  .panel .lead { font-size: 16.5px; line-height: 1.45; }
-  .panel .q { margin-top: auto; padding: 12px 14px; border-radius: 10px; background: var(--accent-soft); font-size: 15px; line-height: 1.4; }
+  .sc { font-variant: small-caps; letter-spacing: 0.02em; }
+  .panel b { font-weight: 600; }
+  .panel .q { padding: 12px 14px; border-radius: 10px; background: var(--accent-soft); font-size: 16px; line-height: 1.42; }
   .panel .q b { color: var(--accent); }
-  .method .figure { flex: 0 0 auto; }
-  .method .figure img { mix-blend-mode: multiply; }
-  .stat .num.sm { font-size: 30px; }
-  .method ul li { font-size: 15.5px; line-height: 1.4; }
-  .problem ul li { font-size: 15.5px; line-height: 1.42; }
+  .panel .note { margin-top: auto; font-size: 15px; line-height: 1.4; color: var(--muted); }
+  .panel .figure img { mix-blend-mode: multiply; }
+  .panel .caption { font-size: 15px; line-height: 1.35; }
+  .xbar { font-weight: 600; text-decoration: overline; }
+  .panel .figure.fig-deg img { max-height: 318px; }
+  .panel .figure.fig-heat img { max-height: 286px; }
+  .panel h2.sub { margin-top: 8px; }
+
+  /* title page */
+  .title-slide .meta { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .title-slide .chip { font-family: "JetBrains Mono", monospace; font-size: 14px; padding: 6px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); color: var(--muted); }
+
+  /* method page */
+  .eq { font-family: "Fraunces", Georgia, serif; font-size: 17px; line-height: 1.5; padding: 9px 12px; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; }
+  .eq i { font-style: italic; }
+  .eq .bf { font-weight: 600; font-style: normal; }
+  .eq sub { font-size: 12px; }
+  .method-text p { font-size: 16px; line-height: 1.42; }
+
+  /* setup page */
+  .setup { grid-template-columns: 1.3fr 1fr 1fr; }
+  table.data.tight td, table.data.tight th { padding: 5px 8px; }
+  table.data.tight td { font-size: 15px; }
+  .bench { display: grid; gap: 8px; }
+  .bench div { font-size: 15.5px; line-height: 1.4; }
+  .bench .grp { font-weight: 700; color: var(--accent); font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* sweep page */
+  .sweep { grid-template-columns: 1.08fr 1fr; }
+  .sweep .panel li { font-size: 16px; line-height: 1.4; }
+
+  /* stacked figure + notes pages */
+  .stack { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  .notes3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .notes3 .panel { padding: 14px 18px; gap: 6px; }
+  .notes3 .panel p { font-size: 15.5px; line-height: 1.4; }
+  .notes3 .panel h2 { font-size: 13px; }
+
+  /* 8B page */
+  .eightb { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  table.wide { font-size: 15px; }
+  table.wide th, table.wide td { padding: 6px 7px; text-align: right; }
+  table.wide th:first-child, table.wide td:first-child { text-align: left; }
+  table.wide th { font-size: 13px; letter-spacing: 0; text-transform: none; }
+  table.wide tr.grp th { text-align: center; color: var(--accent); border-bottom: 2px solid var(--accent-soft); font-size: 13px; }
+  table.wide td b { font-weight: 700; }
+  table.wide sup { font-size: 11px; color: var(--warm); }
+  .statrow { display: grid; grid-template-columns: 1fr 1fr 1.1fr 1.25fr; gap: 16px; min-height: 0; }
+  .statrow .panel { padding: 14px 18px; gap: 4px; justify-content: center; }
+  .statrow .stat { border: 0; padding: 0; }
+  .statrow .stat .label { font-size: 15px; }
   .stat .num small { font-size: 18px; font-weight: 500; }
-  .stat .label { font-size: 14px; }
-  .panel .note { margin-top: auto; font-size: 12.5px; line-height: 1.35; color: var(--muted); }
+  .statrow .panel p { font-size: 15.5px; line-height: 1.4; }
+
+  /* closing page */
+  .closing { grid-template-columns: 1fr 1.15fr 0.95fr; }
+  .closing .panel li { font-size: 15.5px; line-height: 1.4; }
+  .cost .stat .num { font-size: 30px; }
+  .cost .stat .label { font-size: 15px; }
 </style></head>
-<body><div class="slide">
- <header class="slide-head"><div class="venue">NeurIPS 2026 Workshop · FLMSec</div><h1>System-Prompt Anchoring with Cross-Attention Layers</h1><div class="authors">Lixing Li · Cornell University</div></header>
+<body>
+
+<!-- 1 · Title -->
+<section class="slide title-slide">
+ <header class="slide-head">
+  <div class="venue">NeurIPS 2026 Workshop · Foundations of Language Model Security (FLMSec)</div>
+  <h1>System-Prompt Anchoring with Cross-Attention Layers</h1>
+  <div class="authors">Lixing Li · Cornell University</div>
+  <div class="tldr"><b>TL;DR</b> — Cross-Attention Layer (CAL) blocks give a frozen causal decoder a dedicated route to the privileged system-prompt span. A ten-configuration sweep at 1.5B shows that <i>where</i> the route is inserted matters: later placements are generally more effective and parameter-efficient. At 8B, the selected <span class="sc">late8th</span> configuration improves instruction adherence and many-shot jailbreak resistance over a parameter-matched baseline, with task-dependent effects elsewhere.</div>
+  <div class="meta"><span class="chip">sole author</span><span class="chip">Qwen2.5-1.5B · Llama-3.1-8B</span><span class="chip">11 benchmarks</span><span class="chip">arXiv 2605.09737</span></div>
+ </header>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">1 / 9</span><span class="link">arxiv.org/abs/2605.09737</span></footer>
+</section>
+
+<!-- 2 · Problem -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Motivation</div><h1>System rules and untrusted text get equal priority</h1></header>
  <div class="slide-body">
-  <section class="panel problem"><h2><span class="dot">1</span>Problem</h2>
+  <div class="panel"><h2><span class="dot">1</span>Instruction hierarchy</h2>
    <ul>
-    <li>Causal self-attention treats privileged system-prompt tokens and untrusted user text with equal priority.</li>
-    <li>This leads to <b>prompt injection</b> and <b>context drift</b>: system rules erode over long or multi-turn inputs.</li>
-    <li>Prior defenses rely on preference optimization, structured queries, or hierarchy training rather than a dedicated route.</li>
+    <li>Deployed LLMs rely on a <b>system prompt</b> for behavioral constraints and safety rules.</li>
+    <li>Standard causal self-attention treats privileged instructions and untrusted user data with <b>equal priority</b>.</li>
+    <li><b>Prompt injection:</b> adversarial user inputs overwrite the system prompt’s rules and hijack the model’s objective.</li>
+    <li><b>Context drift:</b> system instructions gradually erode over extended or multi-turn sequences.</li>
    </ul>
-   <p class="q"><b>Question:</b> does a dedicated cross-attention route to the system prompt help, and where in the network should it go?</p>
-  </section>
-  <section class="panel method"><h2><span class="dot">2</span>Method</h2>
-   <div class="figure"><img src="figures/neurips26-system-prompt-anchoring/cal_diagram.png" alt="CAL block: cross-attention from the full input to the system-prompt span, then feed-forward, inserted between frozen decoder layers"></div>
-   <p class="caption">A CAL block: queries from the full residual stream, keys/values only from the system-prompt span.</p>
+  </div>
+  <div class="panel"><h2><span class="dot">2</span>Related approaches</h2>
    <ul>
-    <li>Zero-initialized CAL blocks trained on a <b>frozen</b> decoder backbone (50K-example SFT corpus).</li>
-    <li>Ten-placement sweep on Qwen2.5-1.5B; later placements are generally stronger and more parameter-efficient.</li>
-    <li>Selected <span style="font-variant:small-caps">late8th</span> (5 blocks) transferred to Llama-3.1-8B vs. parameter-matched LoRA and ParallelMLP.</li>
+    <li><b>Behavioral alignment:</b> SecAlign and StruQ use preference optimization and structured queries; Instruction Hierarchy training teaches models to prioritize privileged instructions.</li>
+    <li><b>Representation-level:</b> AIR injects hierarchy signals into intermediate representations; ASIDE separates instructions and data at the embedding level.</li>
+    <li><b>Cross-attention routes:</b> encoder–decoders, RETRO, Flamingo and BLIP-2 condition on a separate source; ControlNet uses zero-initialized branches on a frozen backbone.</li>
    </ul>
-  </section>
-  <section class="panel"><h2><span class="dot">3</span>Key results</h2>
-   <div class="stat"><div class="num">+7.4 <small>pp</small></div><div class="label">IFEval at 8B vs. matched ParallelMLP (69.13 vs. 61.74, <i>p</i>&lt;0.05)</div></div>
-   <div class="stat"><div class="num">+16.3 <small>pp</small></div><div class="label">SysBench at 8B vs. matched ParallelMLP (58.60 vs. 42.32, <i>p</i>&lt;0.01)</div></div>
-   <div class="stat"><div class="num sm">38.05 → 25.00<small>%</small></div><div class="label">Many-shot jailbreak attack success at 8B, ParallelMLP → CAL (lower is better, <i>p</i>&lt;0.01)</div></div>
-   <p class="note">Gains are task-dependent: general ability is largely preserved, but InjecAgent favors ParallelMLP.</p>
-  </section>
+  </div>
+  <div class="panel"><h2><span class="dot">3</span>This paper</h2>
+   <p>CAL blocks source keys and values from a privileged span <i>within the same causal sequence</i>. The focus is not a new cross-attention architecture, but how injection depth affects use of that route.</p>
+   <p class="q"><b>Q1.</b> Does a dedicated route to the system prompt change performance on security and instruction-following tasks?</p>
+   <p class="q"><b>Q2.</b> How does the placement of the injected blocks affect that performance?</p>
+  </div>
  </div>
- <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="link">arxiv.org/abs/2605.09737</span></footer>
-</div></body></html>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">2 / 9</span><span class="link">arxiv.org/abs/2605.09737</span></footer>
+</section>
+
+<!-- 3 · Method -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Method</div><h1>A CAL block: cross-attention into the system-prompt span</h1></header>
+ <div class="slide-body wide-left">
+  <div class="panel"><h2><span class="dot">1</span>Architecture</h2>
+   <div class="figure"><img src="figures/neurips26-system-prompt-anchoring/cal_diagram.png" alt="CAL block inserted between frozen decoder layers: cross-attention from the full input to the system-prompt span, then a feed-forward sublayer; the ordinary residual path remains available"></div>
+   <p class="caption">Blocks are inserted after selected decoder layers. Each lets the full residual stream query the system-prompt span, then applies a SwiGLU feed-forward sublayer; the ordinary self-attention and residual paths stay intact.</p>
+   <ul>
+    <li>Backbone <b>frozen</b>; only CAL parameters are trained.</li>
+    <li>Output projections <i>W<sub>O</sub></i>, <i>W<sub>D</sub></i> are <b>zero-initialized</b>, so every inserted block is an identity map at initialization.</li>
+   </ul>
+  </div>
+  <div class="panel method-text"><h2><span class="dot">2</span>Causal cross-attention</h2>
+   <p>Queries come from the full sequence; keys and values only from the system span [<i>s</i>, <i>e</i>), after RMSNorm:</p>
+   <div class="eq"><span class="bf">Q</span> = <span class="xbar">X</span><i>W</i><sub>Q</sub>,&nbsp; <span class="bf">K</span> = <span class="xbar">X</span><sub>[s:e]</sub><i>W</i><sub>K</sub>,&nbsp; <span class="bf">V</span> = <span class="xbar">X</span><sub>[s:e]</sub><i>W</i><sub>V</sub></div>
+   <p>A query at position <i>i</i> may attend to span slot <i>j</i> only if <i>j</i> ≤ <i>i</i> − <i>s</i>: system tokens see only their causal prefix, while later user and generated tokens see the whole span, with no future-token leakage.</p>
+   <div class="eq"><span class="bf">X′</span> = <span class="bf">X</span> + Attn(<span class="bf">Q</span>, <span class="bf">K</span>, <span class="bf">V</span>, <span class="bf">M</span>)<i>W</i><sub>O</sub><br><span class="bf">X″</span> = <span class="bf">X′</span> + SwiGLU(RMSNorm(<span class="bf">X′</span>))<i>W</i><sub>D</sub></div>
+   <p>Span bounds and CAL keys/values are computed at prefill and cached for decoding.</p>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">3 / 9</span><span class="link">arxiv.org/abs/2605.09737</span></footer>
+</section>
+
+<!-- 4 · Setup -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Experimental setup</div><h1>Ten placements, two matched controls, eleven benchmarks</h1></header>
+ <div class="slide-body setup">
+  <div class="panel"><h2><span class="dot">1</span>Placements on 28 layers</h2>
+   <table class="data tight">
+    <thead><tr><th>Config</th><th>Placement</th><th class="num">Blocks</th></tr></thead>
+    <tbody>
+     <tr><td class="sc">all</td><td>After every layer</td><td class="num">28</td></tr>
+     <tr><td class="sc">every2</td><td>After every other layer</td><td class="num">14</td></tr>
+     <tr><td class="sc">earlythird</td><td>Layers 1–11, contiguous</td><td class="num">11</td></tr>
+     <tr><td class="sc">midthird</td><td>Layers 9–19, contiguous</td><td class="num">11</td></tr>
+     <tr><td class="sc">latethird</td><td>Layers 18–28, contiguous</td><td class="num">11</td></tr>
+     <tr><td class="sc">latehalf</td><td>Last ½, contiguous</td><td class="num">15</td></tr>
+     <tr><td class="sc">latehalf2</td><td>Last ½, interleaved</td><td class="num">8</td></tr>
+     <tr><td class="sc">latequarter</td><td>Last ¼, distributed</td><td class="num">8</td></tr>
+     <tr class="hl"><td class="sc">late8th</td><td>Last ⅛, distributed</td><td class="num">5</td></tr>
+     <tr><td class="sc">last</td><td>After the final layer</td><td class="num">1</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <div class="panel"><h2><span class="dot">2</span>Matched controls</h2>
+   <p>Both match the trainable-parameter count of <span class="sc">late8th</span> and use the same data.</p>
+   <ul>
+    <li><b>LoRA:</b> standard full-network adaptation (rank 164 at 1.5B, 512 at 8B).</li>
+    <li><b>ParallelMLP:</b> zero-initialized MLP adapters parallel to the same blocks as <span class="sc">late8th</span>, on a frozen backbone. Controls capacity, location and freezing, but not information routing.</li>
+   </ul>
+   <p class="note">Trainable parameters at 1.5B: CAL 188,759,040 · LoRA 189,263,872 · ParallelMLP 188,751,360.</p>
+  </div>
+  <div class="panel"><h2><span class="dot">3</span>Data and evaluation</h2>
+   <p><b>50,000</b>-example general SFT corpus: 40% OpenHermes / 40% Airoboros / 20% PKU-SafeRLHF.</p>
+   <div class="bench">
+    <div><span class="grp">General</span><br>MMLU, GSM8K</div>
+    <div><span class="grp">Instruction following</span><br>IFEval, Long-IFEval (4K–32K tokens), SysBench, SQuAD, Glaive FC</div>
+    <div><span class="grp">Security</span><br>IH-Challenge, InjecAgent, Many-Shot Jailbreaking (MSJ), TensorTrust</div>
+   </div>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">4 / 9</span><span class="link">arxiv.org/abs/2605.09737</span></footer>
+</section>
+
+<!-- 5 · Placement sweep -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Results · 1.5B placement sweep</div><h1>Placement matters, and later is generally better</h1></header>
+ <div class="slide-body sweep">
+  <div class="panel"><div class="figure"><img src="figures/neurips26-system-prompt-anchoring/benchmark_barcharts.png" alt="Bar charts of eleven benchmarks across ten CAL placements, Base, LoRA and ParallelMLP on Qwen2.5-1.5B"></div>
+   <p class="caption">MMLU and GSM8K: pp change vs. Base; other panels absolute. Blue = accuracy (higher is better); red = attack success rate (lower is better).</p>
+  </div>
+  <div class="panel"><h2><span class="dot">1</span>Depth effect</h2>
+   <ul>
+    <li><b>Sparse late placements</b> generally offer the strongest performance–parameter trade-off; early or dense insertion performs poorly on several instruction-following and security tasks.</li>
+    <li><b>No placement dominates:</b> different depths lead IFEval, Glaive FC, IH-Challenge and InjecAgent.</li>
+    <li>Within late placements, distributing a few blocks beats concentrating the intervention in one final block.</li>
+   </ul>
+   <h2><span class="dot">2</span>Matched controls</h2>
+   <ul>
+    <li><b>LoRA</b> loses substantial MMLU and GSM8K performance and sharply increases attack success on InjecAgent and MSJ.</li>
+    <li><b><span class="sc">late8th</span> vs. ParallelMLP:</b> comparable on formatting and extraction, stronger on SysBench and Glaive FC, narrowly better on all four security evaluations.</li>
+   </ul>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">5 / 9</span><span class="link">arxiv.org/abs/2605.09737</span></footer>
+</section>
+
+<!-- 6 · Degradation -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Results · 1.5B under pressure</div><h1>More jailbreak shots, longer contexts</h1></header>
+ <div class="slide-body stack">
+  <div class="panel"><div class="figure fig-deg"><img src="figures/neurips26-system-prompt-anchoring/degradation_analysis.png" alt="Left: many-shot jailbreak attack success rate versus number of shots for Base, LoRA, ParallelMLP and LATE8TH. Right: Long-IFEval strict accuracy versus context length from 4k to 32k tokens"></div></div>
+  <div class="notes3">
+   <div class="panel"><h2>LoRA</h2><p>Degrades rapidly outside its training distribution, which contains neither extreme-length nor adversarial multi-turn examples.</p></div>
+   <div class="panel"><h2>Many-shot jailbreaking</h2><p>At 200-shot MSJ, <span class="sc">late8th</span> outperforms ParallelMLP (lower attack success rate is better).</p></div>
+   <div class="panel"><h2>Long-IFEval</h2><p><span class="sc">late8th</span> degrades smoothly at extreme lengths but does not surpass ParallelMLP in absolute accuracy.</p></div>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">6 / 9</span><span class="link">arxiv.org/abs/2605.09737</span></footer>
+</section>
+
+<!-- 7 · Activation magnitude -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Mechanistic analysis</div><h1>How much does each inserted block update the residual stream?</h1></header>
+ <div class="slide-body stack">
+  <div class="panel"><div class="figure fig-heat"><img src="figures/neurips26-system-prompt-anchoring/cal_magnitude_heatmap.png" alt="Heatmap of update-to-input residual norm ratio by placement configuration and transformer layer depth"></div>
+   <p class="caption">Cell = 100 · E‖X″ − X‖₂ / E‖X‖₂ for one configuration and layer; gray = no inserted block.</p>
+  </div>
+  <div class="notes3">
+   <div class="panel"><h2>Within-window pattern</h2><p>Updates spike at the first available block, fall through the middle, and rise toward the end, for <span class="sc">earlythird</span> and <span class="sc">midthird</span> alike.</p></div>
+   <div class="panel"><h2>Late configurations</h2><p>Strong late configurations keep updates above 1% near the end of the network; ParallelMLP has a similar late-stage profile to <span class="sc">late8th</span>.</p></div>
+   <div class="panel"><h2>Not a performance proxy</h2><p>Dense early placements and single-block <span class="sc">last</span> make large updates without being the strongest models.</p></div>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">7 / 9</span><span class="link">arxiv.org/abs/2605.09737</span></footer>
+</section>
+
+<!-- 8 · 8B transfer -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Results · transfer to Llama-3.1-8B-Instruct</div><h1>At 8B, <span class="sc">late8th</span> separates from its matched control</h1></header>
+ <div class="slide-body eightb">
+  <div class="panel">
+   <table class="data wide">
+    <thead>
+     <tr class="grp"><th></th><th colspan="2">General</th><th colspan="5">Instruction following</th><th colspan="4">Security</th></tr>
+     <tr><th>Model</th><th>MMLU ↑</th><th>GSM8K ↑</th><th>IFEval ↑</th><th>L-IFEval ↑</th><th>SysBench ↑</th><th>SQuAD ↑</th><th>Glaive ↑</th><th>IH-Chal. ↑</th><th>InjecAgent ↓</th><th>MSJ ↓</th><th>TensorTrust ↓</th></tr>
+    </thead>
+    <tbody>
+     <tr><td>Base</td><td>68.25</td><td>85.37</td><td>71.16</td><td>41.40</td><td>60.76</td><td>47.50</td><td>14.78</td><td>11.13</td><td>82.00</td><td>10.00</td><td>7.83</td></tr>
+     <tr><td>LoRA</td><td>64.88</td><td>76.95</td><td>57.12</td><td>34.66</td><td>45.82</td><td>64.55</td><td>21.87</td><td>20.79</td><td>84.75</td><td>73.61</td><td>5.05</td></tr>
+     <tr><td>ParallelMLP</td><td>68.01</td><td>83.02</td><td>61.74</td><td>31.84</td><td>42.32</td><td>59.33</td><td>1.89</td><td>12.01</td><td>71.55<sup>**</sup></td><td>38.05</td><td>7.22</td></tr>
+     <tr class="hl"><td>CAL (<span class="sc">late8th</span>)</td><td>68.25</td><td>83.02</td><td>69.13<sup>*</sup></td><td>33.92</td><td>58.60<sup>**</sup></td><td>58.75</td><td>6.66<sup>**</sup></td><td>14.14<sup>**</sup></td><td>81.90</td><td>25.00<sup>**</sup></td><td>6.80</td></tr>
+    </tbody>
+   </table>
+   <p class="caption">All values %; ↓ = attack success rate (lower is better). Stars mark a significant ParallelMLP vs. CAL difference: <sup>**</sup> p&lt;0.01, <sup>*</sup> p&lt;0.05 (two-sided proportion z-test).</p>
+  </div>
+  <div class="statrow">
+   <div class="panel"><div class="stat"><div class="num">+7.4 <small>pp</small></div><div class="label">IFEval vs. ParallelMLP (69.13 vs. 61.74)</div></div></div>
+   <div class="panel"><div class="stat"><div class="num">+16.3 <small>pp</small></div><div class="label">SysBench vs. ParallelMLP (58.60 vs. 42.32)</div></div></div>
+   <div class="panel"><div class="stat"><div class="num">38.05 → 25.00<small>%</small></div><div class="label">Many-shot jailbreak ASR, ParallelMLP → CAL</div></div></div>
+   <div class="panel"><h2>Not uniform</h2><p>SQuAD nearly unchanged, TensorTrust only marginal, and InjecAgent favors ParallelMLP. Both frozen adapters preserve general ability far better than LoRA.</p></div>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">8 / 9</span><span class="link">arxiv.org/abs/2605.09737</span></footer>
+</section>
+
+<!-- 9 · Takeaways & limitations -->
+<section class="slide">
+ <header class="slide-head"><div class="kicker">Takeaways</div><h1>Placement is a design variable, not a detail</h1></header>
+ <div class="slide-body closing">
+  <div class="panel"><h2><span class="dot">1</span>Conclusions</h2>
+   <ul>
+    <li>Placement is a major, <b>task-dependent</b> factor; later blocks are generally strong and parameter-efficient.</li>
+    <li>At 8B, the transferred <span class="sc">late8th</span> separates from matched ParallelMLP on IFEval, SysBench and many-shot jailbreaking.</li>
+    <li>The route helps most with explicit constraints, multi-turn adherence and sustained many-shot attacks, not every form of extraction or injection.</li>
+   </ul>
+   <h2 class="sub"><span class="dot">→</span>Future work</h2>
+   <ul>
+    <li>Other tasks, including privileged sources that are not system prompts.</li>
+    <li>Repeat sweeps across corpora, model families, scales and seeds; adversarial and preference-based training of the inserted blocks.</li>
+   </ul>
+  </div>
+  <div class="panel"><h2><span class="dot">2</span>Limitations</h2>
+   <ul>
+    <li>One frozen-backbone setup and one 50,000-example corpus: rankings may depend on corpus, optimization recipe, backbone family and freezing.</li>
+    <li>Each configuration was trained once, so variation across runs and initializations is not measured.</li>
+    <li>Placements swept only on Qwen2.5-1.5B. The 8B study changes model family, tokenizer, chat template and hyperparameters together, so it cannot isolate scale.</li>
+    <li>CAL does not uniformly beat the Base model on security, and is not a hard security boundary: it should not replace access control or input sanitization.</li>
+   </ul>
+  </div>
+  <div class="panel cost"><h2><span class="dot">3</span>Cost at 1.5B (5 blocks)</h2>
+   <div class="stat"><div class="num">+12.23%</div><div class="label">parameters (188.76M), +360 MB bf16 weights</div></div>
+   <div class="stat"><div class="num">+18.2–19.9%</div><div class="label">median prefill overhead, 512–4096-token prompts</div></div>
+   <div class="stat"><div class="num">+12.0–13.2%</div><div class="label">decode overhead (time-to-first-token: +17.9–19.9%)</div></div>
+   <p class="note">Measured at batch size one with bf16 FlashAttention-2 on an RTX 4080 Laptop GPU; the stable percentage overhead is consistent with caching CAL keys/values.</p>
+  </div>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="page">9 / 9</span><span class="link">arxiv.org/abs/2605.09737</span></footer>
+</section>
+
+</body></html>

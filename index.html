@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lixing Li</title>
+  <meta name="description" content="Lixing Li: mathematics and computer science at Cornell University. Research in neural architectures, language-model security, representation learning, and formal reasoning.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">LL</span><span class="brand-name">Lixing Li</span></a>
+      <div class="nav-links">
+        <a href="index.html" aria-current="page"><i data-lucide="house"></i><span>Home</span></a>
+        <a href="research.html"><i data-lucide="flask-conical"></i><span>Research</span></a>
+        <a href="projects.html"><i data-lucide="layers"></i><span>Projects</span></a>
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <i data-lucide="moon" class="moon"></i><i data-lucide="sun" class="sun"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Hero -->
+    <header class="hero">
+      <div class="container hero-grid">
+        <div class="avatar reveal">
+          <span class="initials" aria-hidden="true">LL</span>
+          <!-- Add a square photo at assets/img/profile.jpg; it replaces the initials automatically. -->
+          <img src="assets/img/profile.jpg" alt="Portrait of Lixing Li" hidden>
+        </div>
+        <div class="reveal">
+          <span class="eyebrow"><i data-lucide="sparkles"></i>Math &amp; CS · Cornell University</span>
+          <h1>Lixing Li</h1>
+          <p class="tagline">Mathematics (CS concentration) at Cornell · 2025–26 year abroad at Oxford</p>
+          <p class="bio">I'm an undergraduate in mathematics at Cornell University, graduating in May 2027, and I spent 2025–2026 studying mathematics and computer science at the University of Oxford. My research is in machine learning: neural architectures, language-model security, representation learning, and formal reasoning with Lean&nbsp;4.</p>
+          <p class="bio">I've sole-authored four AI papers and first-authored a paper on scientific software for accelerator physics. Outside research, I build robots with Cornell Cup Robotics and teach as an undergraduate TA.</p>
+          <div class="interests">
+            <span class="chip"><i data-lucide="brain-circuit"></i>Neural architectures</span>
+            <span class="chip"><i data-lucide="shield-check"></i>LLM security</span>
+            <span class="chip"><i data-lucide="sigma"></i>Formal reasoning</span>
+            <span class="chip"><i data-lucide="atom"></i>Scientific software</span>
+            <span class="chip"><i data-lucide="bot"></i>Robotics</span>
+          </div>
+          <div class="contact-row">
+            <a class="pill primary" href="mailto:ll963@cornell.edu"><i data-lucide="mail"></i>ll963@cornell.edu</a>
+            <a class="pill" href="https://github.com/lllx125" target="_blank" rel="noopener"><i data-lucide="github"></i>GitHub</a>
+            <a class="pill" href="https://linkedin.com/in/lixing-li-54b46b2b0" target="_blank" rel="noopener"><i data-lucide="linkedin"></i>LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Research highlights -->
+    <section class="section" id="research">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-icon"><i data-lucide="flask-conical"></i></div>
+          <h2>Research</h2>
+          <a class="more" href="research.html">All papers &amp; slides<i data-lucide="arrow-right"></i></a>
+        </div>
+        <div class="pub-strip reveal">
+          <a class="pub-chip" href="research.html#napac25-atomic-constants"><span class="v">NAPAC 2025</span><span class="t">AtomicAndPhysicalConstants.jl</span></a>
+          <a class="pub-chip" href="research.html#aaai26-obfuscated-nng"><span class="v">AAAI Symposium Series 2026</span><span class="t">The Obfuscated Natural Number Game</span></a>
+          <a class="pub-chip" href="research.html#neurips26-system-prompt-anchoring"><span class="v">NeurIPS 2026 Workshop · FLMSec</span><span class="t">System-Prompt Anchoring with Cross-Attention</span></a>
+          <a class="pub-chip" href="research.html#neurips26-reconspan"><span class="v">NeurIPS 2026 Workshop · LP4FM</span><span class="t">ReconSpan: Adaptive Latent Tokenization</span></a>
+          <a class="pub-chip" href="research.html#preprint26-ngn"><span class="v">Preprint 2026</span><span class="t">NGN: Network Size as a Differentiable Count</span></a>
+        </div>
+
+        <div class="stack" style="margin-top:16px">
+          <article class="card entry reveal">
+            <div class="entry-top">
+              <div>
+                <h3>Research Assistant</h3>
+                <div class="org">Cornell Laboratory for Accelerator-based Sciences and Education</div>
+              </div>
+              <div class="meta"><span><i data-lucide="calendar-days"></i>Jan 2024 – present</span><span><i data-lucide="map-pin"></i>Ithaca, NY</span></div>
+            </div>
+            <ul>
+              <li><code>AtomicAndPhysicalConstants.jl</code> provides configurable units and numeric types for physical constants, particle properties, and isotope data in scientific simulations.</li>
+              <li>Co-led scientific software development; achieved a ~10× speedup through type-stable, macro-based APIs, first-authored the accompanying peer-reviewed NAPAC'25 proceedings paper, and presented the poster.</li>
+            </ul>
+            <div class="links">
+              <a class="pill" href="https://doi.org/10.18429/JACoW-NAPAC2025-MOP010" target="_blank" rel="noopener"><i data-lucide="file-text"></i>Paper</a>
+              <a class="pill" href="https://github.com/bmad-sim/AtomicAndPhysicalConstants.jl" target="_blank" rel="noopener"><i data-lucide="code"></i>Code</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="section" id="education">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-icon"><i data-lucide="graduation-cap"></i></div>
+          <h2>Education</h2>
+        </div>
+        <div class="stack">
+          <article class="card entry reveal">
+            <div class="entry-top">
+              <div>
+                <h3>Cornell University</h3>
+                <div class="org">College of Arts and Sciences</div>
+              </div>
+              <div class="meta"><span><i data-lucide="calendar-days"></i>Anticipated May 2027</span><span><i data-lucide="map-pin"></i>Ithaca, NY</span></div>
+            </div>
+            <p class="degree">B.A. in Mathematics (Computer Science concentration) <span class="badge teal">GPA 4.14 / 4.30</span></p>
+            <details class="coursework">
+              <summary><i data-lucide="chevron-right"></i>Selected coursework</summary>
+              <div class="course-list">
+                <span class="tag">CS 4789 Intro Reinforcement Learning</span>
+                <span class="tag">MATH 6710 Probability Theory I</span>
+                <span class="tag">PHYS 4230 Statistical Thermodynamics</span>
+                <span class="tag">PHYS 4445 Intro to General Relativity</span>
+                <span class="tag">CS 2110 OOP &amp; Data Structures</span>
+                <span class="tag">MATH 4130/4140 Honors Analysis I–II</span>
+                <span class="tag">MATH 4810 Mathematical Logic</span>
+                <span class="tag">MATH 4220 Applied Complex Analysis</span>
+                <span class="tag">PHYS 3316 Quantum Mechanics</span>
+                <span class="tag">PHYS 3318 Analytical Mechanics</span>
+                <span class="tag">ECON 3120 Econometrics</span>
+                <span class="tag">SYSEN 4900 Systems Engineering Project (Robotics)</span>
+              </div>
+            </details>
+          </article>
+
+          <article class="card entry reveal">
+            <div class="entry-top">
+              <div>
+                <h3>University of Oxford</h3>
+                <div class="org">St Anne's College</div>
+              </div>
+              <div class="meta"><span><i data-lucide="calendar-days"></i>Oct 2025 – Jun 2026</span><span><i data-lucide="map-pin"></i>Oxford, UK</span></div>
+            </div>
+            <p class="degree">Year Abroad in Mathematics &amp; Computer Science</p>
+            <details class="coursework">
+              <summary><i data-lucide="chevron-right"></i>Selected coursework</summary>
+              <div class="course-list">
+                <span class="tag">Model of Computation</span>
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Computer-Aided Formal Verification</span>
+                <span class="tag">Lambda Calculus and Type</span>
+                <span class="tag">Automata, Logic and Game</span>
+              </div>
+            </details>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="section" id="experience">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-icon"><i data-lucide="briefcase"></i></div>
+          <h2>Experience</h2>
+        </div>
+        <div class="stack">
+          <article class="card entry reveal">
+            <div class="entry-top">
+              <div>
+                <h3>Engineering Project Team Member</h3>
+                <div class="org">Cornell Cup Robotics</div>
+              </div>
+              <div class="meta"><span><i data-lucide="calendar-days"></i>Oct 2023 – present</span><span><i data-lucide="map-pin"></i>Ithaca, NY</span></div>
+            </div>
+
+            <div class="group-label"><i data-lucide="bot"></i>WALI · tour-guide robot</div>
+            <ul>
+              <li>Lead full-stack development of an ongoing tour-guide robot across software, mechanical, and electrical work; design an embodied AI agent that interprets camera input and uses tool calls for locomotion, observation, and spoken interaction.</li>
+              <li>Define WALI's modular Raspberry Pi 5 / ROS architecture connecting motor control, perception, speech recognition/synthesis, and a browser interface; planned capabilities include visitor guidance, person following, and lab introductions.</li>
+              <li>Plan hardware/software integration across chassis, Dynamixel motors, camera, microphone/speaker, local storage, and agent tools, with separate hardware, capabilities, perception, agent, core, and interface modules.</li>
+            </ul>
+
+            <div class="group-label"><i data-lucide="waves"></i>Xplorer · submarine with EarthEcho</div>
+            <ul>
+              <li>Lead the five-member mechanical subteam; oversee thruster propulsion, lead-screw balancing, water sampling, and waterproofing.</li>
+            </ul>
+
+            <div class="group-label"><i data-lucide="rocket"></i>Astrobee (NASA)</div>
+            <ul>
+              <li>Developed a Unity-based simulation and PID controller for a 6-DOF robot in microgravity, reducing trajectory error by ~20%; validated performance during zero-g flight (May 2025).</li>
+              <li>Built a VR minigame for Astrobee spatial visualization and STEM outreach; engaged ~100 students at outreach events and club exhibitions.</li>
+            </ul>
+
+            <div class="group-label"><i data-lucide="cpu"></i>More builds</div>
+            <ul>
+              <li>Co-developed Mini XRP in about one month, redesigning the compact mechanical system through CAD, 3D printing, and repeated fit testing; exhibited at FIRST Championships (2024–25) to ~1,000 attendees. The broader XRP platform has sold 5,500+ kits across the U.S. and 100+ countries.</li>
+              <li>Led an accelerated RoboCup soccer-robot build under a two-week deadline, coordinating about nine contributors across mechanical, electrical, and software subteams.</li>
+              <li>Led a team of 3 to build an ESP32-S3 robotic pet with facial/voice recognition, OTA updates over Wi-Fi, 6 sensor inputs, and 3 output channels to emulate lifelike behaviors.</li>
+              <li>Engineered a robotic toy with 6 movable parts and 10 actions via Xbox controller + ESP32, with 1,000+ lines of Arduino and Python code.</li>
+              <li>Mentored 10+ new members and led 3 CAD training sessions, improving delivery speed and design quality across 10+ robotics projects.</li>
+            </ul>
+            <div class="links">
+              <a class="pill" href="https://github.com/lllx125/Astrobee-Simulation" target="_blank" rel="noopener"><i data-lucide="code"></i>Astrobee simulation</a>
+              <a class="pill" href="https://github.com/lllx125/BabyYoda" target="_blank" rel="noopener"><i data-lucide="code"></i>Robotic toy</a>
+            </div>
+          </article>
+
+          <article class="card entry reveal">
+            <div class="entry-top">
+              <div>
+                <h3>Guided Reading Participant</h3>
+                <div class="org">Cornell Math Directed Reading Program</div>
+              </div>
+              <div class="meta"><span><i data-lucide="calendar-days"></i>Feb 2025 – May 2025</span><span><i data-lucide="map-pin"></i>Ithaca, NY</span></div>
+            </div>
+            <ul>
+              <li>Completed a graduate-level, 4-hour weekly guided reading program in advanced probability and stochastic processes, studying measure theory, information theory, and stochastic calculus through <em>Knowing the Odds</em> and <em>A First Course in Stochastic Calculus</em>.</li>
+              <li>Delivered a final technical presentation on the Central Limit Theorem to ~10 faculty and peers.</li>
+            </ul>
+          </article>
+
+          <article class="card entry reveal">
+            <div class="entry-top">
+              <div>
+                <h3>Software Engineering Intern</h3>
+                <div class="org">LED Lighting Supply</div>
+              </div>
+              <div class="meta"><span><i data-lucide="calendar-days"></i>Jun 2024 – Aug 2024</span><span><i data-lucide="map-pin"></i>Nashua, NH</span></div>
+            </div>
+            <ul>
+              <li>Built 11 React-based product recommendation webpages, improving customer navigation and contributing to a 4.9/5.0 Trustpilot rating.</li>
+              <li>Negotiated directly with Chinese manufacturers in Mandarin, securing a 40% cost reduction and optimizing supplier relations.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mentorship -->
+    <section class="section" id="mentorship">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-icon"><i data-lucide="users"></i></div>
+          <h2>Mentorship</h2>
+        </div>
+        <article class="card entry reveal">
+          <div class="entry-top">
+            <div>
+              <h3>Undergraduate Teaching Assistant</h3>
+              <div class="org">Cornell Physics UTA Program &amp; Cornell Mathematics Department</div>
+            </div>
+            <div class="meta"><span><i data-lucide="calendar-days"></i>Jan 2024 – May 2025</span><span><i data-lucide="map-pin"></i>Ithaca, NY</span></div>
+          </div>
+          <ul>
+            <li>Participated in 12 teaching seminars and authored 12 essays on the psychology of learning to improve instructional techniques.</li>
+            <li>Facilitated weekly study halls for PHYS 1116, assisting 50+ students with 10+ advanced mechanics problem sets.</li>
+            <li>Provided 6 hours/week of tutoring in Cornell's Math Support Center, supporting 100+ students across 10+ courses and maintaining 90%+ positive feedback.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Honors -->
+    <section class="section" id="honors">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-icon"><i data-lucide="award"></i></div>
+          <h2>Honors &amp; Awards</h2>
+        </div>
+        <div class="stack">
+          <article class="card award reveal">
+            <div class="award-icon"><i data-lucide="trophy"></i></div>
+            <div>
+              <h3>Winner · Cornell Mathematical Contest in Modeling</h3>
+              <div class="meta" style="margin-top:4px"><span><i data-lucide="calendar-days"></i>Nov 2024</span></div>
+              <p>Modeled Manhattan trash collection using multi-objective optimization and hill-climbing algorithms; selected as the top team out of 30.</p>
+            </div>
+          </article>
+          <article class="card award reveal">
+            <div class="award-icon"><i data-lucide="medal"></i></div>
+            <div>
+              <h3>1st Place · Cornell Makeathon</h3>
+              <div class="meta" style="margin-top:4px"><span><i data-lucide="calendar-days"></i>Mar 2025</span></div>
+              <p>Built a wearable robotic exoskeleton to assist arm movement and rehabilitation; won against ~40 hardware/software teams.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="section-icon"><i data-lucide="wrench"></i></div>
+          <h2>Skills</h2>
+        </div>
+        <div class="skills">
+          <div class="card skill-group reveal">
+            <h3><i data-lucide="code"></i>Programming</h3>
+            <div class="tags"><span class="tag">Python</span><span class="tag">Julia</span><span class="tag">C++</span><span class="tag">Java</span><span class="tag">JavaScript / TypeScript</span></div>
+          </div>
+          <div class="card skill-group reveal">
+            <h3><i data-lucide="brain-circuit"></i>AI Research</h3>
+            <div class="tags"><span class="tag">Neural architectures</span><span class="tag">Parameter-efficient fine-tuning</span><span class="tag">Representation learning</span><span class="tag">Benchmarking</span><span class="tag">Ablation studies</span></div>
+          </div>
+          <div class="card skill-group reveal">
+            <h3><i data-lucide="sigma"></i>Formal Methods</h3>
+            <div class="tags"><span class="tag">Lean 4</span><span class="tag">Formal proof verification</span><span class="tag">Theorem-proving benchmark design</span></div>
+          </div>
+          <div class="card skill-group reveal">
+            <h3><i data-lucide="bot"></i>Robotics &amp; Embedded</h3>
+            <div class="tags"><span class="tag">Arduino</span><span class="tag">ESP32</span><span class="tag">ESP-IDF</span><span class="tag">ROS</span><span class="tag">PID control</span><span class="tag">Serial communication</span><span class="tag">CAD (Fusion 360, SolidWorks)</span><span class="tag">3D printing</span></div>
+          </div>
+          <div class="card skill-group reveal">
+            <h3><i data-lucide="globe"></i>Web Development</h3>
+            <div class="tags"><span class="tag">React</span><span class="tag">Next.js</span><span class="tag">GraphQL</span><span class="tag">HTML / CSS</span><span class="tag">AWS</span><span class="tag">WordPress</span></div>
+          </div>
+          <div class="card skill-group reveal">
+            <h3><i data-lucide="terminal"></i>Tools &amp; Platforms</h3>
+            <div class="tags"><span class="tag">Git / GitHub</span><span class="tag">Unity</span><span class="tag">LaTeX</span></div>
+          </div>
+          <div class="card skill-group reveal">
+            <h3><i data-lucide="presentation"></i>Other</h3>
+            <div class="tags"><span class="tag">Technical writing</span><span class="tag">Public speaking</span><span class="tag">Algorithm design</span></div>
+          </div>
+          <div class="card skill-group reveal">
+            <h3><i data-lucide="languages"></i>Languages</h3>
+            <div class="tags"><span class="tag">English (fluent)</span><span class="tag">Mandarin (native)</span><span class="tag">Cantonese (native)</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 Lixing Li · Last updated 2026-11-02</span>
+      <div class="socials">
+        <a class="icon-btn" href="mailto:ll963@cornell.edu" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a class="icon-btn" href="https://github.com/lllx125" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a class="icon-btn" href="https://linkedin.com/in/lixing-li-54b46b2b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

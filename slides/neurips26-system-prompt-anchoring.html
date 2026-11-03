@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>System-Prompt Anchoring</title><link rel="stylesheet" href="slide.css">
+<style>
+  .slide-body { grid-template-columns: 1fr 1.45fr 1fr; }
+  .panel .lead { font-size: 16.5px; line-height: 1.45; }
+  .panel .q { margin-top: auto; padding: 12px 14px; border-radius: 10px; background: var(--accent-soft); font-size: 15px; line-height: 1.4; }
+  .panel .q b { color: var(--accent); }
+  .method .figure { flex: 0 0 auto; }
+  .method .figure img { mix-blend-mode: multiply; }
+  .stat .num.sm { font-size: 30px; }
+  .method ul li { font-size: 15.5px; line-height: 1.4; }
+  .problem ul li { font-size: 15.5px; line-height: 1.42; }
+  .stat .num small { font-size: 18px; font-weight: 500; }
+  .stat .label { font-size: 14px; }
+  .panel .note { margin-top: auto; font-size: 12.5px; line-height: 1.35; color: var(--muted); }
+</style></head>
+<body><div class="slide">
+ <header class="slide-head"><div class="venue">NeurIPS 2026 Workshop · FLMSec</div><h1>System-Prompt Anchoring with Cross-Attention Layers</h1><div class="authors">Lixing Li · Cornell University</div></header>
+ <div class="slide-body">
+  <section class="panel problem"><h2><span class="dot">1</span>Problem</h2>
+   <ul>
+    <li>Causal self-attention treats privileged system-prompt tokens and untrusted user text with equal priority.</li>
+    <li>This leads to <b>prompt injection</b> and <b>context drift</b>: system rules erode over long or multi-turn inputs.</li>
+    <li>Prior defenses rely on preference optimization, structured queries, or hierarchy training rather than a dedicated route.</li>
+   </ul>
+   <p class="q"><b>Question:</b> does a dedicated cross-attention route to the system prompt help, and where in the network should it go?</p>
+  </section>
+  <section class="panel method"><h2><span class="dot">2</span>Method</h2>
+   <div class="figure"><img src="figures/neurips26-system-prompt-anchoring/cal_diagram.png" alt="CAL block: cross-attention from the full input to the system-prompt span, then feed-forward, inserted between frozen decoder layers"></div>
+   <p class="caption">A CAL block: queries from the full residual stream, keys/values only from the system-prompt span.</p>
+   <ul>
+    <li>Zero-initialized CAL blocks trained on a <b>frozen</b> decoder backbone (50K-example SFT corpus).</li>
+    <li>Ten-placement sweep on Qwen2.5-1.5B; later placements are generally stronger and more parameter-efficient.</li>
+    <li>Selected <span style="font-variant:small-caps">late8th</span> (5 blocks) transferred to Llama-3.1-8B vs. parameter-matched LoRA and ParallelMLP.</li>
+   </ul>
+  </section>
+  <section class="panel"><h2><span class="dot">3</span>Key results</h2>
+   <div class="stat"><div class="num">+7.4 <small>pp</small></div><div class="label">IFEval at 8B vs. matched ParallelMLP (69.13 vs. 61.74, <i>p</i>&lt;0.05)</div></div>
+   <div class="stat"><div class="num">+16.3 <small>pp</small></div><div class="label">SysBench at 8B vs. matched ParallelMLP (58.60 vs. 42.32, <i>p</i>&lt;0.01)</div></div>
+   <div class="stat"><div class="num sm">38.05 → 25.00<small>%</small></div><div class="label">Many-shot jailbreak attack success at 8B, ParallelMLP → CAL (lower is better, <i>p</i>&lt;0.01)</div></div>
+   <p class="note">Gains are task-dependent: general ability is largely preserved, but InjecAgent favors ParallelMLP.</p>
+  </section>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="link">arxiv.org/abs/2605.09737</span></footer>
+</div></body></html>

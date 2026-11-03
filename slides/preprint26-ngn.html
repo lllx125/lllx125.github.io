@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>NGN Differentiable Count</title><link rel="stylesheet" href="slide.css">
+<style>
+  .panel p.lead { font-size: 15.5px; line-height: 1.45; }
+  .panel ul li { font-size: 15.5px; line-height: 1.42; }
+  .panel ul li b { color: var(--accent); font-weight: 600; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; }
+  .tags span { font-size: 12px; font-weight: 500; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 3px 9px; }
+  .stat .num { font-size: 31px; }
+  .stat .num small { font-family: "Inter", sans-serif; font-size: 14px; font-weight: 500; color: var(--muted); margin-left: 4px; }
+  .stat .label { font-size: 13.5px; }
+  .stat { padding: 8px 0; }
+  svg text { font-family: "Inter", system-ui, sans-serif; }
+  svg .mono { font-family: "JetBrains Mono", monospace; }
+</style></head>
+<body><div class="slide">
+ <header class="slide-head"><div class="venue">Preprint · arXiv · 2026</div><h1>NGN: Learning Neural Network Size as a Differentiable Count</h1><div class="authors">Lixing Li (sole author)</div></header>
+ <div class="slide-body">
+  <section class="panel"><h2><span class="dot">1</span>Problem</h2>
+   <ul>
+    <li>Widths, depths, and other structural sizes are usually <b>fixed before training</b>; choosing them takes expertise or repeated training across candidate sizes.</li>
+    <li>Useful capacity depends on the data and objective, so size could instead be <b>optimized alongside the weights</b>.</li>
+    <li>NGN learns <b>how many</b> ordered components a model needs as one differentiable boundary per component group.</li>
+   </ul>
+   <div class="tags"><span>MLP</span><span>CNN</span><span>GNN</span><span>Transformer</span><span>Mamba</span><span>LoRA</span><span>Adapters</span><span>Depth</span><span>Structured pruning</span></div>
+  </section>
+  <section class="panel"><h2><span class="dot">2</span>Method</h2>
+   <div class="figure">
+    <svg viewBox="0 0 410 330" width="410" height="330" role="img" aria-label="Soft count gate over ordered components during training, then hard truncation at deployment">
+     <text x="0" y="13" font-size="11" font-weight="700" letter-spacing="0.06em" fill="var(--muted)">TRAINING · SOFT COUNT GATE</text>
+     <text x="410" y="13" font-size="12" text-anchor="end" fill="var(--ink)" class="mono">y = Σ wₖ gₖ(t) fₖ(x)</text>
+     <text x="410" y="30" font-size="11" text-anchor="end" fill="var(--muted)" class="mono">gₖ(t) = σ(β(t − k + δ))</text>
+     <!-- candidate slots and gated fill -->
+     <g stroke="var(--line)" stroke-width="1" fill="var(--surface)">
+      <rect x="22" y="42" width="30" height="88" rx="3"/><rect x="60" y="42" width="30" height="88" rx="3"/><rect x="98" y="42" width="30" height="88" rx="3"/><rect x="136" y="42" width="30" height="88" rx="3"/><rect x="174" y="42" width="30" height="88" rx="3"/><rect x="212" y="42" width="30" height="88" rx="3"/><rect x="250" y="42" width="30" height="88" rx="3"/><rect x="288" y="42" width="30" height="88" rx="3"/><rect x="326" y="42" width="30" height="88" rx="3"/><rect x="364" y="42" width="30" height="88" rx="3"/>
+     </g>
+     <g fill="var(--accent)" fill-opacity="0.78">
+      <rect x="22" y="42" width="30" height="88" rx="3"/><rect x="60" y="42" width="30" height="88" rx="3"/><rect x="98" y="42.1" width="30" height="87.9" rx="3"/><rect x="136" y="42.6" width="30" height="87.4" rx="3"/><rect x="174" y="46.2" width="30" height="83.8" rx="3"/><rect x="212" y="65.7" width="30" height="64.3" rx="3"/><rect x="250" y="106.3" width="30" height="23.7" rx="3"/><rect x="288" y="125.8" width="30" height="4.2" rx="2"/><rect x="326" y="129.4" width="30" height="0.6"/>
+     </g>
+     <path d="M22,42.0 L29,42.0 L37,42.0 L45,42.0 L52,42.0 L60,42.0 L67,42.0 L75,42.0 L83,42.0 L90,42.0 L98,42.0 L105,42.1 L113,42.1 L121,42.1 L128,42.2 L136,42.3 L143,42.4 L151,42.6 L159,42.9 L166,43.3 L174,43.9 L181,44.8 L189,46.2 L197,48.1 L204,50.8 L212,54.5 L219,59.4 L227,65.7 L235,73.2 L242,81.6 L250,90.4 L257,98.8 L265,106.3 L273,112.6 L280,117.5 L288,121.2 L295,123.9 L303,125.8 L311,127.2 L318,128.1 L326,128.7 L333,129.1 L341,129.4 L349,129.6 L356,129.7 L364,129.8 L371,129.9 L379,129.9 L387,129.9 L394,130.0" fill="none" stroke="var(--warm)" stroke-width="2.2"/>
+     <line x1="246" y1="36" x2="246" y2="134" stroke="var(--warm)" stroke-width="1.4" stroke-dasharray="4 3"/>
+     <rect x="249" y="44" width="110" height="31" rx="3" fill="var(--surface)" fill-opacity="0.92"/>
+     <text x="252" y="56" font-size="12" font-weight="600" fill="var(--warm)">boundary t</text>
+     <text x="252" y="70" font-size="10.5" fill="var(--muted)">learned with weights</text>
+     <g font-size="11" fill="var(--muted)" text-anchor="middle" class="mono">
+      <text x="37" y="146">f₀</text><text x="75" y="146">f₁</text><text x="113" y="146">f₂</text><text x="151" y="146">f₃</text><text x="189" y="146">f₄</text><text x="227" y="146">f₅</text><text x="265" y="146">f₆</text><text x="303" y="146">f₇</text><text x="341" y="146">f₈</text><text x="379" y="146">f₉</text>
+     </g>
+     <!-- transition -->
+     <g>
+      <line x1="205" y1="158" x2="205" y2="196" stroke="var(--muted)" stroke-width="1.4"/>
+      <path d="M199,190 L205,198 L211,190" fill="none" stroke="var(--muted)" stroke-width="1.4"/>
+      <text x="218" y="173" font-size="11.5" fill="var(--ink)">anneal β → sharp gate</text>
+      <text x="218" y="188" font-size="11.5" fill="var(--ink)">α sin²(πt) snaps t to an integer</text>
+      <text x="192" y="173" font-size="11.5" fill="var(--ink)" text-anchor="end">J = L + λt + α sin²(πt)</text>
+      <text x="192" y="188" font-size="11" fill="var(--muted)" text-anchor="end">λt = capacity price</text>
+     </g>
+     <text x="0" y="218" font-size="11" font-weight="700" letter-spacing="0.06em" fill="var(--muted)">DEPLOYMENT · HARD TRUNCATION</text>
+     <g fill="var(--accent)">
+      <rect x="22" y="230" width="30" height="56" rx="3"/><rect x="60" y="230" width="30" height="56" rx="3"/><rect x="98" y="230" width="30" height="56" rx="3"/><rect x="136" y="230" width="30" height="56" rx="3"/><rect x="174" y="230" width="30" height="56" rx="3"/><rect x="212" y="230" width="30" height="56" rx="3"/>
+     </g>
+     <g fill="none" stroke="var(--muted)" stroke-opacity="0.55" stroke-width="1.2" stroke-dasharray="3 3">
+      <rect x="250" y="230" width="30" height="56" rx="3"/><rect x="288" y="230" width="30" height="56" rx="3"/><rect x="326" y="230" width="30" height="56" rx="3"/><rect x="364" y="230" width="30" height="56" rx="3"/>
+     </g>
+     <g stroke="var(--muted)" stroke-opacity="0.55" stroke-width="1.2">
+      <path d="M258,250 L272,266 M272,250 L258,266"/><path d="M296,250 L310,266 M310,250 L296,266"/><path d="M334,250 L348,266 M348,250 L334,266"/><path d="M372,250 L386,266 M386,250 L372,266"/>
+     </g>
+     <line x1="246" y1="224" x2="246" y2="292" stroke="var(--warm)" stroke-width="1.4" stroke-dasharray="4 3"/>
+     <g font-size="11" text-anchor="middle" class="mono">
+      <g fill="var(--ink)"><text x="37" y="302">f₀</text><text x="75" y="302">f₁</text><text x="113" y="302">f₂</text><text x="151" y="302">f₃</text><text x="189" y="302">f₄</text><text x="227" y="302">f₅</text></g>
+      <g fill="var(--muted)" fill-opacity="0.6"><text x="265" y="302">f₆</text><text x="303" y="302">f₇</text><text x="341" y="302">f₈</text><text x="379" y="302">f₉</text></g>
+     </g>
+     <path d="M22,310 L22,315 L242,315 L242,310" fill="none" stroke="var(--accent)" stroke-width="1.2"/>
+     <text x="132" y="328" font-size="11.5" font-weight="600" fill="var(--accent)" text-anchor="middle">keep k ≤ round(t): deployed prefix</text>
+     <path d="M250,310 L250,315 L394,315 L394,310" fill="none" stroke="var(--muted)" stroke-opacity="0.6" stroke-width="1.2"/>
+     <text x="322" y="328" font-size="11.5" fill="var(--muted)" text-anchor="middle">discarded</text>
+    </svg>
+   </div>
+   <p class="caption">One learnable boundary t gates an ordered prefix of components fₖ (scaled by wₖ = 2⁻ᵏ). The capacity price λt pushes t inward; task gradients at the frontier recruit new components.</p>
+  </section>
+  <section class="panel"><h2><span class="dot">3</span>Key results</h2>
+   <div class="stat"><div class="num">49 / 50</div><div class="label">seed–dimension cases where the learned VAE bottleneck count matches a nonlinear manifold’s true intrinsic dimension (98%)</div></div>
+   <div class="stat"><div class="num">0.00<small>pt change</small></div><div class="label">accuracy change from hard truncation on all four 10-seed MNIST, CIFAR-10, and Cora rows (medians; MNIST MLP <span style="white-space:nowrap">96.93 → 96.93</span>)</div></div>
+   <div class="stat"><div class="num">78.6<small>vs 75.2 / 45.1</small></div><div class="label">WikiSQL-easy score of truncated NGN LoRA on Llama-3-8B-Instruct at learned rank 19, vs SoRA / AdaLoRA at the same rank</div></div>
+  </section>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="link">arxiv.org/abs/2609.27291</span></footer>
+</div></body></html>

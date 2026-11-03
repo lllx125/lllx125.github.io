@@ -1,0 +1,69 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Obfuscated Natural Number Game</title><link rel="stylesheet" href="slide.css">
+<style>
+  .slide-head h1 { font-size: 34px; }
+  .panel ul { gap: 9px; }
+  .panel li { font-size: 15.5px; line-height: 1.42; }
+  .panel li b { font-weight: 600; }
+  .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+  .obf { width: 100%; display: grid; gap: 10px; align-content: start; }
+  .rows { display: grid; gap: 5px; }
+  .row { display: grid; grid-template-columns: 52px 1fr; align-items: center; gap: 8px;
+         font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 13px; }
+  .row .lam { font-size: 11.5px; color: var(--muted); text-align: right; white-space: nowrap; }
+  .row code { font-family: inherit; background: var(--bg); border: 1px solid var(--line);
+              border-radius: 6px; padding: 4px 8px; white-space: nowrap; overflow: hidden; }
+  .row .id { color: var(--accent); font-weight: 600; }
+  .row .x { color: var(--warm); font-weight: 600; }
+  .sub .nt { text-transform: none; letter-spacing: 0; }
+  .nw { white-space: nowrap; }
+  .sub { font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .pipe { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; font-size: 12px; }
+  .pipe span.s { background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 3px 9px; font-weight: 600; }
+  .pipe span.s.lean { background: var(--warm-soft); color: var(--warm); }
+  .pipe span.a { color: var(--muted); font-size: 11px; }
+  .stat .num { font-size: 32px; }
+  .stat .num small { font-size: 17px; color: var(--muted); font-weight: 500; }
+  .stat .label { font-size: 14px; }
+  .stat .p { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+  .panel .figure { place-items: start stretch; }
+</style></head>
+<body><div class="slide">
+ <header class="slide-head">
+  <div class="venue">AAAI Spring Symposium Series · 2026</div>
+  <h1>Evaluating the Architectural Reasoning Capabilities of LLM Provers via the Obfuscated Natural Number Game</h1>
+  <div class="authors">Lixing Li (sole author) · St Anne’s College, Oxford</div>
+ </header>
+ <div class="slide-body">
+  <section class="panel"><h2><span class="dot">1</span>Problem</h2>
+   <ul>
+    <li>LLM provers do well on MiniF2F and PutnamBench, but is that <b>genuine logical reasoning</b> or <b>semantic pattern matching</b> against pre-training data?</li>
+    <li><b>Architectural Reasoning</b>: proving theorems using only local axioms and definitions in an alien math domain, with no meaningful names, no Mathlib, and no high-level tactics.</li>
+    <li>Discovering new mathematics needs this ability, because unexplored domains have no familiar names or libraries.</li>
+   </ul>
+  </section>
+  <section class="panel"><h2><span class="dot">2</span>Method</h2>
+   <div class="figure"><div class="obf">
+    <div class="sub">Same Lean 4 theorem (<span class="nt mono">add_comm</span>) as noise <span class="nt">λ</span> rises</div>
+    <div class="rows">
+     <div class="row"><span class="lam">λ = 0</span><code><span class="id">add_comm</span> (a b : <span class="id">MyNat</span>) : <span class="id">add</span> a b = <span class="id">add</span> b a</code></div>
+     <div class="row"><span class="lam">λ = 0.2</span><code><span class="x">add_KmFm</span> (a b : <span class="x">Mmyat</span>) : <span class="id">add</span> a b = <span class="id">add</span> b a</code></div>
+     <div class="row"><span class="lam">λ = 0.4</span><code><span class="x">add_Φom7</span> (a b : <span class="x">MΘNae</span>) : <span class="id">add</span> a b = <span class="id">add</span> b a</code></div>
+     <div class="row"><span class="lam">λ = 0.6</span><code><span class="x">jad_Qηℂm</span> (a b : <span class="x">οΕyab</span>) : <span class="x">Εξ</span> a b = <span class="x">Εξ</span> b a</code></div>
+     <div class="row"><span class="lam">λ = 0.8</span><code><span class="x">μ4dA_c2o</span> (a b : <span class="x">dBNaΤ</span>) : <span class="x">Υdd</span> a b = <span class="x">Υdd</span> b a</code></div>
+     <div class="row"><span class="lam">λ = 1.0</span><code><span class="x">KΩΦzαυωT</span> (a b : <span class="x">Η0Ja</span>) : <span class="x">ΚxΝ</span> a b = <span class="x">ΚxΝ</span> b a</code></div>
+    </div>
+    <div class="sub" style="margin-top:4px">Pipeline</div>
+    <div class="pipe">
+     <span class="s">Parse NNG</span><span class="a">→</span><span class="s">Obfuscate</span><span class="a">→</span><span class="s">Query</span><span class="a">→</span><span class="s">LLM proof</span><span class="a">→</span><span class="s lean">Lean 4 compiler</span><span class="a">→</span><span class="s">Analyze</span>
+    </div>
+   </div></div>
+   <p class="caption">68 Natural Number Game problems with every definition, operator, axiom and theorem name perturbed character by character (P = λ<sup>2.5</sup>). 6 noise levels, 5 models, 5 runs per theorem per level.</p>
+  </section>
+  <section class="panel"><h2><span class="dot">3</span>Key results</h2>
+   <div class="stat"><div class="num">5 <small>/ 5</small></div><div class="label">models were significantly <b>slower</b> on obfuscated tasks: a universal latency tax<span class="p">ANOVA on average time, p ≤ 0.0004</span></div></div>
+   <div class="stat"><div class="num">3 <small>/ 5</small></div><div class="label">reasoning models (DeepSeek-R1, GPT-5, DeepSeek-Prover-V2) kept their accuracy<span class="p">no significant drop, p = 0.086 to 0.31</span></div></div>
+   <div class="stat"><div class="num">2 <small>/ 5</small></div><div class="label">general models (GPT-4o, <span class="nw">Claude-Sonnet-4.5</span>) lost accuracy once names were obfuscated<span class="p">significant drop, p = 0.024 and 0.0001</span></div></div>
+  </section>
+ </div>
+ <footer class="slide-foot"><span class="brand">Lixing Li</span><span class="link">doi.org/10.1609/aaaiss.v8i1.42591 · github.com/lllx125/Obfuscated-NNG</span></footer>
+</div></body></html>

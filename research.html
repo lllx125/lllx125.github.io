@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research · Lixing Li</title>
+  <meta name="description" content="Papers by Lixing Li, in time order, each with a link and a one-slide summary.">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">LL</span><span class="brand-name">Lixing Li</span></a>
+      <div class="nav-links">
+        <a href="index.html"><i data-lucide="house"></i><span>Home</span></a>
+        <a href="research.html" aria-current="page"><i data-lucide="flask-conical"></i><span>Research</span></a>
+        <a href="projects.html"><i data-lucide="layers"></i><span>Projects</span></a>
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <i data-lucide="moon" class="moon"></i><i data-lucide="sun" class="sun"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="page-head reveal">
+      <span class="eyebrow"><i data-lucide="flask-conical"></i>Research</span>
+      <h1>Papers</h1>
+      <p>My work spans neural architectures, language-model security, representation learning, formal reasoning in Lean&nbsp;4, and scientific software for accelerator physics. Each paper has a one-slide summary; click it to enlarge.</p>
+    </header>
+
+    <div class="toolbar reveal">
+      <span class="count">5 papers · 2025–2026</span>
+      <button class="btn order-toggle" type="button"><i data-lucide="arrow-up-down"></i><span>Oldest first</span></button>
+    </div>
+
+    <div class="timeline">
+      <!-- 1. NAPAC'25 -->
+      <article class="paper reveal" id="napac25-atomic-constants">
+        <div class="card">
+          <div>
+            <div class="badges">
+              <span class="badge"><i data-lucide="calendar-days"></i>Presented Aug 2025</span>
+              <span class="badge teal"><i data-lucide="atom"></i>NAPAC 2025 · Peer-reviewed proceedings</span>
+            </div>
+            <h2>AtomicAndPhysicalConstants.jl: A Fast Julia Package to Access Particle Properties and Fundamental Constants</h2>
+            <p class="authors"><b>L. Li</b>, D. Sagan, D. Abell, A. Coxe · first author · NAPAC 2025, Sacramento, CA · JACoW, pp. 65–67</p>
+            <p class="summary">A Julia package for the SciBmad accelerator-simulation project that gives one interface to physical constants, subatomic-particle properties, and isotope data from CODATA/NIST and the Particle Data Group. A single macro fixes the unit system and numeric type up front, keeping the code type-stable with core calls under a microsecond. I co-led its development and presented the poster.</p>
+            <div class="links">
+              <a class="pill primary" href="https://doi.org/10.18429/JACoW-NAPAC2025-MOP010" target="_blank" rel="noopener"><i data-lucide="file-text"></i>Paper</a>
+              <a class="pill" href="https://github.com/bmad-sim/AtomicAndPhysicalConstants.jl" target="_blank" rel="noopener"><i data-lucide="code"></i>Code</a>
+              <a class="pill" href="slides/napac25-atomic-constants.pdf" target="_blank"><i data-lucide="presentation"></i>Slide (PDF)</a>
+            </div>
+          </div>
+          <div class="slide-col">
+            <button class="slide-thumb" type="button" data-full="slides/napac25-atomic-constants.png" data-pdf="slides/napac25-atomic-constants.pdf">
+              <img src="slides/napac25-atomic-constants.png" alt="Summary slide: AtomicAndPhysicalConstants.jl" loading="lazy">
+              <span class="zoom"><i data-lucide="maximize-2"></i>View</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2. AAAI SS 2026 -->
+      <article class="paper reveal" id="aaai26-obfuscated-nng">
+        <div class="card">
+          <div>
+            <div class="badges">
+              <span class="badge"><i data-lucide="calendar-days"></i>Spring 2026</span>
+              <span class="badge teal"><i data-lucide="sigma"></i>AAAI Spring Symposium Series 2026</span>
+            </div>
+            <h2>Evaluating the Architectural Reasoning Capabilities of LLM Provers via the Obfuscated Natural Number Game</h2>
+            <p class="authors"><b>Lixing Li</b> · sole author · Proceedings of the AAAI Symposium Series 8(1), 588–591 · published May 18, 2026</p>
+            <p class="summary">Do LLM theorem provers reason, or do they lean on familiar names? I introduce <em>architectural reasoning</em> and a 68-problem Lean&nbsp;4 benchmark with six identifier-obfuscation levels, with proofs checked by the Lean compiler. All five evaluated models slowed down significantly under obfuscation, while their accuracy robustness differed.</p>
+            <div class="links">
+              <a class="pill primary" href="https://doi.org/10.1609/aaaiss.v8i1.42591" target="_blank" rel="noopener"><i data-lucide="file-text"></i>Paper</a>
+              <a class="pill" href="https://github.com/lllx125/Obfuscated-NNG" target="_blank" rel="noopener"><i data-lucide="code"></i>Code</a>
+              <a class="pill" href="slides/aaai26-obfuscated-nng.pdf" target="_blank"><i data-lucide="presentation"></i>Slide (PDF)</a>
+            </div>
+          </div>
+          <div class="slide-col">
+            <button class="slide-thumb" type="button" data-full="slides/aaai26-obfuscated-nng.png" data-pdf="slides/aaai26-obfuscated-nng.pdf">
+              <img src="slides/aaai26-obfuscated-nng.png" alt="Summary slide: Obfuscated Natural Number Game" loading="lazy">
+              <span class="zoom"><i data-lucide="maximize-2"></i>View</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3. System-Prompt Anchoring -->
+      <article class="paper reveal" id="neurips26-system-prompt-anchoring">
+        <div class="card">
+          <div>
+            <div class="badges">
+              <span class="badge"><i data-lucide="calendar-days"></i>arXiv May 10, 2026</span>
+              <span class="badge teal"><i data-lucide="shield-check"></i>NeurIPS 2026 Workshop · FLMSec · Accepted</span>
+            </div>
+            <h2>System-Prompt Anchoring with Cross-Attention Layers</h2>
+            <p class="authors"><b>Lixing Li</b> · sole author</p>
+            <p class="summary">Routes system prompts into frozen causal decoders through trainable cross-attention layers. Across a ten-placement study on Qwen2.5-1.5B and transfer to Llama-3.1-8B, the 8B model gains 7.4 points on IFEval and 16.3 points on SysBench over parameter-matched ParallelMLP adapters, with task-dependent benefits.</p>
+            <div class="links">
+              <a class="pill primary" href="https://arxiv.org/abs/2605.09737" target="_blank" rel="noopener"><i data-lucide="book-open"></i>arXiv</a>
+              <a class="pill" href="slides/neurips26-system-prompt-anchoring.pdf" target="_blank"><i data-lucide="presentation"></i>Slide (PDF)</a>
+            </div>
+          </div>
+          <div class="slide-col">
+            <button class="slide-thumb" type="button" data-full="slides/neurips26-system-prompt-anchoring.png" data-pdf="slides/neurips26-system-prompt-anchoring.pdf">
+              <img src="slides/neurips26-system-prompt-anchoring.png" alt="Summary slide: System-Prompt Anchoring with Cross-Attention Layers" loading="lazy">
+              <span class="zoom"><i data-lucide="maximize-2"></i>View</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4. ReconSpan -->
+      <article class="paper reveal" id="neurips26-reconspan">
+        <div class="card">
+          <div>
+            <div class="badges">
+              <span class="badge"><i data-lucide="calendar-days"></i>arXiv Aug 13, 2026</span>
+              <span class="badge teal"><i data-lucide="text-cursor-input"></i>NeurIPS 2026 Workshop · LP4FM · Poster</span>
+            </div>
+            <h2>ReconSpan: Reconstruction-Guided Adaptive Latent Tokenization</h2>
+            <p class="authors"><b>Lixing Li</b> · sole author</p>
+            <p class="summary">Compresses text into adaptive latent spans using backward reconstruction fidelity. One trained autoencoder supports average chunk lengths from 6.5 to 12.2 tokens, and at matched latent counts its boundaries preserve more source tokens in native reconstruction than equal-spacing, surprisal, or random boundaries. Readers recover topic information more reliably than exact details.</p>
+            <div class="links">
+              <a class="pill primary" href="https://arxiv.org/abs/2608.12756" target="_blank" rel="noopener"><i data-lucide="book-open"></i>arXiv</a>
+              <a class="pill" href="slides/neurips26-reconspan.pdf" target="_blank"><i data-lucide="presentation"></i>Slide (PDF)</a>
+            </div>
+          </div>
+          <div class="slide-col">
+            <button class="slide-thumb" type="button" data-full="slides/neurips26-reconspan.png" data-pdf="slides/neurips26-reconspan.pdf">
+              <img src="slides/neurips26-reconspan.png" alt="Summary slide: ReconSpan" loading="lazy">
+              <span class="zoom"><i data-lucide="maximize-2"></i>View</span>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5. NGN -->
+      <article class="paper reveal" id="preprint26-ngn">
+        <div class="card">
+          <div>
+            <div class="badges">
+              <span class="badge"><i data-lucide="calendar-days"></i>arXiv Sep 23, 2026</span>
+              <span class="badge teal"><i data-lucide="brain-circuit"></i>Preprint</span>
+            </div>
+            <h2>NGN: Learning Neural Network Size as a Differentiable Count</h2>
+            <p class="authors"><b>Lixing Li</b> · sole author</p>
+            <p class="summary">Learns a network's structural capacity as a differentiable count, jointly with its weights. The learned prefix can be deployed by hard truncation, usually with little change in performance. Controlled studies cover MLP, convolutional, graph, Transformer, Mamba, LoRA, adapter, depth, and structured-pruning settings.</p>
+            <div class="links">
+              <a class="pill primary" href="https://arxiv.org/abs/2609.27291" target="_blank" rel="noopener"><i data-lucide="book-open"></i>arXiv</a>
+              <a class="pill" href="slides/preprint26-ngn.pdf" target="_blank"><i data-lucide="presentation"></i>Slide (PDF)</a>
+            </div>
+          </div>
+          <div class="slide-col">
+            <button class="slide-thumb" type="button" data-full="slides/preprint26-ngn.png" data-pdf="slides/preprint26-ngn.pdf">
+              <img src="slides/preprint26-ngn.png" alt="Summary slide: NGN" loading="lazy">
+              <span class="zoom"><i data-lucide="maximize-2"></i>View</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <div class="lightbox" role="dialog" aria-modal="true" aria-label="Slide preview">
+    <button class="icon-btn close" type="button" aria-label="Close"><i data-lucide="x"></i></button>
+    <img src="" alt="">
+    <div class="lb-actions">
+      <a class="btn lb-pdf" href="#" target="_blank"><i data-lucide="download"></i>Download PDF</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 Lixing Li · Last updated 2026-11-02</span>
+      <div class="socials">
+        <a class="icon-btn" href="mailto:ll963@cornell.edu" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a class="icon-btn" href="https://github.com/lllx125" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a class="icon-btn" href="https://linkedin.com/in/lixing-li-54b46b2b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

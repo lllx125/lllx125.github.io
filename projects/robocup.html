@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RoboCup · Lixing Li</title>
-  <meta name="description" content="RoboCup: a modular soccer-robot design with three drivetrain stations, a dribbler and roller, a solenoid kicker mount, and removable electronics and tracking mounts.">
+  <meta name="description" content="RoboCup: a modular soccer robot with an integrated printed chassis and three drivetrain stations, a dribbler and roller, a solenoid kicker mount, and removable electronics and tracking mounts.">
   <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,17 +36,17 @@
       <div>
         <span class="eyebrow"><i data-lucide="bot"></i>Soccer robotics</span>
         <h1>RoboCup</h1>
-        <p class="lede">A soccer robot designed around replaceable modules. A shared chassis brings together the drivetrain, ball-handling hardware, kicking actuator mount, electronics, and a visual tracking marker.</p>
+        <p class="lede">A soccer robot with a printed chassis that integrates all three motor-mount structures. Removable ball-handling, actuator, electronics, and tracking modules keep the rest of the build easy to revise.</p>
         <div class="meta">
           <span><i data-lucide="calendar-days"></i>Fall 2026</span>
           <span><i data-lucide="users"></i>Cornell Cup Robotics</span>
-          <span><i data-lucide="box"></i>Mechanical design</span>
+          <span><i data-lucide="box"></i>Prototype &amp; CAD</span>
         </div>
         <div class="contact-row">
           <a class="pill primary" href="robocup/assembly.jpg" target="_blank" rel="noopener"><i data-lucide="scan"></i>Assembly views</a>
         </div>
       </div>
-      <div class="photo"><img src="robocup/cover.jpg" alt="RoboCup CAD assembly with a purple marker plate, three wheels, green dribbler frame, and gold roller"></div>
+      <div class="photo"><img src="robocup/prototype-photo.jpg" alt="The physical RoboCup prototype on a workbench, with its wheels and front roller installed" style="object-fit:contain;background:#eeeae4"></div>
     </header>
 
     <section class="section">
@@ -60,8 +60,8 @@
     <section class="section">
       <div class="section-head reveal"><span class="section-icon"><i data-lucide="book-open"></i></span><h2>Overview</h2></div>
       <div class="prose reveal">
-        <p>Cornell Cup Robotics’ RoboCup project develops a soccer robot that can position itself, retain and direct a ball, and kick toward a goal. The Fall 2026 mechanical design combines three motor-mount stations with a front dribbler and roller, a solenoid holder, and removable mounts for the battery, controller, and AprilTag.</p>
-        <p>I led an accelerated soccer-robot build under a two-week deadline, coordinating about nine contributors across mechanical, electrical, and software subteams. I modularized mechanical interfaces and coordinated integration. The CAD views here show the Fall 2026 mechanical design.</p>
+        <p>Cornell Cup Robotics’ RoboCup project develops a soccer robot that can position itself, retain and direct a ball, and kick toward a goal. The Fall 2026 design integrates the frame and three motor-mount structures into one printed chassis assembly, with a front dribbler and roller, a solenoid holder, and removable mounts for the battery, controller, and AprilTag.</p>
+        <p>I led an accelerated soccer-robot build under a two-week deadline, coordinating about nine contributors across mechanical, electrical, and software subteams. I modularized mechanical interfaces and coordinated integration. The photo shows the physical prototype with its drivetrain and front roller installed; the CAD views document the Fall 2026 mechanical design.</p>
       </div>
     </section>
 
@@ -70,8 +70,8 @@
       <div class="split">
         <article class="card reveal">
           <h3><i data-lucide="layers"></i>Change one part at a time</h3>
-          <p>The chassis is the common base. Motor mounts, the solenoid holder, electronics carrier, marker holder, dribbler frame, and roller are separate parts, so a local design change can be tested without reprinting the whole robot.</p>
-          <p>Snap bolts and hex clips provide removable connections. Separating the modules also lets each part be oriented independently for printing and inspected before assembly.</p>
+          <p>The chassis is the common printed structure, combining the frame and three motor-mount structures. The solenoid holder, electronics carrier, marker holder, dribbler frame, and roller remain detachable, so those modules can be revised without replacing the chassis.</p>
+          <p>Snap bolts and hex clips provide removable connections. The detachable modules can be oriented independently for printing and inspected before assembly.</p>
         </article>
         <article class="card reveal">
           <h3><i data-lucide="puzzle"></i>Interfaces drive the iteration</h3>
@@ -86,7 +86,7 @@
       <div class="split">
         <article class="card reveal">
           <h3><i data-lucide="cog"></i>Drivetrain</h3>
-          <p>Three motor-mount stations locate the drive units around the chassis. Each separate mount supports an XRP motor and wheel assembly, making motor fit, wheel clearance, and retention accessible for individual checks.</p>
+          <p>Three motor-mount structures are included in the chassis print. Each station locates an XRP motor and wheel assembly. After removing the custom supports, the repeated interfaces can be checked for motor seating, shaft and wheel clearance, and retention.</p>
         </article>
         <article class="card reveal">
           <h3><i data-lucide="circle-dot"></i>Ball handling and kicking</h3>
@@ -103,8 +103,8 @@
       <div class="section-head reveal"><span class="section-icon"><i data-lucide="image"></i></span><h2>Component views</h2></div>
       <div class="figures">
         <figure class="card figure reveal">
-          <a href="robocup/chassis.jpg" target="_blank" rel="noopener"><img src="robocup/chassis.jpg" alt="Three CAD views of the RoboCup chassis" loading="lazy" style="aspect-ratio:4/5;object-fit:contain;background:white"></a>
-          <figcaption>The common chassis locates the drivetrain and attachment interfaces.</figcaption>
+          <a href="robocup/chassis-v2.jpg" target="_blank" rel="noopener"><img src="robocup/chassis-v2.jpg" alt="Three CAD views of the complete RoboCup chassis assembly, including the integrated motor-mount structures" loading="lazy" style="aspect-ratio:4/5;object-fit:contain;background:white"></a>
+          <figcaption>The complete chassis includes the frame and three motor-mount structures; motors are hidden in these CAD views.</figcaption>
         </figure>
         <figure class="card figure reveal">
           <a href="robocup/dribbler.jpg" target="_blank" rel="noopener"><img src="robocup/dribbler.jpg" alt="Three CAD views of the green dribbler frame" loading="lazy" style="aspect-ratio:4/5;object-fit:contain;background:white"></a>
@@ -118,10 +118,25 @@
     </section>
 
     <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="printer"></i></span><h2>Printing the chassis</h2></div>
+      <div class="split">
+        <article class="card reveal">
+          <h3><i data-lucide="rotate-3d"></i>Print upside down</h3>
+          <p>The updated build instructions place the complete chassis assembly upside down, with its upper face toward the build plate. The motor-mount structures print with the frame.</p>
+          <p>Retain the custom support geometry built into the model and turn off slicer-generated supports. Remove the custom supports after printing, then check motor seating and the interfaces for the remaining modules.</p>
+        </article>
+        <figure class="card figure reveal">
+          <a href="robocup/print-orientation.jpg" target="_blank" rel="noopener"><img src="robocup/print-orientation.jpg" alt="The chassis assembly oriented upside down for printing" loading="lazy" style="object-fit:contain;background:white"></a>
+          <figcaption>Documented print orientation: upper face toward the build plate.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="section-head reveal"><span class="section-icon"><i data-lucide="wrench"></i></span><h2>Next checks</h2></div>
       <div class="prose reveal">
-        <p>The next step for the documented design is to trial-fit the chassis and one motor station, then check the actuator, electronics, marker, and ball-handling modules against their neighboring parts. Key checks include wheel clearance, removable-mount retention, roller rotation, ball contact, and access for servicing.</p>
-        <p>The Fall 2026 documentation records the CAD design and proposed manufacturing workflow. Print settings, final materials, and measured dribbling, kicking, and tracking results remain to be recorded.</p>
+        <p>Further checks focus on motor seating, wheel clearance, removable-mount retention, roller rotation, ball contact, and access for servicing. The actuator, electronics, marker, and ball-handling modules should be checked against their neighboring parts during each revision.</p>
+        <p>The documentation now includes the physical prototype, complete chassis assembly, and print orientation. Detailed print parameters, final material choices, and measured dribbling, kicking, and tracking results remain to be recorded.</p>
       </div>
     </section>
   </main>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LightSaber Fight · Lixing Li</title>
+  <meta name="description" content="LightSaber Fight: a Unity VR game for Meta Quest 3. Strike drones, deflect their bullets, and use the Force to grab and throw objects.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css?v=20261102d">
+  <script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="../index.html"><span class="brand-mark">LL</span><span class="brand-name">Lixing Li</span></a>
+      <div class="nav-links">
+        <a href="../index.html"><i data-lucide="house"></i><span>Home</span></a>
+        <a href="../research.html"><i data-lucide="flask-conical"></i><span>Research</span></a>
+        <a href="../projects.html" aria-current="page"><i data-lucide="layers"></i><span>Projects</span></a>
+        <button class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode">
+          <i data-lucide="moon" class="moon"></i><i data-lucide="sun" class="sun"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a class="crumb" href="../projects.html"><i data-lucide="arrow-left"></i>All projects</a>
+
+    <header class="project-hero reveal">
+      <div>
+        <span class="eyebrow"><i data-lucide="swords"></i>VR game development</span>
+        <h1>LightSaber Fight</h1>
+        <p class="lede">A VR combat game for Meta Quest 3. Strike drones with a lightsaber, turn their bullets back on them, and use the Force to pull enemies closer or throw rocks into their path.</p>
+        <div class="meta">
+          <span><i data-lucide="calendar-days"></i>Jun 2024</span>
+          <span><i data-lucide="glasses"></i>Meta Quest 3</span>
+        </div>
+        <div class="contact-row">
+          <a class="pill primary" href="https://github.com/lllx125/LightSaberFight" target="_blank" rel="noopener"><i data-lucide="github"></i>Code</a>
+          <a class="pill" href="https://youtu.be/804Ahf_R96k" target="_blank" rel="noopener"><i data-lucide="circle-play"></i>Gameplay demo</a>
+          <a class="pill" href="https://drive.google.com/file/d/128O5_gnTgtYqGQKAZrJfEY0-qJvJuoK8/view" target="_blank" rel="noopener"><i data-lucide="download"></i>Quest 3 build</a>
+        </div>
+      </div>
+      <div class="photo"><img src="lightsaber-fight/cover.jpg" alt="First-person gameplay with a blue lightsaber and a nearby hovering drone"></div>
+    </header>
+
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="book-open"></i></span><h2>Overview</h2></div>
+      <div class="prose reveal">
+        <p>I built LightSaber Fight in Unity as a VR game for Meta Quest 3. It combines close-range saber combat with projectile defense and remote object interaction: grab a rock, throw it at a drone, or pull the drone into reach.</p>
+        <p>The game uses C# gameplay scripts and Unity’s XR Interaction Toolkit. Its tutorial introduces grabbing and saber activation before the player enters a dark arena with approaching drones, incoming fire, a health display, and a score counter.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="gamepad-2"></i></span><h2>How to play</h2></div>
+      <div class="controls">
+        <div class="card control reveal"><span class="key">Saber</span><span class="what">Grab and activate<small>Use the trigger to extend the blade</small></span></div>
+        <div class="card control reveal"><span class="key">Strike</span><span class="what">Attack drones up close<small>Pull a drone into reach with the Force</small></span></div>
+        <div class="card control reveal"><span class="key">Deflect</span><span class="what">Intercept incoming bullets<small>A saber hit reverses their direction</small></span></div>
+        <div class="card control reveal"><span class="key">Throw</span><span class="what">Use rocks as projectiles<small>Grab and throw them into drones</small></span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="code"></i></span><h2>Game systems</h2></div>
+      <div class="split">
+        <article class="card reveal">
+          <h3><i data-lucide="swords"></i>A responsive saber</h3>
+          <p>The blade extends and retracts on activation, with lighting and an ignition sound. Swing audio responds to movement speed, while collisions trigger hit sounds and different responses for drones, rocks, and bullets.</p>
+          <p>Deflected bullets reverse velocity and receive a small directional variation. The score system distinguishes saber attacks, rock impacts, and returned projectiles.</p>
+        </article>
+        <article class="card reveal">
+          <h3><i data-lucide="orbit"></i>Enemies and physical objects</h3>
+          <p>Drones spawn at randomized positions and intervals, turn toward the player’s area, and fire on a timer. They can be defeated through repeated saber hits or collisions with rocks and projectiles.</p>
+          <p>Grabbing a rock switches it from scripted movement to physics-driven interaction. Impacts shatter its mesh with an accompanying sound. Incoming rocks and bullets reduce player health; reaching zero ends the run.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head reveal"><span class="section-icon"><i data-lucide="image"></i></span><h2>Inside the headset</h2></div>
+      <div class="figures">
+        <figure class="card figure reveal">
+          <a href="lightsaber-fight/force-grab.jpg" target="_blank" rel="noopener"><img src="lightsaber-fight/force-grab.jpg" alt="The VR tutorial showing a distant object selected for grabbing" loading="lazy"></a>
+          <figcaption>The tutorial introduces remote grabbing before combat.</figcaption>
+        </figure>
+        <figure class="card figure reveal">
+          <a href="lightsaber-fight/saber-training.jpg" target="_blank" rel="noopener"><img src="lightsaber-fight/saber-training.jpg" alt="A red lightsaber extended in front of the game's tutorial instructions" loading="lazy"></a>
+          <figcaption>Activating a saber in the training area. Images are frames from the public gameplay demo.</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span>© 2026 Lixing Li · Last updated 2026-11-02</span>
+      <div class="socials">
+        <a class="icon-btn" href="mailto:ll963@cornell.edu" aria-label="Email"><i data-lucide="mail"></i></a>
+        <a class="icon-btn" href="https://github.com/lllx125" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a>
+        <a class="icon-btn" href="https://linkedin.com/in/lixing-li-54b46b2b0" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="../assets/js/main.js?v=20261102c"></script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 <!--
   Project card template. Paste into the .project-grid in projects.html (newest or most important first).
   Replace every {{...}}. Keep the intro to one or two sentences.
-  Photo: projects/<slug>/cover.jpg, shown cropped to 4:3 (strip EXIF/GPS before committing; see README).
+  Photo: projects/<slug>/cover.jpg, shown cropped to 16:10; set style="--focus: X% Y%" on .photo to choose the crop center (strip EXIF/GPS before committing; see README).
 -->
 <a class="card project-card reveal" href="projects/{{slug}}.html">
   <div class="photo"><img src="projects/{{slug}}/cover.jpg" alt="{{photo description}}" loading="lazy"></div>
